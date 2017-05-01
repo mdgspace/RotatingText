@@ -23,15 +23,11 @@ public class RotatingTextSwitcher extends TextView {
     Context context;
     Rotatable rotatable;
 
-    String currentText;
-
     Paint paint;
 
     boolean isRotatableSet = false;
 
     Path pathIn, pathOut;
-
-    String prevWord;
 
     Timer updateWordTimer, renderTimer;
 
@@ -55,8 +51,6 @@ public class RotatingTextSwitcher extends TextView {
         paint.setTextAlign(Paint.Align.CENTER);
 
         setText(rotatable.getNextWord());
-        invalidate();
-
         updateWordTimer = new Timer();
         updateWordTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -83,27 +77,21 @@ public class RotatingTextSwitcher extends TextView {
                     }
                 });
             }
-        }, 0, rotatable.getUpdateDuration() / 60);
+        }, 0, 1000 / 60);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-
         if (isRotatableSet) {
             String text = (String) getText();
-            if (prevWord == null) {
+            if (rotatable.getPathIn() != null)
                 canvas.drawTextOnPath(text, rotatable.getPathIn(), 0.0f, 0.0f, paint);
-            } else {
-                Log.d("VALUES", text + " : " + rotatable.getPreviousWord());
-                canvas.drawTextOnPath(text, rotatable.getPathIn(), 0.0f, 0.0f, paint);
+            if (rotatable.getPathOut() != null)
                 canvas.drawTextOnPath(rotatable.getPreviousWord(), rotatable.getPathOut(), 0.0f, 0.0f, paint);
-            }
-            prevWord = text;
         }
     }
 
     void animateIn() {
-
         ValueAnimator animator = ValueAnimator.ofFloat(0.0f, getHeight());
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -114,12 +102,12 @@ public class RotatingTextSwitcher extends TextView {
                 rotatable.setPathIn(pathIn);
             }
         });
+        animator.setInterpolator(rotatable.getInterpolator());
         animator.setDuration(rotatable.getAnimationDuration());
         animator.start();
     }
 
     void animateOut() {
-
         ValueAnimator animator = ValueAnimator.ofFloat(getHeight(), getHeight() * 2.0f);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -130,6 +118,7 @@ public class RotatingTextSwitcher extends TextView {
                 rotatable.setPathOut(pathOut);
             }
         });
+        animator.setInterpolator(rotatable.getInterpolator());
         animator.setDuration(rotatable.getAnimationDuration());
         animator.start();
     }

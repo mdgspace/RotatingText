@@ -2,6 +2,8 @@ package com.sdsmdg.harjot.rotatingtext.models;
 
 import android.graphics.Color;
 import android.graphics.Path;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 
 /**
  * Created by Harjot on 01-May-17.
@@ -19,17 +21,21 @@ public class Rotatable {
 
     private Path pathIn, pathOut;
 
+    private Interpolator interpolator;
+
     public Rotatable(int updateDuration, String... text) {
         this.updateDuration = updateDuration;
         this.text = text;
         currentWordNumber = -1;
+        interpolator = new LinearInterpolator();
     }
 
     public Rotatable(int color, int updateDuration, String... text) {
         this.color = color;
         this.updateDuration = updateDuration;
         this.text = text;
-        currentWordNumber = 0;
+        currentWordNumber = -1;
+        interpolator = new LinearInterpolator();
     }
 
     public int getColor() {
@@ -114,5 +120,13 @@ public class Rotatable {
 
     public void setPathOut(Path pathOut) {
         this.pathOut = pathOut;
+    }
+
+    public Interpolator getInterpolator() {
+        return interpolator;
+    }
+
+    public void setInterpolator(Interpolator interpolator) {
+        this.interpolator = interpolator;
     }
 }
