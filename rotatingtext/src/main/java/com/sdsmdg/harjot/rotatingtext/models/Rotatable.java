@@ -2,6 +2,7 @@ package com.sdsmdg.harjot.rotatingtext.models;
 
 import android.graphics.Color;
 import android.graphics.Path;
+import android.graphics.Typeface;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
@@ -22,6 +23,8 @@ public class Rotatable {
     private Path pathIn, pathOut;
 
     private Interpolator interpolator;
+
+    private Typeface typeface;
 
     public Rotatable(int updateDuration, String... text) {
         this.updateDuration = updateDuration;
@@ -128,5 +131,13 @@ public class Rotatable {
 
     public void setInterpolator(Interpolator interpolator) {
         this.interpolator = interpolator;
+    }
+
+    public Typeface getTypeface() {
+        return typeface;
+    }
+
+    public void setTypeface(Typeface typeface) {
+        this.typeface = typeface;
     }
 }
