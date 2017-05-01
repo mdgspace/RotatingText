@@ -1,6 +1,7 @@
 package com.sdsmdg.harjot.rotatingtext;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,9 @@ public class RotatingTextWrapper extends RelativeLayout {
     RelativeLayout.LayoutParams lp;
 
     int prevId;
+
+    Typeface typeface;
+    int size = 24;
 
     public RotatingTextWrapper(Context context) {
         super(context);
@@ -63,9 +67,13 @@ public class RotatingTextWrapper extends RelativeLayout {
 
                 textView.setText(array[i]);
                 textView.setId(View.generateViewId());
-                textView.setTextSize(24);
+                textView.setTextSize(size);
+
+                if (typeface != null)
+                    textView.setTypeface(typeface);
 
                 lp = new LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                lp.addRule(CENTER_VERTICAL);
                 if (i == 0)
                     lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
                 else
@@ -80,6 +88,7 @@ public class RotatingTextWrapper extends RelativeLayout {
                     prevId = textSwitcher.getId();
 
                     lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    lp.addRule(CENTER_VERTICAL);
                     lp.addRule(RIGHT_OF, textView.getId());
 
                     addView(textSwitcher, lp);
@@ -87,5 +96,21 @@ public class RotatingTextWrapper extends RelativeLayout {
             }
             isContentSet = false;
         }
+    }
+
+    public Typeface getTypeface() {
+        return typeface;
+    }
+
+    public void setTypeface(Typeface typeface) {
+        this.typeface = typeface;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 }

@@ -22,15 +22,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Raleway-Light.ttf");
+
         rotatingTextWrapper = (RotatingTextWrapper) findViewById(R.id.custom_switcher);
+        rotatingTextWrapper.setTypeface(typeface);
+        rotatingTextWrapper.setSize(40);
+
         rotatable = new Rotatable(Color.RED, 1000, "Word1", "Word2", "Word3");
+        rotatable.setTypeface(typeface);
+        rotatable.setSize(30);
         rotatable.setAnimationDuration(500);
         rotatable.setInterpolator(new DecelerateInterpolator());
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Raleway-Light.ttf");
-        rotatable.setTypeface(typeface);
-        rotatable2 = new Rotatable(Color.BLUE, 1000, "Word4", "Word5", "Word6");
-        rotatable2.setAnimationDuration(500);
-        rotatable2.setInterpolator(new AccelerateDecelerateInterpolator());
+
         rotatingTextWrapper.setContent("This is ?", rotatable);
     }
 }
