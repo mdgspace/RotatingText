@@ -76,7 +76,7 @@ public class Rotatable {
     }
 
     public String getPreviousWord() {
-        if (currentWordNumber == 0)
+        if (currentWordNumber <= 0)
             return text[(text.length - 1)];
         else
             return text[currentWordNumber - 1];

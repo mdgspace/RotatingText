@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -51,20 +52,23 @@ public class RotatingTextSwitcher extends TextView {
         paint.setTextAlign(Paint.Align.CENTER);
 
         setText(rotatable.getNextWord());
-        updateWordTimer = new Timer();
-        updateWordTimer.scheduleAtFixedRate(new TimerTask() {
+
+        post(new Runnable() {
             @Override
             public void run() {
-                ((Activity) context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        animateIn();
-                        animateOut();
-                        setText(rotatable.getNextWord());
-                    }
-                });
+                pathIn = new Path();
+                pathIn.moveTo(0.0f, getHeight() - paint.getFontMetrics().bottom);
+                pathIn.lineTo(getWidth(), getHeight() - paint.getFontMetrics().bottom);
+
+                rotatable.setPathIn(pathIn);
+
+                pathOut = new Path();
+                pathOut.moveTo(0.0f, (2 * getHeight()) - paint.getFontMetrics().bottom);
+                pathOut.lineTo(getWidth(), (2 * getHeight()) - paint.getFontMetrics().bottom);
+
+                rotatable.setPathOut(pathOut);
             }
-        }, 0, rotatable.getUpdateDuration());
+        });
 
         renderTimer = new Timer();
         renderTimer.scheduleAtFixedRate(new TimerTask() {
@@ -78,6 +82,21 @@ public class RotatingTextSwitcher extends TextView {
                 });
             }
         }, 0, 1000 / 60);
+
+        updateWordTimer = new Timer();
+        updateWordTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        animateIn();
+                        animateOut();
+                        setText(rotatable.getNextWord());
+                    }
+                });
+            }
+        }, rotatable.getUpdateDuration(), rotatable.getUpdateDuration());
     }
 
     @Override
