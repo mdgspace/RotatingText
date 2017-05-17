@@ -2,6 +2,7 @@ package com.sdsmdg.harjot.rotatingtextlibrary;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -36,5 +37,18 @@ public class MainActivity extends AppCompatActivity {
 
         rotatingTextWrapper.setContent("This is ?", rotatable);
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                rotatingTextWrapper.pause(0);
+            }
+        }, 4500);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                rotatingTextWrapper.resume(0);
+            }
+        }, 8500);
     }
 }

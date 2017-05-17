@@ -12,6 +12,7 @@ import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Harjot on 01-May-17.
@@ -33,6 +34,8 @@ public class RotatingTextWrapper extends RelativeLayout {
     Typeface typeface;
     int size = 24;
 
+    List<RotatingTextSwitcher> switcherList;
+
     public RotatingTextWrapper(Context context) {
         super(context);
         this.context = context;
@@ -51,6 +54,7 @@ public class RotatingTextWrapper extends RelativeLayout {
     public void setContent(String text, Rotatable... rotatables) {
         this.text = text;
         rotatableList = new ArrayList<>();
+        switcherList = new ArrayList<>();
         Collections.addAll(rotatableList, rotatables);
         isContentSet = true;
     }
@@ -64,6 +68,7 @@ public class RotatingTextWrapper extends RelativeLayout {
             for (int i = 0; i < array.length; i++) {
                 final TextView textView = new TextView(context);
                 final RotatingTextSwitcher textSwitcher = new RotatingTextSwitcher(context);
+                switcherList.add(textSwitcher);
 
                 textView.setText(array[i]);
                 textView.setId(View.generateViewId());
@@ -113,4 +118,13 @@ public class RotatingTextWrapper extends RelativeLayout {
     public void setSize(int size) {
         this.size = size;
     }
+
+    public void pause(int position) {
+        switcherList.get(position).pause();
+    }
+
+    public void resume(int position) {
+        switcherList.get(position).resume();
+    }
+
 }

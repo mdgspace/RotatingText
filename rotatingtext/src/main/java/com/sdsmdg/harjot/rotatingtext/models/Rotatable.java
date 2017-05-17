@@ -22,7 +22,7 @@ public class Rotatable {
 
     private Path pathIn, pathOut;
 
-    private Interpolator interpolator;
+    private Interpolator interpolator = new LinearInterpolator();
 
     private Typeface typeface;
 
@@ -30,7 +30,6 @@ public class Rotatable {
         this.updateDuration = updateDuration;
         this.text = text;
         currentWordNumber = -1;
-        interpolator = new LinearInterpolator();
     }
 
     public Rotatable(int color, int updateDuration, String... text) {
@@ -38,7 +37,6 @@ public class Rotatable {
         this.updateDuration = updateDuration;
         this.text = text;
         currentWordNumber = -1;
-        interpolator = new LinearInterpolator();
     }
 
     public int getColor() {

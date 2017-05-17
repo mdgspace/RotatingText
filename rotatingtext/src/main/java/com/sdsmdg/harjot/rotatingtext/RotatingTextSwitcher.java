@@ -32,6 +32,8 @@ public class RotatingTextSwitcher extends TextView {
 
     String currentText = "";
 
+    boolean isPaused = false;
+
     public RotatingTextSwitcher(Context context) {
         super(context);
         this.context = context;
@@ -94,12 +96,14 @@ public class RotatingTextSwitcher extends TextView {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        animateInHorizontal();
-                        animateOutHorizontal();
-//                        animateInCurve();
-//                        animateOutCurve();
-                        currentText = rotatable.getNextWord();
-//                        setText(rotatable.getNextWord());
+                        if (isPaused) {
+                            pauseRender();
+                        } else {
+                            resumeRender();
+                            animateInHorizontal();
+                            animateOutHorizontal();
+                            currentText = rotatable.getNextWord();
+                        }
                     }
                 });
             }
@@ -222,6 +226,33 @@ public class RotatingTextSwitcher extends TextView {
         animator.setInterpolator(rotatable.getInterpolator());
         animator.setDuration(rotatable.getAnimationDuration());
         animator.start();
+    }
+
+    void pause() {
+        isPaused = true;
+    }
+
+    void resume() {
+        isPaused = false;
+    }
+
+    void pauseRender() {
+        renderTimer.cancel();
+    }
+
+    void resumeRender() {
+        renderTimer = new Timer();
+        renderTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        invalidate();
+                    }
+                });
+            }
+        }, 0, 1000 / 60);
     }
 
 }
