@@ -27,15 +27,22 @@ public class MainActivity extends AppCompatActivity {
 
         rotatingTextWrapper = (RotatingTextWrapper) findViewById(R.id.custom_switcher);
         rotatingTextWrapper.setTypeface(typeface);
-        rotatingTextWrapper.setSize(30);
+        rotatingTextWrapper.setSize(20);
 
-        rotatable = new Rotatable(Color.RED, 1000, "Word", "Word02", "Word03");
+        rotatable = new Rotatable(Color.parseColor("#000000"), 1000, "Word", "Word02", "Word03");
         rotatable.setTypeface(typeface);
-        rotatable.setSize(30);
+        rotatable.setSize(20);
         rotatable.setAnimationDuration(500);
+        rotatable.setCenter(true);
         rotatable.setInterpolator(new DecelerateInterpolator());
 
-        rotatingTextWrapper.setContent("This is ?", rotatable);
+        rotatable2 = new Rotatable(Color.parseColor("#FFA036"), 1000, "qwerty", "qwerty04", "qwerty06", "qwerty08");
+        rotatable2.setTypeface(typeface);
+        rotatable2.setSize(20);
+        rotatable2.setAnimationDuration(500);
+        rotatable2.setInterpolator(new DecelerateInterpolator());
+
+        rotatingTextWrapper.setContent("The words are ? and ?", rotatable, rotatable2);
 
         new Handler().postDelayed(new Runnable() {
             @Override

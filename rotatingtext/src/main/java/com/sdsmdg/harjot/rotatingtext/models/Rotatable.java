@@ -26,6 +26,8 @@ public class Rotatable {
 
     private Typeface typeface;
 
+    private boolean isCenter = false;
+
     public Rotatable(int updateDuration, String... text) {
         this.updateDuration = updateDuration;
         this.text = text;
@@ -150,4 +152,11 @@ public class Rotatable {
         return largest;
     }
 
+    public boolean isCenter() {
+        return isCenter;
+    }
+
+    public void setCenter(boolean center) {
+        isCenter = center;
+    }
 }

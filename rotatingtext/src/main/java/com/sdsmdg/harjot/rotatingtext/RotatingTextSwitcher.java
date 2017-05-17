@@ -52,6 +52,10 @@ public class RotatingTextSwitcher extends TextView {
         paint.setAntiAlias(true);
         paint.setColor(rotatable.getColor());
 
+        if (rotatable.isCenter()) {
+            paint.setTextAlign(Paint.Align.CENTER);
+        }
+
         if (rotatable.getTypeface() != null) {
             paint.setTypeface(rotatable.getTypeface());
         }
