@@ -140,4 +140,16 @@ public class Rotatable {
     public void setTypeface(Typeface typeface) {
         this.typeface = typeface;
     }
+
+    public String getLargestWord() {
+        String largest = "";
+        for (String s : text) {
+            if (s.length() > largest.length()) {
+                largest = s;
+
+            }
+        }
+        return largest;
+    }
+
 }

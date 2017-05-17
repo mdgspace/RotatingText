@@ -14,7 +14,7 @@ import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
 
 public class MainActivity extends AppCompatActivity {
 
-    RotatingTextWrapper rotatingTextWrapper;
+    RotatingTextWrapper rotatingTextWrapper, rotatingTextWrapper1, rotatingTextWrapper2;
     Rotatable rotatable, rotatable2;
 
     @Override
@@ -26,14 +26,15 @@ public class MainActivity extends AppCompatActivity {
 
         rotatingTextWrapper = (RotatingTextWrapper) findViewById(R.id.custom_switcher);
         rotatingTextWrapper.setTypeface(typeface);
-        rotatingTextWrapper.setSize(40);
+        rotatingTextWrapper.setSize(30);
 
-        rotatable = new Rotatable(Color.RED, 1000, "Word1", "Word2", "Word3");
+        rotatable = new Rotatable(Color.RED, 1000, "Word", "Word02", "Word03");
         rotatable.setTypeface(typeface);
         rotatable.setSize(30);
         rotatable.setAnimationDuration(500);
         rotatable.setInterpolator(new DecelerateInterpolator());
 
         rotatingTextWrapper.setContent("This is ?", rotatable);
+
     }
 }
