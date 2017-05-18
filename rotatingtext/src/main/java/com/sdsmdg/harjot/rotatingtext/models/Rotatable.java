@@ -28,6 +28,8 @@ public class Rotatable {
 
     private boolean isCenter = false;
 
+    private boolean isUpdated = false;
+
     public Rotatable(int updateDuration, String... text) {
         this.updateDuration = updateDuration;
         this.text = text;
@@ -47,6 +49,7 @@ public class Rotatable {
 
     public void setColor(int color) {
         this.color = color;
+        setUpdated(true);
     }
 
     public String[] getText() {
@@ -63,6 +66,7 @@ public class Rotatable {
 
     public void setUpdateDuration(int updateDuration) {
         this.updateDuration = updateDuration;
+        setUpdated(true);
     }
 
     public int getNextWordNumber() {
@@ -91,6 +95,7 @@ public class Rotatable {
 
     public void setSize(float size) {
         this.size = size;
+        setUpdated(true);
     }
 
     public int getStrokeWidth() {
@@ -107,6 +112,7 @@ public class Rotatable {
 
     public void setAnimationDuration(int animationDuration) {
         this.animationDuration = animationDuration;
+        setUpdated(true);
     }
 
     public Path getPathIn() {
@@ -131,6 +137,7 @@ public class Rotatable {
 
     public void setInterpolator(Interpolator interpolator) {
         this.interpolator = interpolator;
+        setUpdated(true);
     }
 
     public Typeface getTypeface() {
@@ -139,6 +146,7 @@ public class Rotatable {
 
     public void setTypeface(Typeface typeface) {
         this.typeface = typeface;
+        setUpdated(true);
     }
 
     public String getLargestWord() {
@@ -158,5 +166,14 @@ public class Rotatable {
 
     public void setCenter(boolean center) {
         isCenter = center;
+        setUpdated(true);
+    }
+
+    public boolean isUpdated() {
+        return isUpdated;
+    }
+
+    public void setUpdated(boolean updated) {
+        isUpdated = updated;
     }
 }

@@ -24,6 +24,8 @@ public class RotatingTextSwitcher extends TextView {
 
     Paint paint;
 
+    float density;
+
     boolean isRotatableSet = false;
 
     Path pathIn, pathOut;
@@ -47,9 +49,9 @@ public class RotatingTextSwitcher extends TextView {
 
     void init() {
         paint = getPaint();
-        float density = getContext().getResources().getDisplayMetrics().density;
-        paint.setTextSize(rotatable.getSize() * density);
+        density = getContext().getResources().getDisplayMetrics().density;
         paint.setAntiAlias(true);
+        paint.setTextSize(rotatable.getSize() * density);
         paint.setColor(rotatable.getColor());
 
         if (rotatable.isCenter()) {
@@ -117,6 +119,10 @@ public class RotatingTextSwitcher extends TextView {
     @Override
     protected void onDraw(Canvas canvas) {
         if (isRotatableSet) {
+            if (rotatable.isUpdated()) {
+                updatePaint();
+                rotatable.setUpdated(false);
+            }
             String text = currentText;
             if (rotatable.getPathIn() != null)
                 canvas.drawTextOnPath(text, rotatable.getPathIn(), 0.0f, 0.0f, paint);
@@ -257,6 +263,43 @@ public class RotatingTextSwitcher extends TextView {
                 });
             }
         }, 0, 1000 / 60);
+    }
+
+    void updatePaint() {
+        paint.setTextSize(rotatable.getSize() * density);
+        paint.setColor(rotatable.getColor());
+
+        if (rotatable.isCenter()) {
+            paint.setTextAlign(Paint.Align.CENTER);
+        }
+
+        if (rotatable.getTypeface() != null) {
+            paint.setTypeface(rotatable.getTypeface());
+        }
+
+        if (updateWordTimer != null) {
+            updateWordTimer.cancel();
+        }
+        updateWordTimer = new Timer();
+        updateWordTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isPaused) {
+                            pauseRender();
+                        } else {
+                            resumeRender();
+                            animateInHorizontal();
+                            animateOutHorizontal();
+                            currentText = rotatable.getNextWord();
+                        }
+                    }
+                });
+            }
+        }, rotatable.getUpdateDuration(), rotatable.getUpdateDuration());
+
     }
 
 }
