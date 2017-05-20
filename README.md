@@ -113,4 +113,4 @@ rotatingTextWrapper.setContent("This is ? and ?", rotatable, rotatable2);
 <img src="/screens/gif_example_3.gif"/>
 
 # License
-Trianglify is licensed under `MIT license`. View [license](LICENSE.md).
+RotatingText is licensed under `MIT license`. View [license](LICENSE.md).
