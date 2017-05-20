@@ -154,10 +154,9 @@ public class Rotatable {
         for (String s : text) {
             if (s.length() > largest.length()) {
                 largest = s;
-
             }
         }
-        return largest;
+        return largest + " ";
     }
 
     public boolean isCenter() {
