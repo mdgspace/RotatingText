@@ -65,6 +65,24 @@ public class RotatingTextWrapper extends RelativeLayout {
 
         if (isContentSet) {
             String[] array = text.split("\\?");
+
+            if(array.length == 0){
+                final RotatingTextSwitcher textSwitcher = new RotatingTextSwitcher(context);
+                switcherList.add(textSwitcher);
+
+                textSwitcher.setRotatable(rotatableList.get(0));
+
+                textSwitcher.setId(View.generateViewId());
+                prevId = textSwitcher.getId();
+
+                lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp.addRule(CENTER_VERTICAL);
+                lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+
+                addView(textSwitcher, lp);
+
+            }
+
             for (int i = 0; i < array.length; i++) {
                 final TextView textView = new TextView(context);
                 final RotatingTextSwitcher textSwitcher = new RotatingTextSwitcher(context);
