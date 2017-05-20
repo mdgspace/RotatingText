@@ -12,7 +12,7 @@ Rotating text is an android library that can be used to make text switching pain
 Just add the following dependency in your app's `build.gradle`
 ```
 dependencies {
-      compile 'com.sdsmdg.harjot:rotating-text:0.9.0'
+      compile 'com.sdsmdg.harjot:rotating-text:1.0.0'
 }
 ```
 
