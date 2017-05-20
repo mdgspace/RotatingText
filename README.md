@@ -112,5 +112,34 @@ rotatingTextWrapper.setContent("This is ? and ?", rotatable, rotatable2);
 #### Result
 <img src="/screens/gif_example_3.gif"/>
 
+# Documentation
+
+Rotating text is made of two parts : `RotatingTextWrapper` and `Rotatable`. <br>
+Each rotatable encapsulates the collection of words that are two be periodically switched and also defines various properties related to these words, like, size, color, animation interpolator etc.<br>
+Each Rotatable must be a part of a `RotatingTextWrapper`. This defines the actual layout of the text and the positions of the rotating text.
+
+For eg : `rotatingTextWrapper.setContent("This is ?", rotatble);`. Here the `?` denotes the postion of the `rotatable`.
+
+## RotatingTextWrapper
+|Property         |Function                |Description                             |
+|-----------------|------------------------|----------------------------------------|
+|Content               | setContent(...)                    | Set the actual content. Composed of a String and array of Rotatables. |
+|Typeface              | setTypeface(...)                   | Set the typeface of the non-rotating text                     |
+|Size                  | setSize(...)                       | Set the size of the non-rotating text                         |
+|Pause                 | pause(x)                           | Method to pause the 'x'th rotatable                           |
+|Resume                | resume(x)                          | Method to resume the 'x'th rotatable                          |
+
+## Rotatable
+|Property         |Function                |Description                             |
+|-----------------|------------------------|----------------------------------------|
+|Color                 | setColor(...)                      | Set the color of the rotating text associated with this rotatable     |
+|Size                  | setSize(...)                       | Set the size of the rotating text associated with this rotatable      |
+|Typeface              | setTypeface(...)                   | Set the typeface of the rotating text associated with this rotatable  |
+|Interpolator          | setInterpolator(...)               | Set the animation interpolator used while switching text              |
+|Update Duration       | setUpdateDuration(...)             | Set the interval between switching the words                          |
+|Animation Duration    | setAnimationDuration(...)          | Set the duration of the switching animation                           |
+|Center Align          | setCenter(...)                     |Align the rotating text to center of the textview if set to **true**   |
+
+
 # License
 RotatingText is licensed under `MIT license`. View [license](LICENSE.md).
