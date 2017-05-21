@@ -2,16 +2,16 @@ apply plugin: 'com.android.library'
 
 ext {
     bintrayRepo = 'RotatingText'
-    bintrayName = 'rotating-text'
+    bintrayName = 'rotatingtext'
 
     publishedGroupId = 'com.sdsmdg.harjot'
     libraryName = 'RotatingText'
-    artifact = 'rotating-text'
+    artifact = 'rotatingtext'
 
     libraryDescription = 'A periodic text switcher library'
 
-    siteUrl = 'https://github.com/harjot-oberai/RotatingText'
-    gitUrl = 'https://github.com/harjot-oberai/RotatingText.git'
+    siteUrl = 'https://github.com/sdsmdg/RotatingText'
+    gitUrl = 'https://github.com/sdsmdg/RotatingText.git'
 
     libraryVersion = '1.0.0'
 
