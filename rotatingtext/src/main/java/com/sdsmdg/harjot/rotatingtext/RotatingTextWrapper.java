@@ -2,6 +2,7 @@ package com.sdsmdg.harjot.rotatingtext;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
+import com.sdsmdg.harjot.rotatingtext.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -72,7 +74,12 @@ public class RotatingTextWrapper extends RelativeLayout {
 
                 textSwitcher.setRotatable(rotatableList.get(0));
 
-                textSwitcher.setId(View.generateViewId());
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    textSwitcher.setId(Utils.generateViewId());
+                } else {
+                    textSwitcher.setId(View.generateViewId());
+                }
+
                 prevId = textSwitcher.getId();
 
                 lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -89,7 +96,11 @@ public class RotatingTextWrapper extends RelativeLayout {
                 switcherList.add(textSwitcher);
 
                 textView.setText(array[i]);
-                textView.setId(View.generateViewId());
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    textView.setId(Utils.generateViewId());
+                } else {
+                    textView.setId(View.generateViewId());
+                }
                 textView.setTextSize(size);
 
                 if (typeface != null)
@@ -107,7 +118,11 @@ public class RotatingTextWrapper extends RelativeLayout {
                 if (i < rotatableList.size()) {
                     textSwitcher.setRotatable(rotatableList.get(i));
 
-                    textSwitcher.setId(View.generateViewId());
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        textSwitcher.setId(Utils.generateViewId());
+                    } else {
+                        textSwitcher.setId(View.generateViewId());
+                    }
                     prevId = textSwitcher.getId();
 
                     lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
