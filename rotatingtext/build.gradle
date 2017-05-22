@@ -13,7 +13,7 @@ ext {
     siteUrl = 'https://github.com/sdsmdg/RotatingText'
     gitUrl = 'https://github.com/sdsmdg/RotatingText.git'
 
-    libraryVersion = '1.0.0'
+    libraryVersion = '1.0.1'
 
     developerId = 'harjot-oberai'
     developerName = 'Harjot Singh Oberai'
