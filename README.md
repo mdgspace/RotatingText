@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![by-SDS-MDG](https://img.shields.io/badge/by-SDS%2C%20MDG-blue.svg)](https://mdg.sdslabs.co)
 
-Rotating text is an android library that can be used to make text switching painless and beautiful, with he use of interpolators, typefaces and more customisations.
+Rotating text is an Android library that can be used to make text switching painless and beautiful, with the use of interpolators, typefaces and more customisations.
 
 # Usage
 Just add the following dependency in your app's `build.gradle`
