@@ -61,6 +61,13 @@ public class RotatingTextWrapper extends RelativeLayout {
         isContentSet = true;
     }
 
+    public void setContent(String text, ArrayList<Rotatable> rotatables) {
+        this.text = text;
+        rotatableList = new ArrayList<>(rotatables);
+        switcherList = new ArrayList<>();
+        isContentSet = true;
+    }
+
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
@@ -68,7 +75,7 @@ public class RotatingTextWrapper extends RelativeLayout {
         if (isContentSet) {
             String[] array = text.split("\\?");
 
-            if(array.length == 0){
+            if (array.length == 0) {
                 final RotatingTextSwitcher textSwitcher = new RotatingTextSwitcher(context);
                 switcherList.add(textSwitcher);
 
