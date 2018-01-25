@@ -4,13 +4,12 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="10dp"
     tools:context="com.sdsmdg.harjot.rotatingtextlibrary.MainActivity">
 
     <com.sdsmdg.harjot.rotatingtext.RotatingTextWrapper
         android:id="@+id/custom_switcher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
         android:layout_centerVertical="true" />
 </RelativeLayout>
