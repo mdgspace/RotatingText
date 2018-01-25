@@ -6,12 +6,20 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Harjot on 01-May-17.
@@ -30,7 +38,9 @@ public class RotatingTextSwitcher extends TextView {
 
     Path pathIn, pathOut;
 
-    Timer updateWordTimer, renderTimer;
+    Timer updateWordTimer;
+
+    private Disposable disposable;
 
     String currentText = "";
 
@@ -79,21 +89,22 @@ public class RotatingTextSwitcher extends TextView {
                 pathOut.lineTo(getWidth(), (2 * getHeight()) - paint.getFontMetrics().bottom);
 
                 rotatable.setPathOut(pathOut);
+
+
             }
         });
 
-        renderTimer = new Timer();
-        renderTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                ((Activity) context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        invalidate();
-                    }
-                });
-            }
-        }, 0, 1000 / 60);
+        if (disposable == null) {
+            disposable = Observable.interval(1000 / rotatable.getFPS(), TimeUnit.MILLISECONDS, Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<Long>() {
+                        @Override
+                        public void accept(Long aLong) throws Exception {
+                            Log.d("OBSER", aLong + "");
+                            invalidate();
+                        }
+                    });
+        }
 
         updateWordTimer = new Timer();
         updateWordTimer.scheduleAtFixedRate(new TimerTask() {
@@ -247,22 +258,21 @@ public class RotatingTextSwitcher extends TextView {
     }
 
     void pauseRender() {
-        renderTimer.cancel();
+        if (disposable != null && !disposable.isDisposed()) {
+            disposable.dispose();
+        }
     }
 
     void resumeRender() {
-        renderTimer = new Timer();
-        renderTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                ((Activity) context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        invalidate();
-                    }
-                });
-            }
-        }, 0, 1000 / 60);
+        if (disposable == null) {
+            disposable = Observable.interval(1000 / rotatable.getFPS(), TimeUnit.SECONDS, Schedulers.io())
+                    .subscribe(new Consumer<Long>() {
+                        @Override
+                        public void accept(Long aLong) throws Exception {
+                            invalidate();
+                        }
+                    });
+        }
     }
 
     void updatePaint() {

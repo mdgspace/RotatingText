@@ -5,7 +5,6 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -70,6 +69,7 @@ public class RotatingTextWrapper extends RelativeLayout {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+
         super.onLayout(changed, l, t, r, b);
 
         if (isContentSet) {
@@ -89,11 +89,12 @@ public class RotatingTextWrapper extends RelativeLayout {
 
                 prevId = textSwitcher.getId();
 
-                lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp = new LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
                 lp.addRule(CENTER_VERTICAL);
                 lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 
-                addView(textSwitcher, lp);
+                addViewInLayout(textSwitcher, -1, lp);
 
             }
 
@@ -120,7 +121,7 @@ public class RotatingTextWrapper extends RelativeLayout {
                 else
                     lp.addRule(RIGHT_OF, prevId);
 
-                addView(textView, lp);
+                addViewInLayout(textView, -1, lp);
 
                 if (i < rotatableList.size()) {
                     textSwitcher.setRotatable(rotatableList.get(i));
@@ -132,16 +133,18 @@ public class RotatingTextWrapper extends RelativeLayout {
                     }
                     prevId = textSwitcher.getId();
 
-                    lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    lp = new LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                     lp.addRule(CENTER_VERTICAL);
                     lp.addRule(RIGHT_OF, textView.getId());
 
-                    addView(textSwitcher, lp);
+                    addViewInLayout(textSwitcher, -1, lp);
                 }
             }
             isContentSet = false;
         }
+        requestLayout();
     }
+
 
     public Typeface getTypeface() {
         return typeface;

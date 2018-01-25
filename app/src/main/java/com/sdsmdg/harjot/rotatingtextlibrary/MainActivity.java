@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         rotatable2.setInterpolator(new DecelerateInterpolator());
         rotatable2.setAnimationDuration(500);
 
-        rotatingTextWrapper.setContent("? ?", rotatable, rotatable2);
+        rotatingTextWrapper.setContent("abc ? abc ?", rotatable, rotatable2);
 
     }
 }

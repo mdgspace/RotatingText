@@ -30,6 +30,8 @@ public class Rotatable {
 
     private boolean isUpdated = false;
 
+    private int FPS = 60;
+
     public Rotatable(int updateDuration, String... text) {
         this.updateDuration = updateDuration;
         this.text = text;
@@ -174,5 +176,13 @@ public class Rotatable {
 
     public void setUpdated(boolean updated) {
         isUpdated = updated;
+    }
+
+    public int getFPS() {
+        return FPS;
+    }
+
+    public void setFPS(int FPS) {
+        this.FPS = FPS;
     }
 }
