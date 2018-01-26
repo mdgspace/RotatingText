@@ -100,7 +100,6 @@ public class RotatingTextSwitcher extends TextView {
                     .subscribe(new Consumer<Long>() {
                         @Override
                         public void accept(Long aLong) throws Exception {
-                            Log.d("OBSER", aLong + "");
                             invalidate();
                         }
                     });
@@ -260,12 +259,14 @@ public class RotatingTextSwitcher extends TextView {
     void pauseRender() {
         if (disposable != null && !disposable.isDisposed()) {
             disposable.dispose();
+            disposable = null;
         }
     }
 
     void resumeRender() {
         if (disposable == null) {
-            disposable = Observable.interval(1000 / rotatable.getFPS(), TimeUnit.SECONDS, Schedulers.io())
+            disposable = Observable.interval(1000 / rotatable.getFPS(), TimeUnit.MILLISECONDS, Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<Long>() {
                         @Override
                         public void accept(Long aLong) throws Exception {
