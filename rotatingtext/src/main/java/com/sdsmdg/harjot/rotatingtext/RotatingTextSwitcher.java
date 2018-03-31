@@ -35,6 +35,7 @@ public class RotatingTextSwitcher extends TextView {
     String currentText = "";
 
     boolean isPaused = false;
+    boolean isRenderTimerRunning = false;
 
     public RotatingTextSwitcher(Context context) {
         super(context);
@@ -82,20 +83,8 @@ public class RotatingTextSwitcher extends TextView {
             }
         });
 
-        renderTimer = new Timer();
-        renderTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                ((Activity) context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        invalidate();
-                    }
-                });
-            }
-        }, 0, 1000 / 60);
-
         updateWordTimer = new Timer();
+        resumeRender();
         updateWordTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -247,22 +236,28 @@ public class RotatingTextSwitcher extends TextView {
     }
 
     void pauseRender() {
-        renderTimer.cancel();
+        if (isRenderTimerRunning) {
+            renderTimer.cancel();
+            isRenderTimerRunning = false;
+        }
     }
 
     void resumeRender() {
-        renderTimer = new Timer();
-        renderTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                ((Activity) context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        invalidate();
-                    }
-                });
-            }
-        }, 0, 1000 / 60);
+        if (!isRenderTimerRunning) {
+            renderTimer = new Timer();
+            renderTimer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    ((Activity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            invalidate();
+                            isRenderTimerRunning = true;
+                        }
+                    });
+                }
+            }, 0, 1000 / 60);
+        }
     }
 
     void updatePaint() {
