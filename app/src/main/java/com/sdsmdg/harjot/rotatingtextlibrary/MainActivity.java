@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.TextView;
 
 import com.sdsmdg.harjot.rotatingtext.RotatingTextWrapper;
 import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         rotatable.setInterpolator(new AccelerateInterpolator());
         rotatable.setAnimationDuration(500);
 
-        rotatable2 = new Rotatable(Color.parseColor("#123456"), 1000, "Word03", "Word04", "Word05");
+        rotatable2 = new Rotatable(Color.parseColor("#123456"), 2000, "Word03", "Word04", "Word05");
         rotatable2.setSize(25);
         rotatable2.setTypeface(typeface);
         rotatable2.setInterpolator(new DecelerateInterpolator());
