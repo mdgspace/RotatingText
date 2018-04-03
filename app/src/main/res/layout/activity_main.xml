@@ -11,5 +11,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="push right"
+        android:onClick="pushRight"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="pushLeft"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:text="push left" />
 </RelativeLayout>

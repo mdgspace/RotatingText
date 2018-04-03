@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -74,10 +75,12 @@ public class RotatingTextWrapper extends RelativeLayout {
 
         if (isContentSet) {
             String[] array = text.split("\\?");
+            Log.i("point rtw78", "reached");
 
             if (array.length == 0) {
                 final RotatingTextSwitcher textSwitcher = new RotatingTextSwitcher(context);
                 switcherList.add(textSwitcher);
+                Log.i("point rtw83", "reached");
 
                 textSwitcher.setRotatable(rotatableList.get(0));
 
@@ -99,6 +102,7 @@ public class RotatingTextWrapper extends RelativeLayout {
             }
 
             for (int i = 0; i < array.length; i++) {
+                Log.i("point rtw104", "reached");
                 final TextView textView = new TextView(context);
                 final RotatingTextSwitcher textSwitcher = new RotatingTextSwitcher(context);
                 switcherList.add(textSwitcher);
@@ -125,6 +129,7 @@ public class RotatingTextWrapper extends RelativeLayout {
 
                 if (i < rotatableList.size()) {
                     textSwitcher.setRotatable(rotatableList.get(i));
+                    Log.i("point rtw131", i+"");
 
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
                         textSwitcher.setId(Utils.generateViewId());
