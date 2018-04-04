@@ -1,0 +1,121 @@
+package com.sdsmdg.harjot.rotatingtext;
+
+import android.content.Context;
+import android.graphics.Typeface;
+import android.os.Build;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
+import com.sdsmdg.harjot.rotatingtext.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class TryLayout extends RelativeLayout {
+
+
+    String text;
+    static ArrayList<Rotatable> rotatableList;
+
+    boolean isContentSet = false;
+
+    Context context;
+
+    RelativeLayout.LayoutParams lp;
+
+    int prevId;
+
+    Typeface typeface;
+    int size = 24;
+
+    static List<RotatingTextSwitcher> switcherList;
+
+    public TryLayout(Context context) {
+        super(context);
+        this.context = context;
+    }
+
+    public TryLayout(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.context = context;
+    }
+
+    public TryLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        this.context = context;
+    }
+
+//    public void setContent(String text, Rotatable... rotatables) {
+//        this.text = text;
+//        rotatableList = new ArrayList<>();
+//        switcherList = new ArrayList<>();
+//        Collections.addAll(rotatableList, rotatables);
+//        isContentSet = true;
+//    }
+//
+//    public void setContent(String text, ArrayList<Rotatable> rotatables) {
+//        this.text = text;
+//        rotatableList = new ArrayList<>(rotatables);
+//        switcherList = new ArrayList<>();
+//        isContentSet = true;
+//    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+
+        super.onLayout(changed, l, t, r, b);
+        final TextView textView = new TextView(context);
+        Log.i("point tl104", Utils.REACHED);
+
+        textView.setText(Utils.REACHED);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            textView.setId(Utils.generateViewId());
+        } else {
+            textView.setId(View.generateViewId());
+        }
+        textView.setTextSize(size);
+
+        if (typeface != null)
+            textView.setTypeface(typeface);
+
+        lp = new LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        lp.addRule(CENTER_VERTICAL);
+        lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        addViewInLayout(textView, -1, lp);
+
+    }
+
+    public void shiftRotatable(int index) {
+
+    }
+
+    public Typeface getTypeface() {
+        return typeface;
+    }
+
+    public void setTypeface(Typeface typeface) {
+        this.typeface = typeface;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public void pause(int position) {
+        switcherList.get(position).pause();
+    }
+
+    public void resume(int position) {
+        switcherList.get(position).resume();
+    }
+
+}

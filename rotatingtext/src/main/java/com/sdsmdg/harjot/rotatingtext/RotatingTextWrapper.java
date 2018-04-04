@@ -23,7 +23,7 @@ import java.util.List;
 public class RotatingTextWrapper extends RelativeLayout {
 
     String text;
-    ArrayList<Rotatable> rotatableList;
+    static ArrayList<Rotatable> rotatableList;
 
     boolean isContentSet = false;
 
@@ -36,7 +36,7 @@ public class RotatingTextWrapper extends RelativeLayout {
     Typeface typeface;
     int size = 24;
 
-    List<RotatingTextSwitcher> switcherList;
+    static List<RotatingTextSwitcher> switcherList;
 
     public RotatingTextWrapper(Context context) {
         super(context);
@@ -75,12 +75,12 @@ public class RotatingTextWrapper extends RelativeLayout {
 
         if (isContentSet) {
             String[] array = text.split("\\?");
-            Log.i("point rtw78", "reached");
+            Log.i("point rtw78", Utils.REACHED);
 
             if (array.length == 0) {
                 final RotatingTextSwitcher textSwitcher = new RotatingTextSwitcher(context);
                 switcherList.add(textSwitcher);
-                Log.i("point rtw83", "reached");
+                Log.i("point rtw83", Utils.REACHED);
 
                 textSwitcher.setRotatable(rotatableList.get(0));
 
@@ -102,7 +102,7 @@ public class RotatingTextWrapper extends RelativeLayout {
             }
 
             for (int i = 0; i < array.length; i++) {
-                Log.i("point rtw104", "reached");
+                Log.i("point rtw104", Utils.REACHED);
                 final TextView textView = new TextView(context);
                 final RotatingTextSwitcher textSwitcher = new RotatingTextSwitcher(context);
                 switcherList.add(textSwitcher);
@@ -129,7 +129,7 @@ public class RotatingTextWrapper extends RelativeLayout {
 
                 if (i < rotatableList.size()) {
                     textSwitcher.setRotatable(rotatableList.get(i));
-                    Log.i("point rtw131", i+"");
+                    Log.i("point rtw131", i + "");
 
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
                         textSwitcher.setId(Utils.generateViewId());
@@ -150,6 +150,9 @@ public class RotatingTextWrapper extends RelativeLayout {
         requestLayout();
     }
 
+    public void shiftRotatable(int index) {
+
+    }
 
     public Typeface getTypeface() {
         return typeface;

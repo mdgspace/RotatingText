@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -18,13 +19,14 @@ import com.sdsmdg.harjot.rotatingtext.utils.Utils;
 public class MainActivity extends AppCompatActivity {
 
     RotatingTextWrapper rotatingTextWrapper;
-    //    Rotatable rotatable, rotatable2;
-    Rotatable rotatable;
+        Rotatable rotatable, rotatable2;
+//    Rotatable rotatable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.i("point ma29", "reached");
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Raleway-Light.ttf");
         Typeface typeface2 = Typeface.createFromAsset(getAssets(), "fonts/Reckoner_Bold.ttf");
@@ -40,25 +42,37 @@ public class MainActivity extends AppCompatActivity {
         rotatable.setInterpolator(new AccelerateInterpolator());
         rotatable.setAnimationDuration(500);
 
-//        rotatable2 = new Rotatable(Color.parseColor("#123456"), 1000, "Word03", "Word04", "Word05");
-//        rotatable2.setSize(25);
-//        rotatable2.setTypeface(typeface);
-//        rotatable2.setInterpolator(new DecelerateInterpolator());
-//        rotatable2.setAnimationDuration(500);
+        rotatable2 = new Rotatable(Color.parseColor("#123456"), 1000, "Word03", "Word04", "Word05");
+        rotatable2.setSize(25);
+        rotatable2.setTypeface(typeface);
+        rotatable2.setInterpolator(new DecelerateInterpolator());
+        rotatable2.setAnimationDuration(500);
 
-//        rotatingTextWrapper.setContent("abc ? abc ?", rotatable, rotatable2);
-        rotatingTextWrapper.setContent("? abc", rotatable);
+        rotatingTextWrapper.setContent("abc ? abc ?", rotatable, rotatable2);
+//        rotatingTextWrapper.setContent("? abc", rotatable);
 
     }
 
     public void pushRight(View view) {
         UpdateRotatable updateRotatable = new UpdateRotatable(this, rotatable);
-        updateRotatable.update(Utils.RIGHT);
+        updateRotatable.newWord("Word00000", "a", "b");
+        updateRotatable.update();
     }
 
     public void pushLeft(View view) {
-
     }
+
+//    public void pushRight(View view) {
+//        UpdateRotatable updateRotatable = new UpdateRotatable(this, rotatable);
+//        UpdateRotatable.newWord("Word00000", "a", "b");
+//        updateRotatable.update(Utils.RIGHT);
+//    }
+//
+//    public void pushLeft(View view) {
+//        UpdateRotatable updateRotatable = new UpdateRotatable(this, rotatable);
+//        UpdateRotatable.newWord("Word00000", "a", "b");
+//        updateRotatable.update(Utils.LEFT);
+//    }
 
     public void cancelRotation(View view) {
         RotatingTextSwitcher.stopAnimationIn();

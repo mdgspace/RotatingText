@@ -8,8 +8,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Utils {
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
-    public static final int LEFT = 0;
-    public static final int RIGHT = 1;
+    public static final String TEXT = "ritik";
+    public static final String REACHED = "reached";
 
     public static int generateViewId() {
         for (;;) {

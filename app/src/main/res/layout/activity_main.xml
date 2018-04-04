@@ -13,19 +13,25 @@
         android:layout_marginLeft="10dp"
         android:layout_centerVertical="true"
         />
+
+    <!--<com.sdsmdg.harjot.rotatingtext.TryLayout-->
+        <!--android:id="@+id/try_switcher"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="100dp" />-->
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="push right"
         android:onClick="pushRight"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="pushLeft"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal"
-        android:text="push left" />
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:onClick="pushLeft"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:gravity="center_horizontal"-->
+        <!--android:text="p" />-->
 
     <Button
         android:layout_width="wrap_content"

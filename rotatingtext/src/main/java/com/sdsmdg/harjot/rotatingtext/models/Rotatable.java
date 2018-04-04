@@ -3,6 +3,7 @@ package com.sdsmdg.harjot.rotatingtext.models;
 import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
@@ -62,6 +63,22 @@ public class Rotatable {
         this.text = text;
     }
 
+    public String getTextAt(int index) {
+        if (index >= text.length) {
+            throw new ArrayIndexOutOfBoundsException("index exceeded number of words!!");
+        } else {
+            return text[index];
+        }
+    }
+
+    public void setTextAt(int index, String word) {
+        if (index >= text.length) {
+            throw new ArrayIndexOutOfBoundsException("index exceeded number of words!!");
+        } else {
+            text[index] = word;
+        }
+    }
+
     public int getUpdateDuration() {
         return updateDuration;
     }
@@ -72,6 +89,7 @@ public class Rotatable {
     }
 
     public int getNextWordNumber() {
+        //provides next word number circularly
         currentWordNumber = (currentWordNumber + 1) % text.length;
         return currentWordNumber;
     }
@@ -185,4 +203,13 @@ public class Rotatable {
     public void setFPS(int FPS) {
         this.FPS = FPS;
     }
+
+//    public void newWord(String... newList) {
+//        Log.i("point r208", "reached");
+////        Log.i("point ur77", switcher.toString());
+////        newWordArray = newList;
+//        setTextAt(2, "ritik");
+////        toChange.setText(newList);
+////        RotatingTextSwitcher switcher=RotatingTextWrapper.switcherList.get(rotatablePosition);
+//    }
 }

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
+import com.sdsmdg.harjot.rotatingtext.utils.Utils;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -50,19 +51,19 @@ public class RotatingTextSwitcher extends TextView {
 
     public RotatingTextSwitcher(Context context) {
         super(context);
-        Log.i("point rts42", "reached");
+        Log.i("point rts42", Utils.REACHED);
         this.context = context;
     }
 
     public void setRotatable(Rotatable rotatable) {
-        Log.i("point rts47", "reached");
+        Log.i("point rts47", Utils.REACHED);
         this.rotatable = rotatable;
         isRotatableSet = true;
         init();
     }
 
     void init() {
-        Log.i("point rts54", "reached");
+        Log.i("point rts54", Utils.REACHED);
         paint = getPaint();
         density = getContext().getResources().getDisplayMetrics().density;
         paint.setAntiAlias(true);
@@ -75,7 +76,7 @@ public class RotatingTextSwitcher extends TextView {
         }
 
         if (rotatable.getTypeface() != null) {
-            Log.i("point rts67", "reached");
+            Log.i("point rts67", Utils.REACHED);
             paint.setTypeface(rotatable.getTypeface());
         }
 
@@ -93,14 +94,14 @@ public class RotatingTextSwitcher extends TextView {
 
                 pathIn.moveTo(0.0f, getHeight() - paint.getFontMetrics().bottom);
                 pathIn.lineTo(getWidth(), getHeight() - paint.getFontMetrics().bottom);
-                Log.i("point rts91", "reached");
+                Log.i("point rts91", Utils.REACHED);
 
                 rotatable.setPathIn(pathIn);
 
                 pathOut = new Path();
                 pathOut.moveTo(0.0f, (2 * getHeight()) - paint.getFontMetrics().bottom);
                 pathOut.lineTo(getWidth(), (2 * getHeight()) - paint.getFontMetrics().bottom);
-                Log.i("point rts98", "reached");
+                Log.i("point rts98", Utils.REACHED);
 
                 rotatable.setPathOut(pathOut);
 
@@ -109,7 +110,7 @@ public class RotatingTextSwitcher extends TextView {
         });
 
         if (disposable == null) {
-            Log.i("point rts109", "reached");
+            Log.i("point rts109", Utils.REACHED);
             // knocks every ~16 milisec
             disposable = Observable.interval(1000 / rotatable.getFPS(), TimeUnit.MILLISECONDS, Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -118,6 +119,9 @@ public class RotatingTextSwitcher extends TextView {
                         public void accept(Long aLong) throws Exception {
                             Log.d("OBSER", aLong + "");
                             Log.i("point 110 knock", aLong + "");
+//                            if(aLong>300&&aLong<700){
+//                                setText(Utils.TEXT);
+//                            }
                             invalidate();
                             //calls on draw
                         }
@@ -125,22 +129,22 @@ public class RotatingTextSwitcher extends TextView {
         }
 
         invalidate();
-        Log.i("point rts1111", "reached");
+        Log.i("point rts1111", Utils.REACHED);
 
         updateWordTimer = new Timer();
         updateWordTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                Log.i("point rts112", "reached");
+                Log.i("point rts112", Utils.REACHED);
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.i("point rts116", "reached");
+                        Log.i("point rts116", Utils.REACHED);
                         if (isPaused) {
-                            Log.i("point rts118", "reached");
+                            Log.i("point rts118", Utils.REACHED);
                             pauseRender();
                         } else {
-                            Log.i("point rts121", "reached");
+                            Log.i("point rts121", Utils.REACHED);
                             resumeRender();
                             animateInHorizontal();
                             animateOutHorizontal();
@@ -158,14 +162,14 @@ public class RotatingTextSwitcher extends TextView {
         if (isRotatableSet) {
             Log.i("point rts137", "rotatableSet");
             if (rotatable.isUpdated()) {
-                Log.i("point rts139", "reached");
+                Log.i("point rts139", Utils.REACHED);
                 updatePaint();
                 rotatable.setUpdated(false);
             }
-            Log.i("point rts142", "reached");
+            Log.i("point rts142", Utils.REACHED);
             String text = currentText;
             if (rotatable.getPathIn() != null) {
-                Log.i("point rts146", "reached");
+                Log.i("point rts146", Utils.REACHED);
                 canvas.drawTextOnPath(text, rotatable.getPathIn(), 0.0f, 0.0f, paint);
             }
             if (rotatable.getPathOut() != null) {
@@ -192,14 +196,14 @@ public class RotatingTextSwitcher extends TextView {
         });
         animatorin.setInterpolator(rotatable.getInterpolator());
         animatorin.setDuration(rotatable.getAnimationDuration());
-        Log.i("point rts172", "reached");
+        Log.i("point rts172", Utils.REACHED);
         animatorin.start();
     }
 
     public static void stopAnimationIn() {
-        Log.i("point 172 stopanime", "reached");
+        Log.i("point 172 stopanime", Utils.REACHED);
 //        if (updateWordTimer != null) {
-//            Log.i("point rts318", "reached");
+//            Log.i("point rts318", Utils.REACHED);
 //            updateWordTimer.cancel();
 //        }
 //        animatorin.end();
@@ -209,7 +213,7 @@ public class RotatingTextSwitcher extends TextView {
 
     public static void resumeAnimationIn() {
 //        isRotatableSet=true;
-        Log.i("point 173 resumeanime", "reached");
+        Log.i("point 173 resumeanime", Utils.REACHED);
 
         isPaused=false;
 
@@ -220,7 +224,7 @@ public class RotatingTextSwitcher extends TextView {
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                Log.i("point rts181", "reached");
+                Log.i("point rts181", Utils.REACHED);
                 pathOut = new Path();
                 pathOut.moveTo(0.0f, (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
                 pathOut.lineTo(getWidth(), (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
@@ -233,7 +237,7 @@ public class RotatingTextSwitcher extends TextView {
     }
 
     void animateInCurve() {
-        Log.i("point rts194", "reached");
+        Log.i("point rts194", Utils.REACHED);
         final int stringLength = rotatable.peekNextWord().length();
 //        long perCharacterAnimDuration = rotatable.getAnimationDuration() / stringLength;
 
@@ -272,7 +276,7 @@ public class RotatingTextSwitcher extends TextView {
     }
 
     void animateOutCurve() {
-        Log.i("point rts233", "reached");
+        Log.i("point rts233", Utils.REACHED);
         final int stringLength = getText().length();
 //        long perCharacterAnimDuration = rotatable.getAnimationDuration() / stringLength;
 
@@ -310,12 +314,12 @@ public class RotatingTextSwitcher extends TextView {
     }
 
     void pause() {
-        Log.i("point rts271", "reached");
+        Log.i("point rts271", Utils.REACHED);
         isPaused = true;
     }
 
     void resume() {
-        Log.i("point rts276", "reached");
+        Log.i("point rts276", Utils.REACHED);
         isPaused = false;
     }
 
@@ -328,7 +332,7 @@ public class RotatingTextSwitcher extends TextView {
 
     void resumeRender() {
         if (disposable == null) {
-            Log.i("point rts308", "reached");
+            Log.i("point rts308", Utils.REACHED);
             disposable = Observable.interval(1000 / rotatable.getFPS(), TimeUnit.MILLISECONDS, Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<Long>() {
@@ -341,7 +345,7 @@ public class RotatingTextSwitcher extends TextView {
     }
 
     void updatePaint() {
-        Log.i("point rts303", "reached");
+        Log.i("point rts303", Utils.REACHED);
         paint.setTextSize(rotatable.getSize() * density);
         paint.setColor(rotatable.getColor());
 
@@ -360,15 +364,15 @@ public class RotatingTextSwitcher extends TextView {
         updateWordTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                Log.i("point rts325", "reached");
+                Log.i("point rts325", Utils.REACHED);
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         if (isPaused) {
-                            Log.i("point rts330", "reached");
+                            Log.i("point rts330", Utils.REACHED);
                             pauseRender();
                         } else {
-                            Log.i("point rts333", "reached");
+                            Log.i("point rts333", Utils.REACHED);
                             resumeRender();
                             animateInHorizontal();
 //                            animateOutHorizontal();
@@ -380,5 +384,4 @@ public class RotatingTextSwitcher extends TextView {
         }, rotatable.getUpdateDuration(), rotatable.getUpdateDuration());
 
     }
-
 }
