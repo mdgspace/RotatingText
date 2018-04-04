@@ -26,4 +26,20 @@
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
         android:text="push left" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="500dp"
+        android:onClick="cancelRotation"
+        android:text="cancel rotation" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:onClick="resumeRotation"
+        android:text="resume rotation" />
 </RelativeLayout>

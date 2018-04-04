@@ -38,13 +38,15 @@ public class RotatingTextSwitcher extends TextView {
 
     Path pathIn, pathOut;
 
-    Timer updateWordTimer;
+    static Timer updateWordTimer;
 
     private Disposable disposable;
 
     String currentText = "";
 
-    boolean isPaused = false;
+    static boolean isPaused = false;
+
+    static ValueAnimator animatorin;
 
     public RotatingTextSwitcher(Context context) {
         super(context);
@@ -85,9 +87,9 @@ public class RotatingTextSwitcher extends TextView {
             @Override
             public void run() {
                 pathIn = new Path();
-                Log.i("point rts871", getHeight()+"");
-                Log.i("point rts872", getHeight() - paint.getFontMetrics().bottom+"");
-                Log.i("point rts873", getWidth()+"");
+                Log.i("point rts871", getHeight() + "");
+                Log.i("point rts872", getHeight() - paint.getFontMetrics().bottom + "");
+                Log.i("point rts873", getWidth() + "");
 
                 pathIn.moveTo(0.0f, getHeight() - paint.getFontMetrics().bottom);
                 pathIn.lineTo(getWidth(), getHeight() - paint.getFontMetrics().bottom);
@@ -121,7 +123,6 @@ public class RotatingTextSwitcher extends TextView {
                         }
                     });
         }
-//        Log.i("point rts111", "reached");
 
         invalidate();
         Log.i("point rts1111", "reached");
@@ -153,9 +154,9 @@ public class RotatingTextSwitcher extends TextView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Log.i("point rts135", "reached");
+        Log.i("point rts135", "onDraw");
         if (isRotatableSet) {
-            Log.i("point rts137", "reached");
+            Log.i("point rts137", "rotatableSet");
             if (rotatable.isUpdated()) {
                 Log.i("point rts139", "reached");
                 updatePaint();
@@ -168,7 +169,6 @@ public class RotatingTextSwitcher extends TextView {
                 canvas.drawTextOnPath(text, rotatable.getPathIn(), 0.0f, 0.0f, paint);
             }
             if (rotatable.getPathOut() != null) {
-                Log.i("point rts150", "reached");
 
                 canvas.drawTextOnPath(rotatable.getPreviousWord(), rotatable.getPathOut(), 0.0f, 0.0f, paint);
             }
@@ -176,24 +176,43 @@ public class RotatingTextSwitcher extends TextView {
     }
 
     void animateInHorizontal() {
-        Log.i("point rts158", getHeight()+"");
-        ValueAnimator animator = ValueAnimator.ofFloat(0.0f, getHeight());
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        Log.i("point rts158", getHeight() + "");
+        animatorin = ValueAnimator.ofFloat(0.0f, getHeight());
+        animatorin.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                Log.i("point rts1631", getWidth()+"");
-                Log.i("point rts1632", valueAnimator.getAnimatedValue()+"");
-                Log.i("point rts1633",  paint.getFontMetrics().bottom+"");
+                Log.i("point rts1631", getWidth() + "");
+                Log.i("point rts1632", valueAnimator.getAnimatedValue() + "");
+                Log.i("point rts1633", paint.getFontMetrics().bottom + "");
                 pathIn = new Path();
                 pathIn.moveTo(0.0f, (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
                 pathIn.lineTo(getWidth(), (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
                 rotatable.setPathIn(pathIn);
             }
         });
-        animator.setInterpolator(rotatable.getInterpolator());
-        animator.setDuration(rotatable.getAnimationDuration());
+        animatorin.setInterpolator(rotatable.getInterpolator());
+        animatorin.setDuration(rotatable.getAnimationDuration());
         Log.i("point rts172", "reached");
-        animator.start();
+        animatorin.start();
+    }
+
+    public static void stopAnimationIn() {
+        Log.i("point 172 stopanime", "reached");
+//        if (updateWordTimer != null) {
+//            Log.i("point rts318", "reached");
+//            updateWordTimer.cancel();
+//        }
+//        animatorin.end();
+//        isRotatableSet=false;
+        isPaused=true;
+    }
+
+    public static void resumeAnimationIn() {
+//        isRotatableSet=true;
+        Log.i("point 173 resumeanime", "reached");
+
+        isPaused=false;
+
     }
 
     void animateOutHorizontal() {
@@ -303,13 +322,15 @@ public class RotatingTextSwitcher extends TextView {
     void pauseRender() {
         if (disposable != null && !disposable.isDisposed()) {
             disposable.dispose();
+            disposable=null;
         }
     }
 
     void resumeRender() {
         if (disposable == null) {
             Log.i("point rts308", "reached");
-            disposable = Observable.interval(1000 / rotatable.getFPS(), TimeUnit.SECONDS, Schedulers.io())
+            disposable = Observable.interval(1000 / rotatable.getFPS(), TimeUnit.MILLISECONDS, Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<Long>() {
                         @Override
                         public void accept(Long aLong) throws Exception {
@@ -325,17 +346,14 @@ public class RotatingTextSwitcher extends TextView {
         paint.setColor(rotatable.getColor());
 
         if (rotatable.isCenter()) {
-            Log.i("point rts308", "reached");
             paint.setTextAlign(Paint.Align.CENTER);
         }
 
         if (rotatable.getTypeface() != null) {
-            Log.i("point rts313", "reached");
             paint.setTypeface(rotatable.getTypeface());
         }
 
         if (updateWordTimer != null) {
-            Log.i("point rts318", "reached");
             updateWordTimer.cancel();
         }
         updateWordTimer = new Timer();

@@ -9,6 +9,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
+import com.sdsmdg.harjot.rotatingtext.RotatingTextSwitcher;
 import com.sdsmdg.harjot.rotatingtext.RotatingTextWrapper;
 import com.sdsmdg.harjot.rotatingtext.UpdateRotatable;
 import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
@@ -17,7 +18,7 @@ import com.sdsmdg.harjot.rotatingtext.utils.Utils;
 public class MainActivity extends AppCompatActivity {
 
     RotatingTextWrapper rotatingTextWrapper;
-//    Rotatable rotatable, rotatable2;
+    //    Rotatable rotatable, rotatable2;
     Rotatable rotatable;
 
     @Override
@@ -50,12 +51,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void pushRight(View view){
-        UpdateRotatable updateRotatable=new UpdateRotatable(this,rotatable);
+    public void pushRight(View view) {
+        UpdateRotatable updateRotatable = new UpdateRotatable(this, rotatable);
         updateRotatable.update(Utils.RIGHT);
     }
 
     public void pushLeft(View view) {
 
     }
+
+    public void cancelRotation(View view) {
+        RotatingTextSwitcher.stopAnimationIn();
+    }
+
+    public void resumeRotation(View view) {
+        RotatingTextSwitcher.resumeAnimationIn();
+
+    }
+
 }

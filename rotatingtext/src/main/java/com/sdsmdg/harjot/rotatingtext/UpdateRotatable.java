@@ -38,4 +38,5 @@ public class UpdateRotatable extends RotatingTextWrapper {
     private void updateRight() {
 
     }
+
 }
