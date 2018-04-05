@@ -24,6 +24,7 @@ public class RotatingTextWrapper extends RelativeLayout {
 
     String text;
     static ArrayList<Rotatable> rotatableList;
+    static ArrayList<TextView> textViews;
 
     boolean isContentSet = false;
 
@@ -57,6 +58,7 @@ public class RotatingTextWrapper extends RelativeLayout {
         this.text = text;
         rotatableList = new ArrayList<>();
         switcherList = new ArrayList<>();
+        textViews = new ArrayList<>();
         Collections.addAll(rotatableList, rotatables);
         isContentSet = true;
     }
@@ -114,6 +116,7 @@ public class RotatingTextWrapper extends RelativeLayout {
                     textView.setId(View.generateViewId());
                 }
                 textView.setTextSize(size);
+                textViews.add(textView);
 
                 if (typeface != null)
                     textView.setTypeface(typeface);

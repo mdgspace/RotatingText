@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.TextView;
 
 import com.sdsmdg.harjot.rotatingtext.RotatingTextSwitcher;
 import com.sdsmdg.harjot.rotatingtext.RotatingTextWrapper;
@@ -19,7 +18,7 @@ import com.sdsmdg.harjot.rotatingtext.utils.Utils;
 public class MainActivity extends AppCompatActivity {
 
     RotatingTextWrapper rotatingTextWrapper;
-        Rotatable rotatable, rotatable2;
+    Rotatable rotatable, rotatable2;
 //    Rotatable rotatable;
 
     @Override
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         rotatingTextWrapper.setTypeface(typeface2);
 
 //        rotatable = new Rotatable(Color.parseColor("#FFA036"), 1000, "Word00", "Word01", "Word02");
-        rotatable = new Rotatable(Color.parseColor("#FFA036"), 1000, "Word00000", "1", "2");
+        rotatable = new Rotatable(Color.parseColor("#FFA036"), 1000, "Word", "1", "2");
         rotatable.setSize(25);
         rotatable.setTypeface(typeface);
         rotatable.setInterpolator(new AccelerateInterpolator());
@@ -53,13 +52,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void pushRight(View view) {
+    public void editRotatable(View view) {
         UpdateRotatable updateRotatable = new UpdateRotatable(this, rotatable);
         updateRotatable.newWord("Word00000", "a", "b");
-        updateRotatable.update();
+//        updateRotatable.update();
     }
 
-    public void pushLeft(View view) {
+    public void resize(View view) {
+        UpdateRotatable updateRotatable = new UpdateRotatable(this);
+        updateRotatable.reduceSize(2f, rotatingTextWrapper);
     }
 
 //    public void pushRight(View view) {
@@ -76,6 +77,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void cancelRotation(View view) {
         RotatingTextSwitcher.stopAnimationIn();
+
+    }
+
+    public void fitScreen(View view) {
+        UpdateRotatable updateRotatable = new UpdateRotatable(this);
+        updateRotatable.fitScreen(rotatingTextWrapper);
     }
 
     public void resumeRotation(View view) {

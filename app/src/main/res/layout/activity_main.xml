@@ -10,42 +10,44 @@
         android:id="@+id/custom_switcher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:layout_centerVertical="true"
-        />
+        android:layout_marginRight="10dp"
+        android:paddingRight="20dp" />
 
-    <!--<com.sdsmdg.harjot.rotatingtext.TryLayout-->
-        <!--android:id="@+id/try_switcher"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="100dp" />-->
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="push right"
-        android:onClick="pushRight"/>
-
-    <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:onClick="pushLeft"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:gravity="center_horizontal"-->
-        <!--android:text="p" />-->
+        android:onClick="editRotatable"
+        android:text="edit rotatable" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:gravity="center_horizontal"
+        android:onClick="resize"
+        android:text="resize/2" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="252dp"
+        android:onClick="fitScreen"
+        android:text="fit screen" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="500dp"
+        android:layout_marginTop="50dp"
         android:onClick="cancelRotation"
-        android:text="cancel rotation" />
+        android:text="pause" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:onClick="resumeRotation"
-        android:text="resume rotation" />
+        android:text="resume" />
 </RelativeLayout>
