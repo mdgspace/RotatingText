@@ -18,7 +18,7 @@ import com.sdsmdg.harjot.rotatingtext.utils.Utils;
 public class MainActivity extends AppCompatActivity {
 
     RotatingTextWrapper rotatingTextWrapper;
-    Rotatable rotatable, rotatable2;
+    Rotatable rotatable, rotatable2, rotatable3;
 //    Rotatable rotatable;
 
     @Override
@@ -35,19 +35,26 @@ public class MainActivity extends AppCompatActivity {
         rotatingTextWrapper.setTypeface(typeface2);
 
 //        rotatable = new Rotatable(Color.parseColor("#FFA036"), 1000, "Word00", "Word01", "Word02");
-        rotatable = new Rotatable(Color.parseColor("#FFA036"), 1000, "Word", "1", "2");
+        rotatable = new Rotatable(Color.parseColor("#FFA036"), 2500, "Word", "1", "2");
         rotatable.setSize(25);
         rotatable.setTypeface(typeface);
         rotatable.setInterpolator(new AccelerateInterpolator());
-        rotatable.setAnimationDuration(500);
+        rotatable.setAnimationDuration(1500);
 
-        rotatable2 = new Rotatable(Color.parseColor("#123456"), 1000, "Word03", "Word04", "Word05");
+        rotatable2 = new Rotatable(Color.parseColor("#123456"), 1000, "cat", "dog", "hen");
         rotatable2.setSize(25);
         rotatable2.setTypeface(typeface);
         rotatable2.setInterpolator(new DecelerateInterpolator());
         rotatable2.setAnimationDuration(500);
 
-        rotatingTextWrapper.setContent("abc ? abc ?", rotatable, rotatable2);
+
+        rotatable3 = new Rotatable(Color.parseColor("#123456"), 1000, "4", "5", "6");
+        rotatable3.setSize(25);
+        rotatable3.setTypeface(typeface);
+        rotatable3.setInterpolator(new DecelerateInterpolator());
+        rotatable3.setAnimationDuration(500);
+
+        rotatingTextWrapper.setContent("?abc ? abc ?", rotatable, rotatable2,rotatable3);
 //        rotatingTextWrapper.setContent("? abc", rotatable);
 
     }

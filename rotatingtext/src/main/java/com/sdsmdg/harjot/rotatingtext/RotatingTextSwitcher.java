@@ -44,6 +44,7 @@ public class RotatingTextSwitcher extends TextView {
     private Disposable disposable;
 
     String currentText = "";
+    String oldText = "";
 
     static boolean isPaused = false;
 
@@ -83,6 +84,7 @@ public class RotatingTextSwitcher extends TextView {
         setText(rotatable.getLargestWord());
 //        setText("ritik");
         currentText = rotatable.getNextWord();
+        oldText = currentText;
 
         post(new Runnable() {
             @Override
@@ -141,14 +143,17 @@ public class RotatingTextSwitcher extends TextView {
                     public void run() {
                         Log.i("point rts116", Utils.REACHED);
                         if (isPaused) {
-                            Log.i("point rts118", Utils.REACHED);
+                            Log.i("point rts118", "paused");
                             pauseRender();
                         } else {
                             Log.i("point rts121", Utils.REACHED);
                             resumeRender();
                             animateInHorizontal();
                             animateOutHorizontal();
+                            oldText = currentText;
                             currentText = rotatable.getNextWord();
+                            Log.i("point rts122 current", oldText);
+                            Log.i("point rts122 current", currentText);
                         }
                     }
                 });
@@ -166,15 +171,17 @@ public class RotatingTextSwitcher extends TextView {
                 updatePaint();
                 rotatable.setUpdated(false);
             }
-            Log.i("point rts142", Utils.REACHED);
+            Log.i("point rts142 oldtext", oldText);
+            Log.i("point rts143 oldtext", currentText);
             String text = currentText;
+            String textOut = currentText;
             if (rotatable.getPathIn() != null) {
                 Log.i("point rts146", Utils.REACHED);
                 canvas.drawTextOnPath(text, rotatable.getPathIn(), 0.0f, 0.0f, paint);
             }
             if (rotatable.getPathOut() != null) {
 
-                canvas.drawTextOnPath(rotatable.getPreviousWord(), rotatable.getPathOut(), 0.0f, 0.0f, paint);
+                canvas.drawTextOnPath(oldText, rotatable.getPathOut(), 0.0f, 0.0f, paint);
             }
         }
     }
@@ -208,14 +215,14 @@ public class RotatingTextSwitcher extends TextView {
 //        }
 //        animatorin.end();
 //        isRotatableSet=false;
-        isPaused=true;
+        isPaused = true;
     }
 
     public static void resumeAnimationIn() {
 //        isRotatableSet=true;
         Log.i("point 173 resumeanime", Utils.REACHED);
 
-        isPaused=false;
+        isPaused = false;
 
     }
 
@@ -326,7 +333,7 @@ public class RotatingTextSwitcher extends TextView {
     void pauseRender() {
         if (disposable != null && !disposable.isDisposed()) {
             disposable.dispose();
-            disposable=null;
+            disposable = null;
         }
     }
 
@@ -369,14 +376,17 @@ public class RotatingTextSwitcher extends TextView {
                     @Override
                     public void run() {
                         if (isPaused) {
-                            Log.i("point rts330", Utils.REACHED);
+                            Log.i("point rts330", "paused");
                             pauseRender();
                         } else {
                             Log.i("point rts333", Utils.REACHED);
                             resumeRender();
                             animateInHorizontal();
-//                            animateOutHorizontal();
+                            animateOutHorizontal();
+                            oldText = currentText;
                             currentText = rotatable.getNextWord();
+                            Log.i("point rts338 current", oldText);
+                            Log.i("point rts339 current", currentText);
                         }
                     }
                 });
