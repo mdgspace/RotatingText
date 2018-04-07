@@ -8,7 +8,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Utils {
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
-    public static final String TEXT = "ritik";
+    public static final boolean POSITION_ENTERING = true;
+    public static final boolean POSITION_WAITING = true;
+    public static final boolean POSITION_LEAVING = false;
     public static final String REACHED = "reached";
 
     public static int generateViewId() {

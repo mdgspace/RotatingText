@@ -106,8 +106,7 @@ public class RotatingTextWrapper extends RelativeLayout {
             for (int i = 0; i < array.length; i++) {
                 Log.i("point rtw104", Utils.REACHED);
                 final TextView textView = new TextView(context);
-                final RotatingTextSwitcher textSwitcher = new RotatingTextSwitcher(context);
-                switcherList.add(textSwitcher);
+
 
                 textView.setText(array[i]);
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
@@ -131,6 +130,8 @@ public class RotatingTextWrapper extends RelativeLayout {
                 addViewInLayout(textView, -1, lp);
 
                 if (i < rotatableList.size()) {
+                    final RotatingTextSwitcher textSwitcher = new RotatingTextSwitcher(context);
+                    switcherList.add(textSwitcher);
                     textSwitcher.setRotatable(rotatableList.get(i));
                     Log.i("point rtw131", i + "");
 

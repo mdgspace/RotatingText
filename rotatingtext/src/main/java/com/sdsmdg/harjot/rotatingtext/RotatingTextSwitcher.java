@@ -1,5 +1,7 @@
 package com.sdsmdg.harjot.rotatingtext;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
@@ -46,6 +48,9 @@ public class RotatingTextSwitcher extends TextView {
     String currentText = "";
     String oldText = "";
 
+    int countAnimation=0;
+    boolean animationRunning=false;
+
     static boolean isPaused = false;
 
     static ValueAnimator animatorin;
@@ -81,7 +86,7 @@ public class RotatingTextSwitcher extends TextView {
             paint.setTypeface(rotatable.getTypeface());
         }
 
-        setText(rotatable.getLargestWord());
+        setText(rotatable.getLargestWordWithSpace());
 //        setText("ritik");
         currentText = rotatable.getNextWord();
         oldText = currentText;
@@ -147,13 +152,14 @@ public class RotatingTextSwitcher extends TextView {
                             pauseRender();
                         } else {
                             Log.i("point rts121", Utils.REACHED);
+                            animationRunning=true;
                             resumeRender();
                             animateInHorizontal();
                             animateOutHorizontal();
                             oldText = currentText;
                             currentText = rotatable.getNextWord();
-                            Log.i("point rts122 current", oldText);
-                            Log.i("point rts122 current", currentText);
+                            Log.i("point rts122 ", oldText);
+                            Log.i("point rts122 ", currentText);
                         }
                     }
                 });
@@ -171,8 +177,8 @@ public class RotatingTextSwitcher extends TextView {
                 updatePaint();
                 rotatable.setUpdated(false);
             }
-            Log.i("point rts142 oldtext", oldText);
-            Log.i("point rts143 oldtext", currentText);
+//            Log.i("point rts142 oldtext", oldText);
+//            Log.i("point rts143 oldtext", currentText);
             String text = currentText;
             String textOut = currentText;
             if (rotatable.getPathIn() != null) {
@@ -199,6 +205,14 @@ public class RotatingTextSwitcher extends TextView {
                 pathIn.moveTo(0.0f, (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
                 pathIn.lineTo(getWidth(), (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
                 rotatable.setPathIn(pathIn);
+            }
+        });
+        animatorin.addListener(new AnimatorListenerAdapter()
+        {
+            @Override
+            public void onAnimationEnd(Animator animation)
+            {
+                animationRunning=false;
             }
         });
         animatorin.setInterpolator(rotatable.getInterpolator());
@@ -380,13 +394,15 @@ public class RotatingTextSwitcher extends TextView {
                             pauseRender();
                         } else {
                             Log.i("point rts333", Utils.REACHED);
+                            oldText = currentText;
+                            currentText = rotatable.getNextWord();
+                            Log.i("point rts338", oldText);
+                            Log.i("point rts339", currentText);
+                            animationRunning=true;
                             resumeRender();
                             animateInHorizontal();
                             animateOutHorizontal();
-                            oldText = currentText;
-                            currentText = rotatable.getNextWord();
-                            Log.i("point rts338 current", oldText);
-                            Log.i("point rts339 current", currentText);
+
                         }
                     }
                 });

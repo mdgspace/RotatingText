@@ -1,11 +1,30 @@
 package com.sdsmdg.harjot.rotatingtext;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.media.MediaPlayer;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.TextView;
 
 import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
+
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
+import static com.sdsmdg.harjot.rotatingtext.utils.Utils.POSITION_ENTERING;
+import static com.sdsmdg.harjot.rotatingtext.utils.Utils.POSITION_LEAVING;
 
 public class UpdateRotatable extends RotatingTextWrapper {
 
@@ -31,18 +50,105 @@ public class UpdateRotatable extends RotatingTextWrapper {
         this.context = context;
     }
 
-    private static void lastRotatable(Rotatable toChange, String text) {
-        RotatingTextSwitcher switcher = RotatingTextWrapper.switcherList.get(rotatablePosition);
-        //provides space
-        switcher.setText(text);
-    }
 
     public void newWord(String... newList) {
         newWordArray = newList;
-//        if (rotatablePosition == RotatingTextWrapper.rotatableList.size()-1) {
-        toChange.setTextAt(2, "ritikkumaragarwal");
-        lastRotatable(toChange, toChange.getLargestWord());
-//        }
+        RotatingTextSwitcher switcher = RotatingTextWrapper.switcherList.get(rotatablePosition);
+
+        Paint paint = new Paint();
+        paint.setTextSize(20);
+        paint.setTypeface(toChange.getTypeface());
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.FILL);
+        Rect result = new Rect();
+
+        paint.getTextBounds(toChange.getLargestWord(), 0, toChange.getLargestWord().length(), result);
+
+        Log.i("point ur56", "initial: " + result.width());
+        float originalSize = result.width();
+
+        String toDeleteWord = toChange.getTextAt(0);
+
+        paint = new Paint();
+        paint.setTextSize(20);
+        paint.setTypeface(toChange.getTypeface());
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.FILL);
+        result = new Rect();
+        paint.getTextBounds(toChange.peekLargestWord(0, "cse"), 0, toChange.peekLargestWord(0, "cse").length(), result);
+        Log.i("point ur56", "final: " + result.width());
+        float finalSize = result.width();
+
+        Log.i("point ur69", toDeleteWord);
+        Log.i("point ur70", toChange.getPreviousWord());
+        Log.i("point ur71", toChange.getCurrentWord());
+        if (finalSize < originalSize) {
+
+//we are replacing the largest word with a smaller new word
+            if (toChange.getPreviousWord().equals(toDeleteWord)) {
+                waitForAnimationComplete(toChange.getAnimationDuration(), toChange.getLargestWord(), POSITION_LEAVING, switcher);
+            } else if (toChange.getCurrentWord().equals(toDeleteWord)) {
+                waitForAnimationComplete(toChange.getAnimationDuration() + toChange.getUpdateDuration(), toChange.getLargestWord(), POSITION_ENTERING, switcher);
+
+            } else {
+                toChange.setTextAt(0, "cse");
+                //provides space
+                switcher.setText(toChange.getLargestWordWithSpace());
+            }
+        } else {
+            toChange.setTextAt(0, "cse");
+            //provides space
+            switcher.setText(toChange.getLargestWordWithSpace());
+        }
+    }
+
+    private void waitForAnimationComplete(int totalTime, final String oldLargestWord, boolean position, final RotatingTextSwitcher switcher) {
+
+        if (position == POSITION_ENTERING) {
+            new CountDownTimer(totalTime + 23, 22) {
+
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    Log.i("point ur142", switcher.animationRunning + "");
+                    Log.i("point ur143", oldLargestWord + "");
+                    Log.i("point ur143", toChange.getCurrentWord() + "");
+                    if (!switcher.animationRunning && !toChange.getCurrentWord().equals(oldLargestWord)) {
+                        toChange.setTextAt(0, "cse");
+//                //provides space
+                        switcher.setText(toChange.getLargestWordWithSpace());
+                    }
+                }
+
+                @Override
+                public void onFinish() {
+                    Log.i("point ur154", "finished");
+                }
+            }.start();
+        } else {
+            new CountDownTimer(totalTime + 23, 22) {
+
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    Log.i("point ur162", switcher.animationRunning + "");
+                    Log.i("point ur163", oldLargestWord + "");
+                    Log.i("point ur164", toChange.getPreviousWord() + "");
+                    if (!switcher.animationRunning) {
+                        toChange.setTextAt(0, "cse");
+//                //provides space
+                        switcher.setText(toChange.getLargestWordWithSpace());
+                    }
+                }
+
+                @Override
+                public void onFinish() {
+                    Log.i("point ur174", "finished");
+                }
+            }.start();
+        }
+    }
+
+    public void test() {
+
     }
 
     public void fitScreen(RotatingTextWrapper rotator) {
@@ -136,5 +242,7 @@ public class UpdateRotatable extends RotatingTextWrapper {
         } else if (paddingRight != 0) {
             wrapper.setPadding(0, 0, (int) (paddingRight / factor), 0);
         }
+
+        wrapper.setSize((int) (wrapper.getSize() / factor));
     }
 }

@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
+import java.util.Arrays;
+
 /**
  * Created by Harjot on 01-May-17.
  */
@@ -79,6 +81,16 @@ public class Rotatable {
         }
     }
 
+    public String[] peekNewTextAt(int index, String word) {
+        if (index >= text.length) {
+            throw new ArrayIndexOutOfBoundsException("index exceeded number of words!!");
+        } else {
+            String[] newSet = Arrays.copyOf(text, text.length);
+            newSet[index] = word;
+            return newSet;
+        }
+    }
+
     public int getUpdateDuration() {
         return updateDuration;
     }
@@ -95,11 +107,16 @@ public class Rotatable {
     }
 
     public String peekNextWord() {
+        //doesnot increases currentwordnumber
         return text[(currentWordNumber + 1) % text.length];
     }
 
     public String getNextWord() {
         return text[getNextWordNumber()];
+    }
+
+    public String getCurrentWord() {
+        return text[currentWordNumber];
     }
 
     public String getPreviousWord() {
@@ -176,6 +193,27 @@ public class Rotatable {
                 largest = s;
             }
         }
+        return largest;
+    }
+
+    public String getLargestWordWithSpace() {
+        String largest = "";
+        for (String s : text) {
+            if (s.length() > largest.length()) {
+                largest = s;
+            }
+        }
+        return largest + " ";
+    }
+
+    public String peekLargestWord(int index, String newWord) {
+        String[] newSet = peekNewTextAt(index, newWord);
+        String largest = "";
+        for (String s : newSet) {
+            if (s.length() > largest.length()) {
+                largest = s;
+            }
+        }
         return largest + " ";
     }
 
@@ -204,12 +242,4 @@ public class Rotatable {
         this.FPS = FPS;
     }
 
-//    public void newWord(String... newList) {
-//        Log.i("point r208", "reached");
-////        Log.i("point ur77", switcher.toString());
-////        newWordArray = newList;
-//        setTextAt(2, "ritik");
-////        toChange.setText(newList);
-////        RotatingTextSwitcher switcher=RotatingTextWrapper.switcherList.get(rotatablePosition);
-//    }
 }
