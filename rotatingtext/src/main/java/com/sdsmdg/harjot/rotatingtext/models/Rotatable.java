@@ -3,7 +3,6 @@ package com.sdsmdg.harjot.rotatingtext.models;
 import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 

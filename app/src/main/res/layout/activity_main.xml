@@ -14,40 +14,34 @@
         android:layout_marginRight="10dp"
         android:paddingRight="20dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="editRotatable"
-        android:text="edit rotatable" />
+        <!--<Button -->
+            <!--android:id="@+id/firstButton"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:onClick="fitScreen"-->
+        <!--android:text="fit screen" />-->
 
-    <Button
+    <EditText
+        android:id="@+id/addWord"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal"
-        android:onClick="resize"
-        android:text="resize/2" />
+        android:hint="word to 1st rotatable"
+        />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="252dp"
-        android:onClick="fitScreen"
-        android:text="fit screen" />
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/addWord"
+        android:layout_width="60dp"
+        android:layout_height="50dp">
 
+    </Spinner>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="500dp"
-        android:layout_marginTop="50dp"
-        android:onClick="cancelRotation"
-        android:text="pause" />
+        android:layout_toRightOf="@id/spinner"
+        android:onClick="addWord"
+        android:text="add"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:onClick="resumeRotation"
-        android:text="resume" />
 </RelativeLayout>
