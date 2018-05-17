@@ -58,6 +58,7 @@ public class RotatingTextWrapper extends RelativeLayout {
         switcherList = new ArrayList<>();
         Collections.addAll(rotatableList, rotatables);
         isContentSet = true;
+        requestLayout();
     }
 
     public void setContent(String text, ArrayList<Rotatable> rotatables) {
@@ -65,6 +66,7 @@ public class RotatingTextWrapper extends RelativeLayout {
         rotatableList = new ArrayList<>(rotatables);
         switcherList = new ArrayList<>();
         isContentSet = true;
+        requestLayout();
     }
 
     @Override
@@ -73,6 +75,7 @@ public class RotatingTextWrapper extends RelativeLayout {
         super.onLayout(changed, l, t, r, b);
 
         if (isContentSet) {
+            removeAllViews();
             String[] array = text.split("\\?");
 
             if (array.length == 0) {
@@ -94,7 +97,7 @@ public class RotatingTextWrapper extends RelativeLayout {
                 lp.addRule(CENTER_VERTICAL);
                 lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 
-                addViewInLayout(textSwitcher, -1, lp);
+                addView(textSwitcher, lp);
 
             }
 
@@ -121,7 +124,7 @@ public class RotatingTextWrapper extends RelativeLayout {
                 else
                     lp.addRule(RIGHT_OF, prevId);
 
-                addViewInLayout(textView, -1, lp);
+                addView(textView, lp);
 
                 if (i < rotatableList.size()) {
                     textSwitcher.setRotatable(rotatableList.get(i));
@@ -137,14 +140,12 @@ public class RotatingTextWrapper extends RelativeLayout {
                     lp.addRule(CENTER_VERTICAL);
                     lp.addRule(RIGHT_OF, textView.getId());
 
-                    addViewInLayout(textSwitcher, -1, lp);
+                    addView(textSwitcher, lp);
                 }
             }
             isContentSet = false;
         }
-        requestLayout();
     }
-
 
     public Typeface getTypeface() {
         return typeface;

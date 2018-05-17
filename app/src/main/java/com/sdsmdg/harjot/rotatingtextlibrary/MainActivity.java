@@ -3,10 +3,12 @@ package com.sdsmdg.harjot.rotatingtextlibrary;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.TextView;
+import android.widget.Button;
 
 import com.sdsmdg.harjot.rotatingtext.RotatingTextWrapper;
 import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
@@ -15,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
     RotatingTextWrapper rotatingTextWrapper;
     Rotatable rotatable, rotatable2;
+
+    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,42 @@ public class MainActivity extends AppCompatActivity {
         rotatable2.setAnimationDuration(500);
 
         rotatingTextWrapper.setContent("abc ? abc ?", rotatable, rotatable2);
+
+        button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                rotatingTextWrapper.requestLayout();
+                rotatingTextWrapper.pause(0);
+            }
+        });
+
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                MainActivity.this.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        rotatingTextWrapper.pause(0);
+//                    }
+//                });
+//            }
+//        }, 6000);
+//
+//        Handler handler2 = new Handler();
+//        handler2.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                MainActivity.this.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        rotatingTextWrapper.resume(0);
+//                        rotatingTextWrapper.pause(1);
+//                    }
+//                });
+//            }
+//        }, 10000);
 
     }
 }
