@@ -14,14 +14,6 @@
         android:layout_marginRight="10dp"
         android:paddingRight="20dp" />
 
-        <!--<Button -->
-            <!--android:id="@+id/firstButton"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:onClick="fitScreen"-->
-        <!--android:text="fit screen" />-->
-
     <EditText
         android:id="@+id/addWord"
         android:layout_width="wrap_content"

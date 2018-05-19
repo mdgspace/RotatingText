@@ -79,7 +79,6 @@ public class RotatingTextSwitcher extends TextView {
         }
 
         setText(rotatable.getLargestWordWithSpace());
-//        setText("ritik");
         currentText = rotatable.getNextWord();
         oldText = currentText;
 
@@ -144,7 +143,7 @@ public class RotatingTextSwitcher extends TextView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Log.i("point", "onDraw");
+//        Log.i("point", "onDraw");
         if (isRotatableSet) {
             if (rotatable.isUpdated()) {
                 updatePaint();

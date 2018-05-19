@@ -1,9 +1,16 @@
 package com.sdsmdg.harjot.rotatingtext;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.os.CountDownTimer;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -35,6 +42,9 @@ public class RotatingTextWrapper extends RelativeLayout {
 
     Typeface typeface;
     int size = 24;
+
+    private double changedSize = 0;
+    private boolean adaptable = false;
 
     List<RotatingTextSwitcher> switcherList;
 
@@ -147,6 +157,193 @@ public class RotatingTextWrapper extends RelativeLayout {
             isContentSet = false;
         }
         requestLayout();
+    }
+
+    public void addWord(int rotatableIndex, int wordIndex, String newWord) {
+        if (!TextUtils.isEmpty(newWord) && (!newWord.contains("\n"))) {
+
+            RotatingTextSwitcher switcher = switcherList.get(rotatableIndex);
+            Rotatable toChange = rotatableList.get(rotatableIndex);
+
+            Paint paint = new Paint();
+            paint.setTextSize(toChange.getSize() * getContext().getResources().getDisplayMetrics().density);
+            paint.setTypeface(toChange.getTypeface());
+            paint.setColor(Color.BLACK);
+            paint.setStyle(Paint.Style.FILL);
+            Rect result = new Rect();
+
+            paint.getTextBounds(toChange.getLargestWord(), 0, toChange.getLargestWord().length(), result);
+
+            double originalSize = result.width();
+
+            String toDeleteWord = toChange.getTextAt(wordIndex);
+
+            paint = new Paint();
+            paint.setTextSize(toChange.getSize() * getContext().getResources().getDisplayMetrics().density);
+            paint.setTypeface(toChange.getTypeface());
+            paint.setColor(Color.BLACK);
+            paint.setStyle(Paint.Style.FILL);
+            result = new Rect();
+            paint.getTextBounds(toChange.peekLargestWord(wordIndex, newWord), 0, toChange.peekLargestWord(wordIndex, newWord).length(), result);
+            double finalSize = result.width();
+
+            Log.i("point toDeleteWord", toDeleteWord);
+            Log.i("point PreviousWord", toChange.getPreviousWord());
+            Log.i("point CurrentWord", toChange.getCurrentWord());
+
+            if (finalSize < originalSize) {
+
+                //we are replacing the largest word with a smaller new word
+                if (toChange.getPreviousWord().equals(toDeleteWord)) {
+                    waitForAnimationComplete(toChange.getAnimationDuration(), toChange.getLargestWord(), false, toChange, switcher, wordIndex, newWord);
+                } else if (toChange.getCurrentWord().equals(toDeleteWord)) {
+                    waitForAnimationComplete(toChange.getAnimationDuration() + toChange.getUpdateDuration(), toChange.getLargestWord(), true, toChange, switcher, wordIndex, newWord);
+
+                } else {
+                    toChange.setTextAt(wordIndex, newWord);
+                    switcher.setText(toChange.getLargestWordWithSpace()); //provides space
+
+                    if (adaptable && getSize() != (int) changedSize && changedSize != 0) {
+
+                        if ((double) availablePixels() / (double) findRequiredPixel() < getSize() / changedSize)
+                            reduceSize((double) findRequiredPixel() / (double) availablePixels());
+                        else reduceSize(changedSize / getSize());
+                    }
+                }
+            } else {
+                toChange.setTextAt(wordIndex, newWord);
+
+                switcher.setText(toChange.getLargestWordWithSpace());//provides space
+                if (adaptable && finalSize != originalSize) {
+                    int actualPixel = findRequiredPixel();
+
+                    if (adaptable && actualPixel > availablePixels()) {
+                        reduceSize((double) actualPixel / (double) availablePixels());
+                    }
+                }
+            }
+        }
+    }
+
+    private void waitForAnimationComplete(int totalTime, final String oldLargestWord, boolean positionEntering, final Rotatable toChange, final RotatingTextSwitcher switcher, final int index, final String newWord) {
+        //positionEntering is true if word is animating in and false if animating out
+        if (positionEntering) {
+            new CountDownTimer(totalTime + 23, 22) {
+
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    if (!switcher.animationRunning && !toChange.getCurrentWord().equals(oldLargestWord)) {
+                        toChange.setTextAt(index, newWord);
+                        //provides space
+                        switcher.setText(toChange.getLargestWordWithSpace());
+                        if (adaptable && getSize() != (int) changedSize && changedSize != 0) {
+                            if ((double) availablePixels() / (double) findRequiredPixel() < getSize() / changedSize)
+                                reduceSize((double) findRequiredPixel() / (double) availablePixels());
+                            else reduceSize(changedSize / getSize());
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFinish() {
+                }
+            }.start();
+        } else {
+            new CountDownTimer(totalTime + 23, 22) {
+
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    if (!switcher.animationRunning) {
+                        toChange.setTextAt(index, newWord);
+                        //provides space
+                        switcher.setText(toChange.getLargestWordWithSpace());
+                        if (adaptable && getSize() != (int) changedSize && changedSize != 0) {
+                            if ((double) availablePixels() / (double) findRequiredPixel() < getSize() / changedSize)
+                                reduceSize((double) findRequiredPixel() / (double) availablePixels());
+                            else reduceSize(changedSize / getSize());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFinish() {
+                }
+            }.start();
+        }
+    }
+
+    private int availablePixels() {
+        //returns total pixel available with parent
+        View asd = (View) getParent();
+        return asd.getMeasuredWidth() - asd.getPaddingLeft() - asd.getPaddingRight();
+    }
+
+    private int findRequiredPixel() {
+        //returns observed wrapper size on screen including padding and margin in pixels
+        int actualPixel = 0;
+        MarginLayoutParams margins;
+
+        for (RotatingTextSwitcher switcher : switcherList) {
+            switcher.measure(0, 0);
+            actualPixel += switcher.getMeasuredWidth();
+        }
+
+        for (TextView id : textViews) {
+            id.measure(0, 0);
+            actualPixel += id.getMeasuredWidth();
+        }
+
+        margins = MarginLayoutParams.class.cast(getLayoutParams());
+        actualPixel += margins.leftMargin;
+        actualPixel += margins.rightMargin;
+        actualPixel += getPaddingLeft();
+        actualPixel += getPaddingRight();
+        return actualPixel;
+    }
+
+    public void reduceSize(double factor) {
+        double initialSizeWrapper = (changedSize == 0) ? getSize() : changedSize;
+
+        double newWrapperSize = (double) initialSizeWrapper / factor;
+
+        for (RotatingTextSwitcher switcher : switcherList) {
+            double initialSizeRotatable = switcher.getTextSize();
+
+            double newRotatableSize = initialSizeRotatable / factor;
+            switcher.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) newRotatableSize);
+
+        }
+        for (TextView id : textViews) {
+            id.setTextSize((float) newWrapperSize);
+
+        }
+        MarginLayoutParams margins = MarginLayoutParams.class.cast(getLayoutParams());
+
+        margins.leftMargin = (int) (margins.leftMargin / factor);
+        margins.rightMargin = (int) (margins.rightMargin / factor);
+        int paddingLeft = getPaddingLeft();
+        int paddingRight = getPaddingRight();
+
+        if (paddingLeft != 0) {
+            if (paddingRight == 0)
+                setPadding((int) (paddingLeft / factor), 0, 0, 0);
+            else
+                setPadding((int) ((paddingLeft / factor)), 0, (int) ((paddingRight / factor)), 0);
+
+        } else if (paddingRight != 0) {
+            setPadding(0, 0, (int) (paddingRight / factor), 0);
+        }
+
+        changedSize=(changedSize==0)?getSize() / factor:changedSize / factor;
+
+        if (adaptable && findRequiredPixel() > availablePixels()) {
+            reduceSize((double) findRequiredPixel() / (double) availablePixels());
+        }
+    }
+
+    public void setAdaptable(boolean adaptable) {
+        this.adaptable = adaptable;
     }
 
     public void shiftRotatable(int index) {

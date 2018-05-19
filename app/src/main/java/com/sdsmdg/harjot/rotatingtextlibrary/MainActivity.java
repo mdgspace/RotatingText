@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.sdsmdg.harjot.rotatingtext.RotatingTextWrapper;
-import com.sdsmdg.harjot.rotatingtext.UpdateRotatable;
 import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
 
 import java.util.ArrayList;
@@ -76,12 +75,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void addWord(View view) {
-        UpdateRotatable updateRotatable = new UpdateRotatable(rotatable, rotatingTextWrapper);
-        String newWord=e1.getText().toString();
+        String newWord = e1.getText().toString();
         if (TextUtils.isEmpty(newWord)) e1.setText("can't be left empty");
-        else if(newWord.contains("\n")) e1.setText("one line only");
-        else
-            updateRotatable.newWord(newWord, (int) s1.getSelectedItem()-1);
+        else if (newWord.contains("\n")) e1.setText("one line only");
+        else {
+            rotatingTextWrapper.setAdaptable(true);
+            rotatingTextWrapper.addWord(0, (int) s1.getSelectedItem() - 1, newWord);
+        }
+
     }
 
 }
