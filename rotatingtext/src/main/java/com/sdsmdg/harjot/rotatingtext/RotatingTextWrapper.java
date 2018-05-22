@@ -79,12 +79,11 @@ public class RotatingTextWrapper extends RelativeLayout {
         isContentSet = true;
     }
 
+
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-
-        super.onLayout(changed, l, t, r, b);
-
-        if (isContentSet) {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+            if (isContentSet) {
             String[] array = text.split("\\?");
 
             if (array.length == 0) {
