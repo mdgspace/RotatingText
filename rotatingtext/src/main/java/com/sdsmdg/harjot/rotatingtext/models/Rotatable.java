@@ -60,6 +60,10 @@ public class Rotatable {
         return text;
     }
 
+    public int getWordCount() {
+        return text.length;
+    }
+
     public void setText(String... text) {
         this.text = text;
     }

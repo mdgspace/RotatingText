@@ -187,19 +187,27 @@ public class RotatingTextWrapper extends RelativeLayout {
             paint.getTextBounds(toChange.peekLargestWord(wordIndex, newWord), 0, toChange.peekLargestWord(wordIndex, newWord).length(), result);
             double finalSize = result.width();
 
-            Log.i("point toDeleteWord", toDeleteWord);
-            Log.i("point PreviousWord", toChange.getPreviousWord());
-            Log.i("point CurrentWord", toChange.getCurrentWord());
+//            Log.i("point toDeleteWord", toDeleteWord);
+//            Log.i("point PreviousWord", toChange.getPreviousWord());
+//            Log.i("point CurrentWord", toChange.getCurrentWord());
+//            Log.i("point finalSize", finalSize + "");
+//            Log.i("point originalSize", originalSize + "");
 
             if (finalSize < originalSize) {
-
                 //we are replacing the largest word with a smaller new word
-                if (toChange.getPreviousWord().equals(toDeleteWord)) {
-                    waitForAnimationComplete(toChange.getAnimationDuration(), toChange.getLargestWord(), false, toChange, switcher, wordIndex, newWord);
-                } else if (toChange.getCurrentWord().equals(toDeleteWord)) {
-                    waitForAnimationComplete(toChange.getAnimationDuration() + toChange.getUpdateDuration(), toChange.getLargestWord(), true, toChange, switcher, wordIndex, newWord);
+
+                if (toChange.getCurrentWord().equals(toDeleteWord) && switcher.animationRunning) {
+                    //largest word is entering
+                    singleAnimationComplete(toChange.getAnimationDuration() + toChange.getUpdateDuration(), toChange.getUpdateDuration(), toChange, switcher, wordIndex, newWord);
+                } else if (toChange.getCurrentWord().equals(toDeleteWord) && !switcher.animationRunning) {
+                    //largest word is the screen waiting for going out
+                    singleAnimationComplete(toChange.getUpdateDuration(), toChange.getUpdateDuration() - toChange.getAnimationDuration(), toChange, switcher, wordIndex, newWord);
+                } else if (toChange.getPreviousWord().equals(toDeleteWord)) {
+                    // largest word is leaving
+                    singleAnimationComplete(toChange.getAnimationDuration(), 0, toChange, switcher, wordIndex, newWord);
 
                 } else {
+                    //largest word is not in the screen
                     toChange.setTextAt(wordIndex, newWord);
                     switcher.setText(toChange.getLargestWordWithSpace()); //provides space
 
@@ -225,52 +233,26 @@ public class RotatingTextWrapper extends RelativeLayout {
         }
     }
 
-    private void waitForAnimationComplete(int totalTime, final String oldLargestWord, boolean positionEntering, final Rotatable toChange, final RotatingTextSwitcher switcher, final int index, final String newWord) {
-        //positionEntering is true if word is animating in and false if animating out
-        if (positionEntering) {
-            new CountDownTimer(totalTime + 23, 22) {
+    private void singleAnimationComplete(final int totalTime, final int startTime, final Rotatable toChange, final RotatingTextSwitcher switcher, final int index, final String newWord) {
+        toChange.setTextAt(index, newWord);
 
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    if (!switcher.animationRunning && !toChange.getCurrentWord().equals(oldLargestWord)) {
-                        toChange.setTextAt(index, newWord);
-                        //provides space
-                        switcher.setText(toChange.getLargestWordWithSpace());
-                        if (adaptable && getSize() != (int) changedSize && changedSize != 0) {
-                            if ((double) availablePixels() / (double) findRequiredPixel() < getSize() / changedSize)
-                                reduceSize((double) findRequiredPixel() / (double) availablePixels());
-                            else reduceSize(changedSize / getSize());
-                        }
-
+        new CountDownTimer(totalTime + 43, 21) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if (totalTime - millisUntilFinished > startTime - 40 && !switcher.animationRunning) {
+                    switcher.setText(toChange.getLargestWordWithSpace());
+                    if (adaptable && getSize() != (int) changedSize && changedSize != 0) {
+                        if ((double) availablePixels() / (double) findRequiredPixel() < getSize() / changedSize)
+                            reduceSize((double) findRequiredPixel() / (double) availablePixels());
+                        else reduceSize(changedSize / getSize());
                     }
                 }
+            }
 
-                @Override
-                public void onFinish() {
-                }
-            }.start();
-        } else {
-            new CountDownTimer(totalTime + 23, 22) {
-
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    if (!switcher.animationRunning) {
-                        toChange.setTextAt(index, newWord);
-                        //provides space
-                        switcher.setText(toChange.getLargestWordWithSpace());
-                        if (adaptable && getSize() != (int) changedSize && changedSize != 0) {
-                            if ((double) availablePixels() / (double) findRequiredPixel() < getSize() / changedSize)
-                                reduceSize((double) findRequiredPixel() / (double) availablePixels());
-                            else reduceSize(changedSize / getSize());
-                        }
-                    }
-                }
-
-                @Override
-                public void onFinish() {
-                }
-            }.start();
-        }
+            @Override
+            public void onFinish() {
+            }
+        }.start();
     }
 
     private int availablePixels() {
@@ -335,7 +317,7 @@ public class RotatingTextWrapper extends RelativeLayout {
             setPadding(0, 0, (int) (paddingRight / factor), 0);
         }
 
-        changedSize=(changedSize==0)?getSize() / factor:changedSize / factor;
+        changedSize = (changedSize == 0) ? getSize() / factor : changedSize / factor;
 
         if (adaptable && findRequiredPixel() > availablePixels()) {
             reduceSize((double) findRequiredPixel() / (double) availablePixels());

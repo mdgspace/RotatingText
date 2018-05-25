@@ -109,7 +109,7 @@ public class RotatingTextSwitcher extends TextView {
                     .subscribe(new Consumer<Long>() {
                         @Override
                         public void accept(Long aLong) throws Exception {
-                            Log.i("knock", aLong + "");
+//                            Log.i("knock", aLong + "");
                             invalidate();
                             //calls on draw
                         }
