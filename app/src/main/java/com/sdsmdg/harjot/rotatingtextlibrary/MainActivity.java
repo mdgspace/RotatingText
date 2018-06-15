@@ -74,6 +74,18 @@ public class MainActivity extends AppCompatActivity {
         s1.setSelection(0);
 
         e1 = (EditText) findViewById(R.id.addWord);
+
+        button = findViewById(R.id.pause_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!rotatingTextWrapper.getSwitcherList().get(0).isPaused()) {
+                    rotatingTextWrapper.pause(0);
+                } else {
+                    rotatingTextWrapper.resume(0);
+                }
+            }
+        });
     }
 
 
@@ -85,18 +97,6 @@ public class MainActivity extends AppCompatActivity {
             rotatingTextWrapper.setAdaptable(true);
             rotatingTextWrapper.addWord(0, (int) s1.getSelectedItem() - 1, newWord);
         }
-
-        button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!rotatingTextWrapper.getSwitcherList().get(0).isPaused()) {
-                    rotatingTextWrapper.pause(0);
-                } else {
-                    rotatingTextWrapper.resume(0);
-                }
-            }
-        });
     }
 
 }
