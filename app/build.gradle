@@ -20,6 +20,6 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:27.0.2'
-    compile project(":rotatingtext")
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation project(":rotatingtext")
 }
