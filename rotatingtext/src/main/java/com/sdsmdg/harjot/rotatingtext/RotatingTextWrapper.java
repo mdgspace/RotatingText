@@ -231,6 +231,17 @@ public class RotatingTextWrapper extends RelativeLayout {
     private void singleAnimationComplete(final int totalTime, final int startTime, final Rotatable toChange, final RotatingTextSwitcher switcher, final int index, final String newWord) {
         toChange.setTextAt(index, newWord);
 
+        // here 40 take care for the average delay from the request to the time we get the first Tick
+        // and 21 is just a perfect time-period to make a tick (and can be safely assumed to be assumed to be
+        // smaller than AnimationDuration)
+        // and 43 is added to get 2 extra ticks to safely counter terminal cases!
+
+        //indeed:
+        /**
+         * There is so much number hackery in here.
+         * Number fishing is HOW YOU WIN AT LIFE. -- paullewis :)
+         * **/
+
         new CountDownTimer(totalTime + 43, 21) {
             @Override
             public void onTick(long millisUntilFinished) {
