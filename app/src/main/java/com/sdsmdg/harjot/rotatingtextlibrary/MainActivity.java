@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         else if (newWord.contains("\n")) e1.setText("one line only");
         else {
             rotatingTextWrapper.setAdaptable(true);
-            rotatingTextWrapper.addWord(0, (int) s1.getSelectedItem() - 1, newWord);
+            rotatingTextWrapper.replaceWord(0, (int) s1.getSelectedItem() - 1, newWord);
         }
     }
 

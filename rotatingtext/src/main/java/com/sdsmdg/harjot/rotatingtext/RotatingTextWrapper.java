@@ -160,7 +160,7 @@ public class RotatingTextWrapper extends RelativeLayout {
         }
     }
 
-    public void addWord(int rotatableIndex, int wordIndex, String newWord) {
+    public void replaceWord(int rotatableIndex, int wordIndex, String newWord) {
         if (!TextUtils.isEmpty(newWord) && (!newWord.contains("\n"))) {
 
             RotatingTextSwitcher switcher = switcherList.get(rotatableIndex);
@@ -187,12 +187,6 @@ public class RotatingTextWrapper extends RelativeLayout {
             result = new Rect();
             paint.getTextBounds(toChange.peekLargestWord(wordIndex, newWord), 0, toChange.peekLargestWord(wordIndex, newWord).length(), result);
             double finalSize = result.width();
-
-//            Log.i("point toDeleteWord", toDeleteWord);
-//            Log.i("point PreviousWord", toChange.getPreviousWord());
-//            Log.i("point CurrentWord", toChange.getCurrentWord());
-//            Log.i("point finalSize", finalSize + "");
-//            Log.i("point originalSize", originalSize + "");
 
             if (finalSize < originalSize) {
                 //we are replacing the largest word with a smaller new word
@@ -258,8 +252,8 @@ public class RotatingTextWrapper extends RelativeLayout {
 
     private int availablePixels() {
         //returns total pixel available with parent
-        View asd = (View) getParent();
-        return asd.getMeasuredWidth() - asd.getPaddingLeft() - asd.getPaddingRight();
+        View parent = (View) getParent();
+        return parent.getMeasuredWidth() - parent.getPaddingLeft() - parent.getPaddingRight();
     }
 
     private int findRequiredPixel() {
