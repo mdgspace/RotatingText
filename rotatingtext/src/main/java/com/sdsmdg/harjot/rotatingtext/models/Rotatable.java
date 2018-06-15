@@ -6,6 +6,8 @@ import android.graphics.Typeface;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
+import java.util.Arrays;
+
 /**
  * Created by Harjot on 01-May-17.
  */
@@ -29,6 +31,8 @@ public class Rotatable {
     private boolean isCenter = false;
 
     private boolean isUpdated = false;
+
+    private int FPS = 60;
 
     public Rotatable(int updateDuration, String... text) {
         this.updateDuration = updateDuration;
@@ -56,8 +60,38 @@ public class Rotatable {
         return text;
     }
 
+    public int getWordCount() {
+        return text.length;
+    }
+
     public void setText(String... text) {
         this.text = text;
+    }
+
+    public String getTextAt(int index) {
+        if (index >= text.length) {
+            throw new ArrayIndexOutOfBoundsException("index exceeded number of words!!");
+        } else {
+            return text[index];
+        }
+    }
+
+    public void setTextAt(int index, String word) {
+        if (index >= text.length) {
+            throw new ArrayIndexOutOfBoundsException("index exceeded number of words!!");
+        } else {
+            text[index] = word;
+        }
+    }
+
+    public String[] peekNewTextAt(int index, String word) {
+        if (index >= text.length) {
+            throw new ArrayIndexOutOfBoundsException("index exceeded number of words!!");
+        } else {
+            String[] newSet = Arrays.copyOf(text, text.length);
+            newSet[index] = word;
+            return newSet;
+        }
     }
 
     public int getUpdateDuration() {
@@ -70,16 +104,22 @@ public class Rotatable {
     }
 
     public int getNextWordNumber() {
+        //provides next word number circularly
         currentWordNumber = (currentWordNumber + 1) % text.length;
         return currentWordNumber;
     }
 
     public String peekNextWord() {
+        //doesnot increases currentwordnumber
         return text[(currentWordNumber + 1) % text.length];
     }
 
     public String getNextWord() {
         return text[getNextWordNumber()];
+    }
+
+    public String getCurrentWord() {
+        return text[currentWordNumber];
     }
 
     public String getPreviousWord() {
@@ -156,6 +196,27 @@ public class Rotatable {
                 largest = s;
             }
         }
+        return largest;
+    }
+
+    public String getLargestWordWithSpace() {
+        String largest = "";
+        for (String s : text) {
+            if (s.length() > largest.length()) {
+                largest = s;
+            }
+        }
+        return largest + " ";
+    }
+
+    public String peekLargestWord(int index, String newWord) {
+        String[] newSet = peekNewTextAt(index, newWord);
+        String largest = "";
+        for (String s : newSet) {
+            if (s.length() > largest.length()) {
+                largest = s;
+            }
+        }
         return largest + " ";
     }
 
@@ -175,4 +236,13 @@ public class Rotatable {
     public void setUpdated(boolean updated) {
         isUpdated = updated;
     }
+
+    public int getFPS() {
+        return FPS;
+    }
+
+    public void setFPS(int FPS) {
+        this.FPS = FPS;
+    }
+
 }
