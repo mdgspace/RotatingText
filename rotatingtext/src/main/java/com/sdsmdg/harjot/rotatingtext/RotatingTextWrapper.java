@@ -21,21 +21,20 @@ import java.util.List;
 
 public class RotatingTextWrapper extends RelativeLayout {
 
-    String text;
-    ArrayList<Rotatable> rotatableList;
+    private String text;
+    private ArrayList<Rotatable> rotatableList;
+    private List<RotatingTextSwitcher> switcherList;
 
-    boolean isContentSet = false;
+    private boolean isContentSet = false;
 
-    Context context;
+    private Context context;
 
-    RelativeLayout.LayoutParams lp;
+    private RelativeLayout.LayoutParams lp;
 
-    int prevId;
+    private int prevId;
 
-    Typeface typeface;
-    int size = 24;
-
-    List<RotatingTextSwitcher> switcherList;
+    private Typeface typeface;
+    private int size = 24;
 
     public RotatingTextWrapper(Context context) {
         super(context);
@@ -170,4 +169,7 @@ public class RotatingTextWrapper extends RelativeLayout {
         switcherList.get(position).resume();
     }
 
+    public List<RotatingTextSwitcher> getSwitcherList() {
+        return switcherList;
+    }
 }

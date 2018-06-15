@@ -3,7 +3,6 @@ package com.sdsmdg.harjot.rotatingtextlibrary;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -50,37 +49,12 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                rotatingTextWrapper.requestLayout();
-                rotatingTextWrapper.pause(0);
+                if (!rotatingTextWrapper.getSwitcherList().get(0).isPaused()) {
+                    rotatingTextWrapper.pause(0);
+                } else {
+                    rotatingTextWrapper.resume(0);
+                }
             }
         });
-
-//        Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                MainActivity.this.runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        rotatingTextWrapper.pause(0);
-//                    }
-//                });
-//            }
-//        }, 6000);
-//
-//        Handler handler2 = new Handler();
-//        handler2.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                MainActivity.this.runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        rotatingTextWrapper.resume(0);
-//                        rotatingTextWrapper.pause(1);
-//                    }
-//                });
-//            }
-//        }, 10000);
-
     }
 }

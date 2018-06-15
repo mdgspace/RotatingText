@@ -6,7 +6,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
@@ -27,24 +26,24 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RotatingTextSwitcher extends TextView {
 
-    Context context;
-    Rotatable rotatable;
+    private Context context;
+    private Rotatable rotatable;
 
-    Paint paint;
+    private Paint paint;
 
-    float density;
+    private float density;
 
-    boolean isRotatableSet = false;
+    private boolean isRotatableSet = false;
 
-    Path pathIn, pathOut;
+    private Path pathIn, pathOut;
 
-    Timer updateWordTimer;
+    private Timer updateWordTimer;
 
     private Disposable disposable;
 
-    String currentText = "";
+    private String currentText = "";
 
-    boolean isPaused = false;
+    private boolean isPaused = false;
 
     public RotatingTextSwitcher(Context context) {
         super(context);
@@ -57,7 +56,7 @@ public class RotatingTextSwitcher extends TextView {
         init();
     }
 
-    void init() {
+    private void init() {
         paint = getPaint();
         density = getContext().getResources().getDisplayMetrics().density;
         paint.setAntiAlias(true);
@@ -141,7 +140,7 @@ public class RotatingTextSwitcher extends TextView {
         }
     }
 
-    void animateInHorizontal() {
+    private void animateInHorizontal() {
         ValueAnimator animator = ValueAnimator.ofFloat(0.0f, getHeight());
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -157,7 +156,7 @@ public class RotatingTextSwitcher extends TextView {
         animator.start();
     }
 
-    void animateOutHorizontal() {
+    private void animateOutHorizontal() {
         ValueAnimator animator = ValueAnimator.ofFloat(getHeight(), getHeight() * 2.0f);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -173,7 +172,7 @@ public class RotatingTextSwitcher extends TextView {
         animator.start();
     }
 
-    void animateInCurve() {
+    private void animateInCurve() {
         final int stringLength = rotatable.peekNextWord().length();
 //        long perCharacterAnimDuration = rotatable.getAnimationDuration() / stringLength;
 
@@ -211,7 +210,7 @@ public class RotatingTextSwitcher extends TextView {
 
     }
 
-    void animateOutCurve() {
+    private void animateOutCurve() {
         final int stringLength = getText().length();
 //        long perCharacterAnimDuration = rotatable.getAnimationDuration() / stringLength;
 
@@ -248,22 +247,22 @@ public class RotatingTextSwitcher extends TextView {
         animator.start();
     }
 
-    void pause() {
+    public void pause() {
         isPaused = true;
     }
 
-    void resume() {
+    public void resume() {
         isPaused = false;
     }
 
-    void pauseRender() {
+    private void pauseRender() {
         if (disposable != null && !disposable.isDisposed()) {
             disposable.dispose();
             disposable = null;
         }
     }
 
-    void resumeRender() {
+    private void resumeRender() {
         if (disposable == null) {
             disposable = Observable.interval(1000 / rotatable.getFPS(), TimeUnit.MILLISECONDS, Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -276,7 +275,7 @@ public class RotatingTextSwitcher extends TextView {
         }
     }
 
-    void updatePaint() {
+    private void updatePaint() {
         paint.setTextSize(rotatable.getSize() * density);
         paint.setColor(rotatable.getColor());
 
@@ -313,4 +312,7 @@ public class RotatingTextSwitcher extends TextView {
 
     }
 
+    public boolean isPaused() {
+        return isPaused;
+    }
 }
