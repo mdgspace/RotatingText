@@ -22,7 +22,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     RotatingTextWrapper rotatingTextWrapper;
-    Rotatable rotatable, rotatable2, rotatable3;
+    Rotatable rotatable, rotatable2;
     Spinner s1;
     EditText e1;
 
@@ -52,12 +52,6 @@ public class MainActivity extends AppCompatActivity {
         rotatable2.setTypeface(typeface);
         rotatable2.setInterpolator(new DecelerateInterpolator());
         rotatable2.setAnimationDuration(500);
-
-//        rotatable3 = new Rotatable(Color.parseColor("#123456"), 1000, "4", "5", "6");
-//        rotatable3.setSize(25);
-//        rotatable3.setTypeface(typeface);
-//        rotatable3.setInterpolator(new DecelerateInterpolator());
-//        rotatable3.setAnimationDuration(500);
 
         rotatingTextWrapper.setContent("?abc ? abc", rotatable, rotatable2);
 //        rotatingTextWrapper.setContent("? abc", rotatable);
@@ -95,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         else if (newWord.contains("\n")) e1.setText("one line only");
         else {
             rotatingTextWrapper.setAdaptable(true);
-            rotatingTextWrapper.replaceWord(0, (int) s1.getSelectedItem() - 1, newWord);
+            rotatingTextWrapper.addWord(0, (int) s1.getSelectedItem() - 1, newWord);
         }
     }
 
