@@ -126,7 +126,7 @@ public class RotatingTextSwitcher extends TextView {
                         if (isPaused) {
                             pauseRender();
                         } else {
-                            animationInterface.setAnimationRunningValue(true);
+                            animationInterface.setAnimationRunning(true);
                             resumeRender();
                             animateInHorizontal();
                             animateOutHorizontal();
@@ -173,7 +173,7 @@ public class RotatingTextSwitcher extends TextView {
             @Override
             public void onAnimationEnd(Animator animation)
             {
-                animationInterface.setAnimationRunningValue(false);
+                animationInterface.setAnimationRunning(false);
             }
         });
         animator.setInterpolator(rotatable.getInterpolator());
@@ -327,7 +327,7 @@ public class RotatingTextSwitcher extends TextView {
                         } else {
                             oldText = currentText;
                             currentText = rotatable.getNextWord();
-                            animationInterface.setAnimationRunningValue(true);
+                            animationInterface.setAnimationRunning(true);
                             resumeRender();
                             animateInHorizontal();
                             animateOutHorizontal();

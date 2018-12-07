@@ -13,27 +13,36 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp" />
 
-    <EditText
-        android:id="@+id/addWord"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="word to 1st rotatable" />
+    <LinearLayout
+        android:id="@+id/replaceLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@+id/addWord">
+        <EditText
+            android:id="@+id/replaceWord"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="wrap_content"
+            android:hint="word to 1st rotatable" />
 
-    </Spinner>
+        <Spinner
+            android:gravity="end"
+            android:id="@+id/spinner"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:padding="5dp">
+
+        </Spinner>
+    </LinearLayout>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/spinner"
-        android:onClick="addWord"
-        android:text="add" />
+        android:layout_below="@id/replaceLayout"
+        android:layout_centerHorizontal="true"
+        android:onClick="replaceWord"
+        android:text="replace" />
 
     <Button
         android:id="@+id/pause_button"

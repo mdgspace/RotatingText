@@ -27,11 +27,10 @@ import java.util.List;
 public class RotatingTextWrapper extends RelativeLayout {
 
 
+    ArrayList<TextView> textViews;
     private String text;
     private ArrayList<Rotatable> rotatableList;
     private List<RotatingTextSwitcher> switcherList;
-    ArrayList<TextView> textViews;
-
     private boolean isContentSet = false;
 
     private Context context;
@@ -189,19 +188,19 @@ public class RotatingTextWrapper extends RelativeLayout {
             if (finalSize < originalSize) {
                 //we are replacing the largest word with a smaller new word
 
-                if (toChange.getCurrentWord().equals(toDeleteWord) && switcher.animationInterface.getAnimationRunningValue()) {
+                if (toChange.getCurrentWord().equals(toDeleteWord) && switcher.animationInterface.isAnimationRunning()) {
                     //largest word is entering
                     toChange.setTextAt(wordIndex, newWord);
 
                     switcher.animationInterface.setAnimationListener(new AnimationInterface.AnimationListener() {
                         @Override
                         public void onAnimationValueChanged(boolean newValue) {
-                            if (!switcher.animationInterface.getAnimationRunningValue()) {
+                            if (!switcher.animationInterface.isAnimationRunning()) {
                                 switcher.animationInterface.setAnimationListener(null);
                                 switcher.animationInterface.setAnimationListener(new AnimationInterface.AnimationListener() {
                                     @Override
                                     public void onAnimationValueChanged(boolean newValue) {
-                                        if (!switcher.animationInterface.getAnimationRunningValue()) {
+                                        if (!switcher.animationInterface.isAnimationRunning()) {
                                             switcher.animationInterface.setAnimationListener(null);
                                             setChanges(switcher, toChange);
                                         }
@@ -210,14 +209,14 @@ public class RotatingTextWrapper extends RelativeLayout {
                             }
                         }
                     });
-                } else if (toChange.getCurrentWord().equals(toDeleteWord) && !switcher.animationInterface.getAnimationRunningValue()) {
+                } else if (toChange.getCurrentWord().equals(toDeleteWord) && !switcher.animationInterface.isAnimationRunning()) {
                     //largest word is the screen waiting for going out
                     toChange.setTextAt(wordIndex, newWord);
 
                     switcher.animationInterface.setAnimationListener(new AnimationInterface.AnimationListener() {
                         @Override
                         public void onAnimationValueChanged(boolean newValue) {
-                            if (!switcher.animationInterface.getAnimationRunningValue()) {
+                            if (!switcher.animationInterface.isAnimationRunning()) {
                                 switcher.animationInterface.setAnimationListener(null);
                                 setChanges(switcher, toChange);
                             }
@@ -228,7 +227,7 @@ public class RotatingTextWrapper extends RelativeLayout {
                     // largest word is leaving
                     toChange.setTextAt(wordIndex, newWord);
 
-                    if (!switcher.animationInterface.getAnimationRunningValue()) {
+                    if (!switcher.animationInterface.isAnimationRunning()) {
                         setChanges(switcher, toChange);
                     } else {
                         switcher.animationInterface.setAnimationListener(new AnimationInterface.AnimationListener() {
@@ -340,10 +339,6 @@ public class RotatingTextWrapper extends RelativeLayout {
 
     public void setAdaptable(boolean adaptable) {
         this.adaptable = adaptable;
-    }
-
-    public void shiftRotatable(int index) {
-
     }
 
     public Typeface getTypeface() {
