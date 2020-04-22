@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -28,11 +27,10 @@ import java.util.List;
 public class RotatingTextWrapper extends RelativeLayout {
 
 
+    ArrayList<TextView> textViews;
     private String text;
     private ArrayList<Rotatable> rotatableList;
     private List<RotatingTextSwitcher> switcherList;
-    ArrayList<TextView> textViews;
-
     private boolean isContentSet = false;
 
     private Context context;
@@ -162,8 +160,8 @@ public class RotatingTextWrapper extends RelativeLayout {
     public void replaceWord(int rotatableIndex, int wordIndex, String newWord) {
         if (!TextUtils.isEmpty(newWord) && (!newWord.contains("\n"))) {
 
-            RotatingTextSwitcher switcher = switcherList.get(rotatableIndex);
-            Rotatable toChange = rotatableList.get(rotatableIndex);
+            final RotatingTextSwitcher switcher = switcherList.get(rotatableIndex);
+            final Rotatable toChange = rotatableList.get(rotatableIndex);
 
             Rect result = new Rect();
             Paint paint = getPaint(toChange);
@@ -180,27 +178,61 @@ public class RotatingTextWrapper extends RelativeLayout {
             if (finalSize < originalSize) {
                 //we are replacing the largest word with a smaller new word
 
-                if (toChange.getCurrentWord().equals(toDeleteWord) && switcher.animationRunning) {
+                if (toChange.getCurrentWord().equals(toDeleteWord) && switcher.animationInterface.isAnimationRunning()) {
                     //largest word is entering
-                    singleAnimationComplete(toChange.getAnimationDuration() + toChange.getUpdateDuration(), toChange.getUpdateDuration(), toChange, switcher, wordIndex, newWord);
-                } else if (toChange.getCurrentWord().equals(toDeleteWord) && !switcher.animationRunning) {
+                    toChange.setTextAt(wordIndex, newWord);
+
+                    switcher.animationInterface.setAnimationListener(new AnimationInterface.AnimationListener() {
+                        @Override
+                        public void onAnimationValueChanged(boolean newValue) {
+                            if (!switcher.animationInterface.isAnimationRunning()) {
+                                switcher.animationInterface.setAnimationListener(null);
+                                switcher.animationInterface.setAnimationListener(new AnimationInterface.AnimationListener() {
+                                    @Override
+                                    public void onAnimationValueChanged(boolean newValue) {
+                                        if (!switcher.animationInterface.isAnimationRunning()) {
+                                            switcher.animationInterface.setAnimationListener(null);
+                                            setChanges(switcher, toChange);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                } else if (toChange.getCurrentWord().equals(toDeleteWord) && !switcher.animationInterface.isAnimationRunning()) {
                     //largest word is the screen waiting for going out
-                    singleAnimationComplete(toChange.getUpdateDuration(), toChange.getUpdateDuration() - toChange.getAnimationDuration(), toChange, switcher, wordIndex, newWord);
+                    toChange.setTextAt(wordIndex, newWord);
+
+                    switcher.animationInterface.setAnimationListener(new AnimationInterface.AnimationListener() {
+                        @Override
+                        public void onAnimationValueChanged(boolean newValue) {
+                            if (!switcher.animationInterface.isAnimationRunning()) {
+                                switcher.animationInterface.setAnimationListener(null);
+                                setChanges(switcher, toChange);
+                            }
+                        }
+                    });
+
                 } else if (toChange.getPreviousWord().equals(toDeleteWord)) {
                     // largest word is leaving
-                    singleAnimationComplete(toChange.getAnimationDuration(), 0, toChange, switcher, wordIndex, newWord);
+                    toChange.setTextAt(wordIndex, newWord);
 
+                    if (!switcher.animationInterface.isAnimationRunning()) {
+                        setChanges(switcher, toChange);
+                    } else {
+                        switcher.animationInterface.setAnimationListener(new AnimationInterface.AnimationListener() {
+                            @Override
+                            public void onAnimationValueChanged(boolean newValue) {
+                                switcher.animationInterface.setAnimationListener(null);
+                                setChanges(switcher, toChange);
+                            }
+
+                        });
+                    }
                 } else {
                     //largest word is not in the screen
                     toChange.setTextAt(wordIndex, newWord);
-                    switcher.setText(toChange.getLargestWordWithSpace()); //provides space
-
-                    if (adaptable && getSize() != (int) changedSize && changedSize != 0) {
-
-                        if ((double) availablePixels() / (double) findRequiredPixel() < getSize() / changedSize)
-                            reduceSize((double) findRequiredPixel() / (double) availablePixels());
-                        else reduceSize(changedSize / getSize());
-                    }
+                    setChanges(switcher, toChange);
                 }
             } else {
                 toChange.setTextAt(wordIndex, newWord);
@@ -255,26 +287,18 @@ public class RotatingTextWrapper extends RelativeLayout {
         }
     }
 
-    private void singleAnimationComplete(final int totalTime, final int startTime, final Rotatable toChange, final RotatingTextSwitcher switcher, final int index, final String newWord) {
-        toChange.setTextAt(index, newWord);
+    
+  
 
-        new CountDownTimer(totalTime + 43, 21) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                if (totalTime - millisUntilFinished > startTime - 40 && !switcher.animationRunning) {
-                    switcher.setText(toChange.getLargestWordWithSpace());
-                    if (adaptable && getSize() != (int) changedSize && changedSize != 0) {
-                        if ((double) availablePixels() / (double) findRequiredPixel() < getSize() / changedSize)
-                            reduceSize((double) findRequiredPixel() / (double) availablePixels());
-                        else reduceSize(changedSize / getSize());
-                    }
-                }
-            }
+    private void setChanges(RotatingTextSwitcher switcher, Rotatable toChange) {
+        switcher.setText(toChange.getLargestWordWithSpace());
+        if (adaptable && getSize() != (int) changedSize && changedSize != 0) {
+            if ((double) availablePixels() / (double) findRequiredPixel() < getSize() / changedSize)
+                reduceSize((double) findRequiredPixel() / (double) availablePixels());
+            else reduceSize(changedSize / getSize());
+        }
 
-            @Override
-            public void onFinish() {
-            }
-        }.start();
+   
     }
 
     private int availablePixels() {
@@ -348,10 +372,6 @@ public class RotatingTextWrapper extends RelativeLayout {
 
     public void setAdaptable(boolean adaptable) {
         this.adaptable = adaptable;
-    }
-
-    public void shiftRotatable(int index) {
-
     }
 
     public Typeface getTypeface() {

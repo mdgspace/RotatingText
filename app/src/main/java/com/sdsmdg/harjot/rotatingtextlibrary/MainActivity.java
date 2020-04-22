@@ -4,12 +4,12 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Button;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         s1.setAdapter(dataAdapter);
         s1.setSelection(0);
 
-        e1 = (EditText) findViewById(R.id.addWord);
+        e1 = (EditText) findViewById(R.id.replaceWord);
 
         button = findViewById(R.id.pause_button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -82,8 +82,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-    public void addWord(View view) {
+    public void replaceWord(View view) {
         String newWord = e1.getText().toString();
         if (TextUtils.isEmpty(newWord)) e1.setText("can't be left empty");
         else if (newWord.contains("\n")) e1.setText("one line only");
@@ -92,5 +91,4 @@ public class MainActivity extends AppCompatActivity {
             rotatingTextWrapper.addWord(0, (int) s1.getSelectedItem() - 1, newWord);
         }
     }
-
 }
