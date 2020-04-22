@@ -163,26 +163,16 @@ public class RotatingTextWrapper extends RelativeLayout {
             final RotatingTextSwitcher switcher = switcherList.get(rotatableIndex);
             final Rotatable toChange = rotatableList.get(rotatableIndex);
 
-            Paint paint = new Paint();
-            paint.setTextSize(toChange.getSize() * getContext().getResources().getDisplayMetrics().density);
-            paint.setTypeface(toChange.getTypeface());
-            paint.setColor(Color.BLACK);
-            paint.setStyle(Paint.Style.FILL);
             Rect result = new Rect();
-
+            Paint paint = getPaint(toChange);
             paint.getTextBounds(toChange.getLargestWord(), 0, toChange.getLargestWord().length(), result);
 
             double originalSize = result.width();
 
             String toDeleteWord = toChange.getTextAt(wordIndex);
 
-            paint = new Paint();
-            paint.setTextSize(toChange.getSize() * getContext().getResources().getDisplayMetrics().density);
-            paint.setTypeface(toChange.getTypeface());
-            paint.setColor(Color.BLACK);
-            paint.setStyle(Paint.Style.FILL);
             result = new Rect();
-            paint.getTextBounds(toChange.peekLargestWord(wordIndex, newWord), 0, toChange.peekLargestWord(wordIndex, newWord).length(), result);
+            paint.getTextBounds(toChange.peekLargestReplaceWord(wordIndex, newWord), 0, toChange.peekLargestReplaceWord(wordIndex, newWord).length(), result);
             double finalSize = result.width();
 
             if (finalSize < originalSize) {
@@ -259,6 +249,46 @@ public class RotatingTextWrapper extends RelativeLayout {
         }
     }
 
+    private Paint getPaint(Rotatable toChange) {
+        Paint paint = new Paint();
+        paint.setTextSize(toChange.getSize() * getContext().getResources().getDisplayMetrics().density);
+        paint.setTypeface(toChange.getTypeface());
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.FILL);
+        return paint;
+    }
+
+    public void addWord(int rotatableIndex, int wordIndex, String newWord) {
+        if (!TextUtils.isEmpty(newWord) && (!newWord.contains("\n"))) {
+
+            RotatingTextSwitcher switcher = switcherList.get(rotatableIndex);
+            Rotatable toChange = rotatableList.get(rotatableIndex);
+
+            Paint paint = getPaint(toChange);
+            Rect result = new Rect();
+
+            paint.getTextBounds(toChange.getLargestWord(), 0, toChange.getLargestWord().length(), result);
+
+            double originalSize = result.width();
+
+            result = new Rect();
+            paint.getTextBounds(toChange.peekLargestAddWord(wordIndex, newWord), 0, toChange.peekLargestAddWord(wordIndex, newWord).length(), result);
+            double finalSize = result.width();
+            toChange.addTextAt(wordIndex, newWord);
+
+            switcher.setText(toChange.getLargestWordWithSpace());//provides space
+            if (adaptable && finalSize != originalSize) {
+                int actualPixel = findRequiredPixel();
+
+                if (adaptable && actualPixel > availablePixels()) {
+                    reduceSize((double) actualPixel / (double) availablePixels());
+                }
+            }
+        }
+    }
+
+    
+  
 
     private void setChanges(RotatingTextSwitcher switcher, Rotatable toChange) {
         switcher.setText(toChange.getLargestWordWithSpace());

@@ -84,12 +84,51 @@ public class Rotatable {
         }
     }
 
+    public void addTextAt(int index, String word) {
+        if (index >= text.length) {
+            throw new ArrayIndexOutOfBoundsException("index exceeded number of words!!");
+        } else {
+            String copyArray[] = text;
+            if (currentWordNumber >= index) {
+                currentWordNumber++;
+            }
+            text = new String[text.length + 1];
+            int i = 0;
+            for (; i < index; i++) {
+                text[i] = copyArray[i];
+            }
+            text[index] = word;
+            i++;
+            for (; i <= copyArray.length; i++) {
+                text[i] = copyArray[i - 1];
+            }
+        }
+    }
+
     public String[] peekNewTextAt(int index, String word) {
         if (index >= text.length) {
             throw new ArrayIndexOutOfBoundsException("index exceeded number of words!!");
         } else {
             String[] newSet = Arrays.copyOf(text, text.length);
             newSet[index] = word;
+            return newSet;
+        }
+    }
+
+    public String[] peekAddTextAt(int index, String word) {
+        if (index >= text.length) {
+            throw new ArrayIndexOutOfBoundsException("index exceeded number of words!!");
+        } else {
+            String[] newSet = new String[text.length + 1];
+            int i = 0;
+            for (; i < index; i++) {
+                newSet[i] = text[i];
+            }
+            newSet[index] = word;
+            i++;
+            for (; i <= text.length; i++) {
+                newSet[i] = text[i - 1];
+            }
             return newSet;
         }
     }
@@ -209,8 +248,19 @@ public class Rotatable {
         return largest + " ";
     }
 
-    public String peekLargestWord(int index, String newWord) {
+    public String peekLargestReplaceWord(int index, String newWord) {
         String[] newSet = peekNewTextAt(index, newWord);
+        String largest = "";
+        for (String s : newSet) {
+            if (s.length() > largest.length()) {
+                largest = s;
+            }
+        }
+        return largest + " ";
+    }
+
+    public String peekLargestAddWord(int index, String newWord) {
+        String[] newSet = peekAddTextAt(index, newWord);
         String largest = "";
         for (String s : newSet) {
             if (s.length() > largest.length()) {
