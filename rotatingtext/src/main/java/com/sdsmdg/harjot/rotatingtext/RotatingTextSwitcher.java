@@ -46,7 +46,7 @@ public class RotatingTextSwitcher extends TextView {
     private String currentText = "";
     private String oldText = "";
 
-    boolean animationRunning=false;
+    AnimationInterface animationInterface = new AnimationInterface(false);
 
     private boolean isPaused = false;
 
@@ -126,7 +126,7 @@ public class RotatingTextSwitcher extends TextView {
                         if (isPaused) {
                             pauseRender();
                         } else {
-                            animationRunning=true;
+                            animationInterface.setAnimationRunning(true);
                             resumeRender();
                             animateInHorizontal();
                             animateOutHorizontal();
@@ -141,7 +141,6 @@ public class RotatingTextSwitcher extends TextView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-//        Log.i("point", "onDraw");
         if (isRotatableSet) {
             if (rotatable.isUpdated()) {
                 updatePaint();
@@ -174,7 +173,7 @@ public class RotatingTextSwitcher extends TextView {
             @Override
             public void onAnimationEnd(Animator animation)
             {
-                animationRunning=false;
+                animationInterface.setAnimationRunning(false);
             }
         });
         animator.setInterpolator(rotatable.getInterpolator());
@@ -328,7 +327,7 @@ public class RotatingTextSwitcher extends TextView {
                         } else {
                             oldText = currentText;
                             currentText = rotatable.getNextWord();
-                            animationRunning=true;
+                            animationInterface.setAnimationRunning(true);
                             resumeRender();
                             animateInHorizontal();
                             animateOutHorizontal();
