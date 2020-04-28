@@ -4,6 +4,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button button;
 
+    private static final String TAG = "MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,20 +44,35 @@ public class MainActivity extends AppCompatActivity {
         rotatingTextWrapper.setSize(30);
         rotatingTextWrapper.setTypeface(typeface2);
 
+        int[] colorArray = {Color.parseColor("#FFA036"), Color.parseColor("#100000"), Color.parseColor("#AAA136") };
+
 //        rotatable = new Rotatable(Color.parseColor("#FFA036"), 1000, "Word00", "Word01", "Word02");
-        rotatable = new Rotatable(Color.parseColor("#FFA036"), 1000, "rotating", "text", "library");
+        rotatable = new Rotatable(colorArray, 1000, "rotating", "text", "library");
         rotatable.setSize(25);
         rotatable.setTypeface(typeface);
         rotatable.setInterpolator(new AccelerateInterpolator());
         rotatable.setAnimationDuration(500);
 
-        rotatable2 = new Rotatable(Color.parseColor("#123456"), 1000, "word", "word01", "word02");
+        Log.d(TAG, "onCreate: Rotatable 1 has been called!");
+
+        rotatable2 = new Rotatable( 1000, "word", "word01", "word02");
         rotatable2.setSize(25);
         rotatable2.setTypeface(typeface);
         rotatable2.setInterpolator(new DecelerateInterpolator());
         rotatable2.setAnimationDuration(500);
 
+        Log.d(TAG, "onCreate: Rotatable 2 has been called!");
+        
+//        rotatable3 = new Rotatable(Color.parseColor("#123456"), 1000, "4", "5", "6");
+//        rotatable3.setSize(25);
+//        rotatable3.setTypeface(typeface);
+//        rotatable3.setInterpolator(new DecelerateInterpolator());
+//        rotatable3.setAnimationDuration(500);
+
+      //  rotatingTextWrapper.setContent("?abc ? abc", rotatable, rotatable2);
+
         rotatingTextWrapper.setContent("?abc ? abc", rotatable, rotatable2);
+        Log.d(TAG, "onCreate: rot text wrapper set!");
 //        rotatingTextWrapper.setContent("? abc", rotatable);
 
         s1 = (Spinner) findViewById(R.id.spinner);

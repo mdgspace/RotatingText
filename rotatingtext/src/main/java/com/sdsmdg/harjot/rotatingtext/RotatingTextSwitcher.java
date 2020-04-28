@@ -6,8 +6,11 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.text.TextPaint;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
@@ -26,7 +29,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Harjot on 01-May-17.
  */
 
-public class RotatingTextSwitcher extends TextView {
+public class RotatingTextSwitcher extends android.support.v7.widget.AppCompatTextView {
 
     private Context context;
     private Rotatable rotatable;
@@ -48,7 +51,12 @@ public class RotatingTextSwitcher extends TextView {
 
     AnimationInterface animationInterface = new AnimationInterface(false);
 
+    static int i = 0;
+    static int j = 0;
+
     private boolean isPaused = false;
+
+    private static final String TAG = "RotatingTextSwitcher";
 
     public RotatingTextSwitcher(Context context) {
         super(context);
@@ -61,12 +69,16 @@ public class RotatingTextSwitcher extends TextView {
         init();
     }
 
+
     private void init() {
+        Log.d(TAG, "init: init function of RotTextSwitcher called");
         paint = getPaint();
         density = getContext().getResources().getDisplayMetrics().density;
         paint.setAntiAlias(true);
         paint.setTextSize(rotatable.getSize() * density);
         paint.setColor(rotatable.getColor());
+        Log.d(TAG, "init: first paint initialized");
+   //    Painter1(rotatable.getColorArray());
 
         if (rotatable.isCenter()) {
             //always false
@@ -141,11 +153,18 @@ public class RotatingTextSwitcher extends TextView {
 
     @Override
     protected void onDraw(Canvas canvas) {
+
+//        Log.i("point", "onDraw");
+
+        Log.d(TAG, "onDraw: onDraw method STARTED....!!!");
+
         if (isRotatableSet) {
             if (rotatable.isUpdated()) {
                 updatePaint();
                 rotatable.setUpdated(false);
             }
+
+
             String text = currentText;
             if (rotatable.getPathIn() != null) {
                 canvas.drawTextOnPath(text, rotatable.getPathIn(), 0.0f, 0.0f, paint);
@@ -155,9 +174,21 @@ public class RotatingTextSwitcher extends TextView {
                 canvas.drawTextOnPath(oldText, rotatable.getPathOut(), 0.0f, 0.0f, paint);
             }
         }
+        Log.d(TAG, "onDraw: starting if statement for changing color");
+        if(rotatable.getColorArray() != null){
+            int[] colors = rotatable.getColorArray();
+            if(j>=colors.length){
+                j=0;
+            }
+            paint.setColor(colors[j]);
+
+        }
+        Log.d(TAG, "onDraw: ended if statement....!!!");
+        Log.d(TAG, "onDraw: onDraw method ENDED.....!!!");
     }
 
     private void animateInHorizontal() {
+        Log.d(TAG, "animateInHorizontal: ANIMATE IN STARTED !");
         ValueAnimator animator = ValueAnimator.ofFloat(0.0f, getHeight());
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -179,9 +210,11 @@ public class RotatingTextSwitcher extends TextView {
         animator.setInterpolator(rotatable.getInterpolator());
         animator.setDuration(rotatable.getAnimationDuration());
         animator.start();
+        Log.d(TAG, "animateInHorizontal: ANIMATE IN ENDED !");
     }
 
     private void animateOutHorizontal() {
+        Log.d(TAG, "animateOutHorizontal: ANIMATE OUT STARTED!! ");
         ValueAnimator animator = ValueAnimator.ofFloat(getHeight(), getHeight() * 2.0f);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -195,6 +228,10 @@ public class RotatingTextSwitcher extends TextView {
         animator.setInterpolator(rotatable.getInterpolator());
         animator.setDuration(rotatable.getAnimationDuration());
         animator.start();
+        j++;
+        Log.d(TAG, "animateOutHorizontal: Value of j incremented;");
+
+        Log.d(TAG, "animateOutHorizontal: ANIMATE OUT ENDED!");
     }
 
     private void animateInCurve() {
@@ -301,8 +338,32 @@ public class RotatingTextSwitcher extends TextView {
     }
 
     private void updatePaint() {
+
+        Log.d(TAG, "updatePaint: update paint called!!!");
         paint.setTextSize(rotatable.getSize() * density);
-        paint.setColor(rotatable.getColor());
+        //paint.setColor(Color.RED);
+        String[] texts = rotatable.getText();
+     //   TextView textView = new TextView(context);
+        int[] colors = rotatable.getColorArray();
+
+        if(i>= texts.length){
+            i=0;
+        }
+
+        while(i < texts.length){
+
+            //textView.setText(texts[i]);
+            //textView.setTextColor(Color.GREEN);
+            if(texts[i] != null){
+                paint.setColor(colors[i]);
+                break;}
+            else
+                paint.setColor(Color.GREEN);
+        }
+
+
+
+        Log.d(TAG, "updatePaint: did the thing");
 
         if (rotatable.isCenter()) {
             paint.setTextAlign(Paint.Align.CENTER);
@@ -337,11 +398,33 @@ public class RotatingTextSwitcher extends TextView {
                 });
             }
         }, rotatable.getUpdateDuration(), rotatable.getUpdateDuration());
-
+        i++;
     }
 
     public boolean isPaused() {
         return isPaused;
     }
+
+    public void Painter1(int[] colors){
+        paint = getPaint();
+        density = getContext().getResources().getDisplayMetrics().density;
+        paint.setAntiAlias(true);
+        paint.setTextSize(rotatable.getSize() * density);
+        String[] texts = rotatable.getText();
+        for(int i = 0 ; i < texts.length ; i++){
+            paint.setColor(colors[i]);
+        }
+    }
+
+    public void Painter2(){
+        paint = getPaint();
+        density = getContext().getResources().getDisplayMetrics().density;
+        paint.setAntiAlias(true);
+        paint.setTextSize(rotatable.getSize() * density);
+        paint.setColor(rotatable.getColor());
+    }
+
+
+
 
 }
