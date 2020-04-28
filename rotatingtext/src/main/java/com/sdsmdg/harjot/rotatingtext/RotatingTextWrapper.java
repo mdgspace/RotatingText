@@ -44,7 +44,6 @@ public class RotatingTextWrapper extends RelativeLayout {
 
     private double changedSize = 0;
     private boolean adaptable = false;
-    private static final String TAG = "RotatingTextWrapper";
 
     public RotatingTextWrapper(Context context) {
         super(context);
@@ -69,22 +68,7 @@ public class RotatingTextWrapper extends RelativeLayout {
         Collections.addAll(rotatableList, rotatables);
         isContentSet = true;
         requestLayout();
-        Log.d(TAG, "setContent: content was set!");
     }
-
-    /*public void setContent(String text,int[] colorArray, Rotatable... rotatables) {
-        this.text = text;
-        rotatableList = new ArrayList<>();
-        switcherList = new ArrayList<>();
-        textViews = new ArrayList<>();
-        for(int i =0; i < rotatableList.size(); i++){
-            rotatableList.get(i).setColor(colorArray[i]);
-        }
-        Collections.addAll(rotatableList, rotatables);
-        isContentSet = true;
-        requestLayout();
-    }*/
-
 
     public void setContent(String text, ArrayList<Rotatable> rotatables) {
         this.text = text;
@@ -165,11 +149,8 @@ public class RotatingTextWrapper extends RelativeLayout {
                     lp = new LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                     lp.addRule(CENTER_VERTICAL);
                     lp.addRule(RIGHT_OF, textView.getId());
-                    Log.d(TAG, "onMeasure: Calling paintText function");
-                    paintText(textView, i);
-                    Log.d(TAG, "onMeasure: paintText func called");
+
                     addView(textSwitcher, lp);
-                    Log.d(TAG, "onMeasure: switcher added to View");
                 }
             }
             isContentSet = false;
@@ -181,7 +162,6 @@ public class RotatingTextWrapper extends RelativeLayout {
 
             final RotatingTextSwitcher switcher = switcherList.get(rotatableIndex);
             final Rotatable toChange = rotatableList.get(rotatableIndex);
-
 
             Rect result = new Rect();
             Paint paint = getPaint(toChange);
@@ -196,7 +176,6 @@ public class RotatingTextWrapper extends RelativeLayout {
             double finalSize = result.width();
 
             if (finalSize < originalSize) {
-                Log.d(TAG, "replaceWord: replace word func was called 2");
                 //we are replacing the largest word with a smaller new word
 
                 if (toChange.getCurrentWord().equals(toDeleteWord) && switcher.animationInterface.isAnimationRunning()) {
@@ -256,7 +235,6 @@ public class RotatingTextWrapper extends RelativeLayout {
                     setChanges(switcher, toChange);
                 }
             } else {
-                Log.d(TAG, "replaceWord: replace word func called 3");
                 toChange.setTextAt(wordIndex, newWord);
 
                 switcher.setText(toChange.getLargestWordWithSpace());//provides space
@@ -422,11 +400,5 @@ public class RotatingTextWrapper extends RelativeLayout {
 
     public List<RotatingTextSwitcher> getSwitcherList() {
         return switcherList;
-    }
-
-    public void paintText(TextView textView, int pos){
-            int[] colorArray;
-            colorArray = rotatableList.get(pos).getColorArray();
-            textView.setTextColor(colorArray[pos]);
     }
 }

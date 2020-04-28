@@ -3,11 +3,9 @@ package com.sdsmdg.harjot.rotatingtext.models;
 import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -36,25 +34,7 @@ public class Rotatable {
 
     private int FPS = 60;
 
-    private static final String TAG = "Rotatable";
-
-    private int[] colorArray = {Color.parseColor("#123456"), Color.parseColor("#FFA036"), Color.parseColor("#FFA036")};    //initialized colorArray[] and set to null
-
-    private String[] array;
-
     public Rotatable(int updateDuration, String... text) {
-        this.updateDuration = updateDuration;
-        this.text = text;
-        currentWordNumber = -1;
-    }
-
-    public Rotatable(int[] colorArray, int updateDuration, String... text) {    //replaced int color with int colorArray as first argument
-        this.colorArray = colorArray;
-
-
-        Log.d(TAG, "Rotatable: colorArray was alloted in Rotatable");
-
-
         this.updateDuration = updateDuration;
         this.text = text;
         currentWordNumber = -1;
@@ -69,10 +49,6 @@ public class Rotatable {
 
     public int getColor() {
         return color;
-    }
-
-    public int[] getColorArray(){
-        return colorArray;
     }
 
     public void setColor(int color) {
