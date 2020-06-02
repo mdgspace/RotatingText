@@ -8,19 +8,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.text.Layout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
-//import com.sdsmdg.harjot.AndroidStudioProjects.RotatingText.rotatingtextlibrary;
-
-import org.w3c.dom.Text;
-
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
-
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -215,9 +207,6 @@ public class RotatingTextSwitcher extends TextView {
 
     }
 
-
-
-
     private void animateInCurve() {
         final int stringLength = rotatable.peekNextWord().length();
 //        long perCharacterAnimDuration = rotatable.getAnimationDuration() / stringLength;
@@ -350,7 +339,6 @@ public class RotatingTextSwitcher extends TextView {
                         else {
                             if (currentText.equalsIgnoreCase("rotating") && val != 0) {
                                 n = n + 1;
-                                //Toast.makeText(context, currentText + n + "," + val, Toast.LENGTH_SHORT).show();
                             }
                             if (n == val+1 && val != 0) {
                                 val = 0;
@@ -378,10 +366,5 @@ public class RotatingTextSwitcher extends TextView {
 
     public void cycles(int val) {
         this.val = val;
-
-
     }
-
-
-
 }

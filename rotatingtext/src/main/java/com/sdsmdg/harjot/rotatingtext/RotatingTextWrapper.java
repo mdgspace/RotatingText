@@ -12,10 +12,8 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
 import com.sdsmdg.harjot.rotatingtext.utils.Utils;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -399,7 +397,4 @@ public class RotatingTextWrapper extends RelativeLayout {
     public List<RotatingTextSwitcher> getSwitcherList() {
         return switcherList;
     }
-
-
-
 }
