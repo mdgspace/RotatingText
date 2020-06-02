@@ -8,9 +8,14 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.text.Layout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
+//import com.sdsmdg.harjot.AndroidStudioProjects.RotatingText.rotatingtextlibrary;
+
+import org.w3c.dom.Text;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,12 +37,13 @@ public class RotatingTextSwitcher extends TextView {
     private Rotatable rotatable;
 
     private Paint paint;
-
+    static int n = 0,val = 0;
     private float density;
 
     private boolean isRotatableSet = false;
 
     private Path pathIn, pathOut;
+
 
     private Timer updateWordTimer;
 
@@ -123,7 +129,11 @@ public class RotatingTextSwitcher extends TextView {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (isPaused) {
+                        if(isPaused && val == 0){
+                            pauseRender();
+                        }
+                        else if (isPaused && n == val+1) {
+                            // Toast.makeText(context, "g", Toast.LENGTH_SHORT).show();
                             pauseRender();
                         } else {
                             animationInterface.setAnimationRunning(true);
@@ -141,6 +151,7 @@ public class RotatingTextSwitcher extends TextView {
 
     @Override
     protected void onDraw(Canvas canvas) {
+
         if (isRotatableSet) {
             if (rotatable.isUpdated()) {
                 updatePaint();
@@ -154,8 +165,13 @@ public class RotatingTextSwitcher extends TextView {
 
                 canvas.drawTextOnPath(oldText, rotatable.getPathOut(), 0.0f, 0.0f, paint);
             }
+
+
         }
+
     }
+
+
 
     private void animateInHorizontal() {
         ValueAnimator animator = ValueAnimator.ofFloat(0.0f, getHeight());
@@ -179,6 +195,7 @@ public class RotatingTextSwitcher extends TextView {
         animator.setInterpolator(rotatable.getInterpolator());
         animator.setDuration(rotatable.getAnimationDuration());
         animator.start();
+
     }
 
     private void animateOutHorizontal() {
@@ -195,7 +212,11 @@ public class RotatingTextSwitcher extends TextView {
         animator.setInterpolator(rotatable.getInterpolator());
         animator.setDuration(rotatable.getAnimationDuration());
         animator.start();
+
     }
+
+
+
 
     private void animateInCurve() {
         final int stringLength = rotatable.peekNextWord().length();
@@ -322,16 +343,27 @@ public class RotatingTextSwitcher extends TextView {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (isPaused) {
+                        if(isPaused ) {
                             pauseRender();
-                        } else {
-                            oldText = currentText;
-                            currentText = rotatable.getNextWord();
-                            animationInterface.setAnimationRunning(true);
-                            resumeRender();
-                            animateInHorizontal();
-                            animateOutHorizontal();
+                        }
 
+                        else {
+                            if (currentText.equalsIgnoreCase("rotating") && val != 0) {
+                                n = n + 1;
+                                //Toast.makeText(context, currentText + n + "," + val, Toast.LENGTH_SHORT).show();
+                            }
+                            if (n == val+1 && val != 0) {
+                                val = 0;
+                                n = 0;
+                                pauseRender();
+                            } else {
+                                oldText = currentText;
+                                currentText = rotatable.getNextWord();
+                                animationInterface.setAnimationRunning(true);
+                                resumeRender();
+                                animateInHorizontal();
+                                animateOutHorizontal();
+                            }
                         }
                     }
                 });
@@ -343,5 +375,13 @@ public class RotatingTextSwitcher extends TextView {
     public boolean isPaused() {
         return isPaused;
     }
+
+    public void cycles(int val) {
+        this.val = val;
+
+
+    }
+
+
 
 }

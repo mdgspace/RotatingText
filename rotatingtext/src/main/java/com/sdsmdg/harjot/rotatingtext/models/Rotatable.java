@@ -31,7 +31,7 @@ public class Rotatable {
     private boolean isCenter = false;
 
     private boolean isUpdated = false;
-
+    int val=1;
     private int FPS = 60;
 
     public Rotatable(int updateDuration, String... text) {
@@ -293,6 +293,13 @@ public class Rotatable {
 
     public void setFPS(int FPS) {
         this.FPS = FPS;
+    }
+
+    public void setCycles(int val) {
+        this.val = val;
+    }
+    public int getCycles() {
+        return val;
     }
 
 }

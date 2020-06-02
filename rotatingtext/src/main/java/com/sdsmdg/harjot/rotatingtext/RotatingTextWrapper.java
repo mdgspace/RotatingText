@@ -287,8 +287,6 @@ public class RotatingTextWrapper extends RelativeLayout {
         }
     }
 
-    
-  
 
     private void setChanges(RotatingTextSwitcher switcher, Rotatable toChange) {
         switcher.setText(toChange.getLargestWordWithSpace());
@@ -298,7 +296,7 @@ public class RotatingTextWrapper extends RelativeLayout {
             else reduceSize(changedSize / getSize());
         }
 
-   
+
     }
 
     private int availablePixels() {
@@ -401,4 +399,7 @@ public class RotatingTextWrapper extends RelativeLayout {
     public List<RotatingTextSwitcher> getSwitcherList() {
         return switcherList;
     }
+
+
+
 }
