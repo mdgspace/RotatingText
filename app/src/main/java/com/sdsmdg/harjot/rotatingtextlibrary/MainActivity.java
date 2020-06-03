@@ -29,11 +29,10 @@ public class MainActivity extends AppCompatActivity {
     RotatingTextSwitcher rotatingTextSwitcher;
     Rotatable rotatable, rotatable2;
     Spinner s1;
+    String word;
     int nCycles;
     EditText enterCycles;
     EditText e1;
-    int n = 0;
-    String etValue;
     Button button;
 
     @Override
@@ -63,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         rotatable.setInterpolator(new AccelerateInterpolator());
         rotatable.setAnimationDuration(500);
 
+        word = rotatable.getTextAt(0);
 
         rotatingTextWrapper.setContent("?abc ? abc", rotatable, rotatable2);
 //        rotatingTextWrapper.setContent("? abc", rotatable);
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                     nCycles = Integer.parseInt(enterCycles.getText().toString());
                 }
 
-                rotatingTextSwitcher.cycles(nCycles);
+                rotatingTextSwitcher.cycles(nCycles,word);
 
                 if (rotatingTextWrapper.getSwitcherList().get(0).isPaused()) {
                     rotatingTextWrapper.resume(0);

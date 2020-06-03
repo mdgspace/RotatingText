@@ -86,9 +86,11 @@ public class RotatingTextWrapper extends RelativeLayout {
 
             if (array.length == 0) {
                 final RotatingTextSwitcher textSwitcher = new RotatingTextSwitcher(context);
+
                 switcherList.add(textSwitcher);
 
                 textSwitcher.setRotatable(rotatableList.get(0));
+
 
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
                     textSwitcher.setId(Utils.generateViewId());
@@ -397,4 +399,6 @@ public class RotatingTextWrapper extends RelativeLayout {
     public List<RotatingTextSwitcher> getSwitcherList() {
         return switcherList;
     }
+
+    public Rotatable getRotatable() { return (rotatableList.get(0)); }
 }
