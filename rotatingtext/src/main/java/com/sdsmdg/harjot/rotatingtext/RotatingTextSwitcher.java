@@ -124,8 +124,8 @@ public class RotatingTextSwitcher extends TextView {
                         if(isPaused && val == 0){
                             pauseRender();
                         }
-                        else if (isPaused && n == val+1) {
-                            // Toast.makeText(context, "g", Toast.LENGTH_SHORT).show();
+                        else if (n == val+1) {
+                           isPaused = true;
                             pauseRender();
                         } else {
                             animationInterface.setAnimationRunning(true);
@@ -206,7 +206,7 @@ public class RotatingTextSwitcher extends TextView {
         animator.start();
 
     }
-
+    
     private void animateInCurve() {
         final int stringLength = rotatable.peekNextWord().length();
 //        long perCharacterAnimDuration = rotatable.getAnimationDuration() / stringLength;
@@ -343,6 +343,7 @@ public class RotatingTextSwitcher extends TextView {
                             if (n == val+1 && val != 0) {
                                 val = 0;
                                 n = 0;
+                                isPaused = true;
                                 pauseRender();
                             } else {
                                 oldText = currentText;
