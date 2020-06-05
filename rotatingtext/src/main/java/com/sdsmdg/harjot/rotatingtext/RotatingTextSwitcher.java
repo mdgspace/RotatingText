@@ -28,13 +28,13 @@ import io.reactivex.schedulers.Schedulers;
 public class RotatingTextSwitcher extends TextView {
 
     private Context context;
-    private Rotatable rotatable,rotatable2;
+    private Rotatable rotatable;
 
     private Paint paint;
     static int n=0,val=0;
 
     private float density;
-    RotatingTextWrapper rotatingTextWrapper;
+
     private boolean isRotatableSet = false;
 
     private Path pathIn, pathOut;

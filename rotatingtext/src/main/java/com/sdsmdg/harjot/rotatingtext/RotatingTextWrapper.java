@@ -400,5 +400,4 @@ public class RotatingTextWrapper extends RelativeLayout {
         return switcherList;
     }
 
-    public Rotatable getRotatable() { return (rotatableList.get(0)); }
 }
