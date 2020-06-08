@@ -1,6 +1,7 @@
 package com.sdsmdg.harjot.rotatingtextlibrary;
 
 import android.graphics.Color;
+import android.graphics.ColorSpace;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,8 +27,9 @@ public class MainActivity extends AppCompatActivity {
     Rotatable rotatable, rotatable2;
     Spinner s1;
     EditText e1;
-
+    int i = 0;
     Button button;
+    List<Integer> colorList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         rotatingTextWrapper.setTypeface(typeface2);
 
 //        rotatable = new Rotatable(Color.parseColor("#FFA036"), 1000, "Word00", "Word01", "Word02");
-        rotatable = new Rotatable(Color.parseColor("#FFA036"), 1000, "rotating", "text", "library");
+        rotatable = new Rotatable(Color.parseColor("#123456"),  1000 ,"rotating", "text", "library");
         rotatable.setSize(25);
         rotatable.setTypeface(typeface);
         rotatable.setInterpolator(new AccelerateInterpolator());
@@ -55,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
 
         rotatingTextWrapper.setContent("?abc ? abc", rotatable, rotatable2);
 //        rotatingTextWrapper.setContent("? abc", rotatable);
+
+
+        colorList.add(Color.argb(255,255,0,0));
+        colorList.add(Color.argb(255,0,0,255));
+        colorList.add(Color.argb(255,0,255,0));
+
 
         s1 = (Spinner) findViewById(R.id.spinner);
         List<Integer> list = new ArrayList<Integer>();
@@ -80,9 +89,27 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Button colorButton = findViewById(R.id.color_button);
+        colorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                rotatable.setColor(colorList.get(i));
+                if(i < colorList.size()-1) {
+                    i++;
+                } else {
+                    i = 0;
+                }
+            }
+        });
     }
 
     public void replaceWord(View view) {
+        Random random = new Random();
+        int color = Color.argb(255,random.nextInt(256),random.nextInt(256),random.nextInt(256));
+        colorList.add(color);
+
         String newWord = e1.getText().toString();
         if (TextUtils.isEmpty(newWord)) e1.setText("can't be left empty");
         else if (newWord.contains("\n")) e1.setText("one line only");
