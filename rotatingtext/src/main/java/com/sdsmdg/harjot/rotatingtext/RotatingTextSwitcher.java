@@ -31,7 +31,7 @@ public class RotatingTextSwitcher extends TextView {
     private Rotatable rotatable;
 
     private Paint paint;
-    static int n=0,val=0;
+    static int countCycles=0,nCycles=0;
 
     private float density;
 
@@ -338,13 +338,13 @@ public class RotatingTextSwitcher extends TextView {
 
                         else {
 
-                            if (currentText.equals(initialWord) && val != 0) {
-                                n = n + 1;
+                            if (currentText.equals(initialWord) && nCycles != 0) {
+                                countCycles = countCycles + 1;
                             }
 
-                            if (n >= val+1 && val != 0) {
-                                val = 0;
-                                n = 0;
+                            if (countCycles >= nCycles+1 && nCycles != 0) {
+                                nCycles = 0;
+                                countCycles = 0;
                                 isPaused = true;
                                 pauseRender();
                             }
@@ -371,7 +371,7 @@ public class RotatingTextSwitcher extends TextView {
     }
 
     public void cycles(int val,String word) {
-        this.val = val;
+        nCycles = val;
         initialWord = word;
     }
 }
