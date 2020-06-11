@@ -9,12 +9,13 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
+
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -153,10 +154,7 @@ public class RotatingTextSwitcher extends TextView {
 
                 canvas.drawTextOnPath(oldText, rotatable.getPathOut(), 0.0f, 0.0f, paint);
             }
-
         }
-
-
     }
 
     private void animateInHorizontal() {
@@ -181,7 +179,6 @@ public class RotatingTextSwitcher extends TextView {
         animator.setInterpolator(rotatable.getInterpolator());
         animator.setDuration(rotatable.getAnimationDuration());
         animator.start();
-
     }
 
     private void animateOutHorizontal() {
@@ -198,7 +195,6 @@ public class RotatingTextSwitcher extends TextView {
         animator.setInterpolator(rotatable.getInterpolator());
         animator.setDuration(rotatable.getAnimationDuration());
         animator.start();
-
     }
 
     private void animateInCurve() {
@@ -276,13 +272,9 @@ public class RotatingTextSwitcher extends TextView {
         animator.start();
     }
 
-    public void pause() {
-        isPaused = true;
-    }
+    public void pause() { isPaused = true; }
 
-    public void resume() {
-        isPaused = false;
-    }
+    public void resume() { isPaused = false; }
 
     private void pauseRender() {
         if (disposable != null && !disposable.isDisposed()) {
@@ -358,9 +350,7 @@ public class RotatingTextSwitcher extends TextView {
 
     }
 
-    public boolean isPaused() {
-        return isPaused;
-    }
+    public boolean isPaused() { return isPaused; }
 
 }
 
