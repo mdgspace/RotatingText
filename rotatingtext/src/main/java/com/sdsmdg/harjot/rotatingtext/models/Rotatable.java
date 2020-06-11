@@ -155,7 +155,9 @@ public class Rotatable {
         }
     }
 
-    public int getUpdateDuration() { return updateDuration; }
+    public int getUpdateDuration() {
+        return updateDuration;
+    }
 
     public void setUpdateDuration(int updateDuration) {
         this.updateDuration = updateDuration;
@@ -173,9 +175,13 @@ public class Rotatable {
         return text[(currentWordNumber + 1) % text.length];
     }
 
-    public String getNextWord() { return text[getNextWordNumber()]; }
+    public String getNextWord() {
+        return text[getNextWordNumber()];
+    }
 
-    public String getCurrentWord() { return text[currentWordNumber]; }
+    public String getCurrentWord() {
+        return text[currentWordNumber];
+    }
 
     public String getPreviousWord() {
         if (currentWordNumber <= 0)
@@ -184,40 +190,60 @@ public class Rotatable {
             return text[currentWordNumber - 1];
     }
 
-    public float getSize() { return size; }
+    public float getSize() {
+        return size;
+    }
 
     public void setSize(float size) {
         this.size = size;
         setUpdated(true);
     }
 
-    public int getStrokeWidth() { return strokeWidth; }
+    public int getStrokeWidth() {
+        return strokeWidth;
+    }
 
-    public void setStrokeWidth(int strokeWidth) { this.strokeWidth = strokeWidth; }
+    public void setStrokeWidth(int strokeWidth) {
+        this.strokeWidth = strokeWidth;
+    }
 
-    public int getAnimationDuration() { return animationDuration; }
+    public int getAnimationDuration() {
+        return animationDuration;
+    }
 
     public void setAnimationDuration(int animationDuration) {
         this.animationDuration = animationDuration;
         setUpdated(true);
     }
 
-    public Path getPathIn() { return pathIn; }
+    public Path getPathIn() {
+        return pathIn;
+    }
 
-    public void setPathIn(Path pathIn) { this.pathIn = pathIn; }
+    public void setPathIn(Path pathIn) {
+        this.pathIn = pathIn;
+    }
 
-    public Path getPathOut() { return pathOut; }
+    public Path getPathOut() {
+        return pathOut;
+    }
 
-    public void setPathOut(Path pathOut) { this.pathOut = pathOut; }
+    public void setPathOut(Path pathOut) {
+        this.pathOut = pathOut;
+    }
 
-    public Interpolator getInterpolator() { return interpolator; }
+    public Interpolator getInterpolator() {
+        return interpolator;
+    }
 
     public void setInterpolator(Interpolator interpolator) {
         this.interpolator = interpolator;
         setUpdated(true);
     }
 
-    public Typeface getTypeface() { return typeface; }
+    public Typeface getTypeface() {
+        return typeface;
+    }
 
     public void setTypeface(Typeface typeface) {
         this.typeface = typeface;
@@ -266,19 +292,28 @@ public class Rotatable {
         return largest + " ";
     }
 
-    public boolean isCenter() { return isCenter; }
+    public boolean isCenter() {
+        return isCenter;
+    }
 
     public void setCenter(boolean center) {
         isCenter = center;
         setUpdated(true);
     }
 
-    public boolean isUpdated() { return isUpdated; }
+    public boolean isUpdated() {
+        return isUpdated;
+    }
 
-    public void setUpdated(boolean updated) { isUpdated = updated; }
+    public void setUpdated(boolean updated) {
+        isUpdated = updated;
+    }
 
-    public int getFPS() { return FPS; }
+    public int getFPS() {
+        return FPS;
+    }
 
-    public void setFPS(int FPS) { this.FPS = FPS; }
-
+    public void setFPS(int FPS) {
+        this.FPS = FPS;
+    }
 }
