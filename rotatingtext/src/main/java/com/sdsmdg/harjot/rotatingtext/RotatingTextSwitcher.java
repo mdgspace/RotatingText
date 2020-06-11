@@ -31,14 +31,11 @@ public class RotatingTextSwitcher extends TextView {
     private Rotatable rotatable;
 
     private Paint paint;
-    static int countCycles=0,nCycles=0;
-
     private float density;
 
     private boolean isRotatableSet = false;
 
     private Path pathIn, pathOut;
-
 
     private Timer updateWordTimer;
 
@@ -46,7 +43,6 @@ public class RotatingTextSwitcher extends TextView {
 
     private String currentText = "";
     private String oldText = "";
-    private static String initialWord;
 
     AnimationInterface animationInterface = new AnimationInterface(false);
 
@@ -62,7 +58,6 @@ public class RotatingTextSwitcher extends TextView {
         isRotatableSet = true;
         init();
     }
-
 
     private void init() {
         paint = getPaint();
@@ -100,7 +95,6 @@ public class RotatingTextSwitcher extends TextView {
 
                 rotatable.setPathOut(pathOut);
 
-
             }
         });
 
@@ -129,7 +123,7 @@ public class RotatingTextSwitcher extends TextView {
                         if(isPaused) {
                             pauseRender();
                         }
-                       else {
+                        else {
                             animationInterface.setAnimationRunning(true);
                             resumeRender();
                             animateInHorizontal();
@@ -160,8 +154,8 @@ public class RotatingTextSwitcher extends TextView {
                 canvas.drawTextOnPath(oldText, rotatable.getPathOut(), 0.0f, 0.0f, paint);
             }
 
-
         }
+
 
     }
 
@@ -206,7 +200,7 @@ public class RotatingTextSwitcher extends TextView {
         animator.start();
 
     }
-    
+
     private void animateInCurve() {
         final int stringLength = rotatable.peekNextWord().length();
 //        long perCharacterAnimDuration = rotatable.getAnimationDuration() / stringLength;
@@ -338,19 +332,17 @@ public class RotatingTextSwitcher extends TextView {
 
                         else {
 
-                            if (currentText.equals(initialWord) && nCycles != 0) {
-                                countCycles = countCycles + 1;
+                            if (currentText.equals(rotatable.getInitialWord()) && rotatable.getCycles() != 0) {
+                                rotatable.countCycles(true);
                             }
 
-                            if (countCycles >= nCycles+1 && nCycles != 0) {
-                                nCycles = 0;
-                                countCycles = 0;
+                            if (rotatable.countCycles(false) >= rotatable.getCycles()+1 && rotatable.getCycles() != 0) {
+                                rotatable.setCycles(0);
                                 isPaused = true;
                                 pauseRender();
                             }
 
                             else {
-
                                 oldText = currentText;
                                 currentText = rotatable.getNextWord();
                                 animationInterface.setAnimationRunning(true);
@@ -370,8 +362,11 @@ public class RotatingTextSwitcher extends TextView {
         return isPaused;
     }
 
-    public void cycles(int val,String word) {
-        nCycles = val;
-        initialWord = word;
-    }
 }
+
+
+
+
+
+
+

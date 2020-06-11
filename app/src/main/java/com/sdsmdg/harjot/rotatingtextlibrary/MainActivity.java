@@ -5,7 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
+
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -13,8 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sdsmdg.harjot.rotatingtext.RotatingTextSwitcher;
 import com.sdsmdg.harjot.rotatingtext.RotatingTextWrapper;
@@ -107,7 +105,8 @@ public class MainActivity extends AppCompatActivity {
                     nCycles = Integer.parseInt(enterCycles.getText().toString());
                 }
 
-                rotatingTextSwitcher.cycles(nCycles,word);
+                rotatable.setInitialWord(word);
+                rotatable.setCycles(nCycles);
 
                 if (rotatingTextWrapper.getSwitcherList().get(0).isPaused()) {
                     rotatingTextWrapper.resume(0);
