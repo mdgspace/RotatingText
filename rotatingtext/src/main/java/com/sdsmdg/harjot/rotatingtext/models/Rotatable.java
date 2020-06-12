@@ -49,16 +49,26 @@ public class Rotatable {
 
     public Rotatable(int color, int updateDuration, String... text) {
         colorList.add(color);
+        this.color = color;
         this.updateDuration = updateDuration;
         this.text = text;
         currentWordNumber = -1;
     }
 
-    public List<Integer> getColor() {
+    public int getColor() {
+        return color;
+    }
+
+    public List<Integer> getColorList() {
             return colorList;
     }
 
-    public void setColor(List<Integer> colorList) {
+    public void setColor(int color) {
+        this.color = color;
+        setUpdated(true);
+    }
+
+    public void setColorList(List<Integer> colorList) {
         this.colorList = colorList;
         setUpdated(true);
     }

@@ -37,6 +37,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/replace_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/replaceLayout"
@@ -45,27 +46,21 @@
         android:text="replace" />
 
     <Spinner
-        android:id="@+id/spinnerColor"
+        android:id="@+id/colorSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/pause_button"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="120dp"
-        android:layout_marginRight="120dp"
-        android:layout_marginBottom="456dp" />
+        android:layout_below="@id/replace_button"
+        android:layout_centerInParent="true"
+        />
 
     <Button
         android:id="@+id/set_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/pause_button"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="448dp"
-        android:text="set" />
+        android:layout_toRightOf="@id/colorSpinner"
+        android:layout_below="@id/replace_button"
+        android:text="set"
+        android:layout_toEndOf="@id/colorSpinner" />
 
     <Button
         android:id="@+id/pause_button"

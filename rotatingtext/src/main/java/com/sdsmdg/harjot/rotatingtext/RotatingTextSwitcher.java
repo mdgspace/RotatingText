@@ -153,7 +153,7 @@ public class RotatingTextSwitcher extends TextView {
 
             String text = currentText;
             int number = rotatable.getCurrentWordNumber();
-            list = rotatable.getColor();
+            list = rotatable.getColorList();
 
             if (rotatable.getPathIn() != null) {
                 canvas.drawTextOnPath(text, rotatable.getPathIn(), 0.0f, 0.0f, paint);
@@ -321,7 +321,7 @@ public class RotatingTextSwitcher extends TextView {
 
     private void updatePaint() {
         paint.setTextSize(rotatable.getSize() * density);
-        //paint.setColor(rotatable.getColor());
+        paint.setColor(rotatable.getColor());
 
         if (rotatable.isCenter()) {
             paint.setTextAlign(Paint.Align.CENTER);

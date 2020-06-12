@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     RotatingTextWrapper rotatingTextWrapper;
     Rotatable rotatable, rotatable2;
-    Spinner s1,spinnerColor;
+    Spinner s1,colorSpinner;
     EditText e1;
     Button button;
     List<Integer> colorList = new ArrayList<>();
@@ -74,19 +74,19 @@ public class MainActivity extends AppCompatActivity {
 
         e1 = (EditText) findViewById(R.id.replaceWord);
 
-        spinnerColor = (Spinner) findViewById(R.id.spinnerColor);
+        colorSpinner = (Spinner) findViewById(R.id.colorSpinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        spinnerColor.setAdapter(adapter);
+        colorSpinner.setAdapter(adapter);
 
         Button set_button = findViewById(R.id.set_button);
         set_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                int colVal = spinnerColor.getSelectedItemPosition();
+                int colVal = colorSpinner.getSelectedItemPosition();
 
                 rotatable.colorUpdate(colorList,color[colVal]);
-                rotatable.setColor(colorList);
+                rotatable.setColorList(colorList);
 
             }
         });
