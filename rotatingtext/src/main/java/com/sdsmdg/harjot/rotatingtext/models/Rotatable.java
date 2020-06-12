@@ -84,11 +84,17 @@ public class Rotatable {
         return initialWord;
     }
 
-    public String[] getText() { return text; }
+    public String[] getText() {
+        return text;
+    }
 
-    public int getWordCount() { return text.length; }
+    public int getWordCount() {
+        return text.length;
+    }
 
-    public void setText(String... text) { this.text = text; }
+    public void setText(String... text) {
+        this.text = text;
+    }
 
     public String getTextAt(int index) {
         if (index >= text.length) {
@@ -316,4 +322,5 @@ public class Rotatable {
     public void setFPS(int FPS) {
         this.FPS = FPS;
     }
+
 }

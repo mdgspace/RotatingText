@@ -32,6 +32,7 @@ public class RotatingTextSwitcher extends TextView {
     private Rotatable rotatable;
 
     private Paint paint;
+
     private float density;
 
     private boolean isRotatableSet = false;
@@ -140,7 +141,6 @@ public class RotatingTextSwitcher extends TextView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-
         if (isRotatableSet) {
             if (rotatable.isUpdated()) {
                 updatePaint();
@@ -272,9 +272,13 @@ public class RotatingTextSwitcher extends TextView {
         animator.start();
     }
 
-    public void pause() { isPaused = true; }
+    public void pause() {
+        isPaused = true;
+    }
 
-    public void resume() { isPaused = false; }
+    public void resume() {
+        isPaused = false;
+    }
 
     private void pauseRender() {
         if (disposable != null && !disposable.isDisposed()) {
