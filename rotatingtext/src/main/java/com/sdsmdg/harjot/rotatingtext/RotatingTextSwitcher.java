@@ -354,6 +354,8 @@ public class RotatingTextSwitcher extends TextView {
 
     }
 
-    public boolean isPaused() { return isPaused; }
+    public boolean isPaused() {
+        return isPaused;
+    }
 
 }
