@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.sdsmdg.harjot.rotatingtext.RotatingTextWrapper;
 import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
@@ -25,11 +26,12 @@ public class MainActivity extends AppCompatActivity {
 
     RotatingTextWrapper rotatingTextWrapper;
     Rotatable rotatable, rotatable2;
-    Spinner s1;
+    Spinner s1,spinnerColor;
     EditText e1;
-    int i = 0;
     Button button;
     List<Integer> colorList = new ArrayList<>();
+    String[] items = new String[]{"BLUE","YELLOW","BLACK","RED","GREEN","MAGENTA","DARK GRAY"};
+    Integer[] color = new Integer[]{Color.BLUE,Color.YELLOW,Color.BLACK,Color.RED,Color.GREEN,Color.MAGENTA,Color.DKGRAY};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         rotatable.setInterpolator(new AccelerateInterpolator());
         rotatable.setAnimationDuration(500);
 
-        rotatable2 = new Rotatable(Color.parseColor("#123456"), 1000, "word", "word01", "word02");
+        rotatable2 = new Rotatable(Color.parseColor("#FFA036"), 1000, "word", "word01", "word02");
         rotatable2.setSize(25);
         rotatable2.setTypeface(typeface);
         rotatable2.setInterpolator(new DecelerateInterpolator());
@@ -58,12 +60,6 @@ public class MainActivity extends AppCompatActivity {
 
         rotatingTextWrapper.setContent("?abc ? abc", rotatable, rotatable2);
 //        rotatingTextWrapper.setContent("? abc", rotatable);
-
-
-        colorList.add(Color.argb(255,255,0,0));
-        colorList.add(Color.argb(255,0,0,255));
-        colorList.add(Color.argb(255,0,255,0));
-
 
         s1 = (Spinner) findViewById(R.id.spinner);
         List<Integer> list = new ArrayList<Integer>();
@@ -78,6 +74,23 @@ public class MainActivity extends AppCompatActivity {
 
         e1 = (EditText) findViewById(R.id.replaceWord);
 
+        spinnerColor = (Spinner) findViewById(R.id.spinnerColor);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        spinnerColor.setAdapter(adapter);
+
+        Button set_button = findViewById(R.id.set_button);
+        set_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int colVal = spinnerColor.getSelectedItemPosition();
+
+                rotatable.colorUpdate(colorList,color[colVal]);
+                rotatable.setColor(colorList);
+
+            }
+        });
+
         button = findViewById(R.id.pause_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,27 +102,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        Button colorButton = findViewById(R.id.color_button);
-        colorButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                rotatable.setColor(colorList.get(i));
-                if(i < colorList.size()-1) {
-                    i++;
-                } else {
-                    i = 0;
-                }
-            }
-        });
     }
 
     public void replaceWord(View view) {
-        Random random = new Random();
-        int color = Color.argb(255,random.nextInt(256),random.nextInt(256),random.nextInt(256));
-        colorList.add(color);
-
         String newWord = e1.getText().toString();
         if (TextUtils.isEmpty(newWord)) e1.setText("can't be left empty");
         else if (newWord.contains("\n")) e1.setText("one line only");

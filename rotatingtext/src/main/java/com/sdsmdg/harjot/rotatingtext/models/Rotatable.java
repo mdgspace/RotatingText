@@ -1,12 +1,16 @@
 package com.sdsmdg.harjot.rotatingtext.models;
 
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Typeface;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
+import java.net.PortUnreachableException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Harjot on 01-May-17.
@@ -19,6 +23,7 @@ public class Rotatable {
     private int animationDuration = 1000;
     private int currentWordNumber;
 
+    private List<Integer> colorList= new ArrayList<>();
     private float size = 24.0f;
     private int strokeWidth = -1;
 
@@ -34,6 +39,8 @@ public class Rotatable {
 
     private int FPS = 60;
 
+    private int index = 0;
+
     public Rotatable(int updateDuration, String... text) {
         this.updateDuration = updateDuration;
         this.text = text;
@@ -41,19 +48,40 @@ public class Rotatable {
     }
 
     public Rotatable(int color, int updateDuration, String... text) {
-        this.color = color;
+        colorList.add(color);
         this.updateDuration = updateDuration;
         this.text = text;
         currentWordNumber = -1;
     }
 
-    public int getColor() {
-        return color;
+    public List<Integer> getColor() {
+            return colorList;
     }
 
-    public void setColor(int color) {
-        this.color = color;
+    public void setColor(List<Integer> colorList) {
+        this.colorList = colorList;
         setUpdated(true);
+    }
+
+    public int colorSize() {
+        return colorList.size();
+    }
+
+    public void colorUpdate(List<Integer> colorList, Integer color) {
+
+        if (colorList.size() != text.length) {
+            colorList.add(color);
+        }
+        else {
+            if(index < text.length) {
+                colorList.set(index, color);
+                index++;
+            }
+            else {
+                index = 0;
+            }
+        }
+        this.colorList = colorList;
     }
 
     public String[] getText() {
@@ -160,6 +188,8 @@ public class Rotatable {
     public String getCurrentWord() {
         return text[currentWordNumber];
     }
+
+    public int getCurrentWordNumber() { return currentWordNumber; }
 
     public String getPreviousWord() {
         if (currentWordNumber <= 0)

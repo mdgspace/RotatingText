@@ -44,14 +44,28 @@
         android:onClick="replaceWord"
         android:text="replace" />
 
-    <Button
-        android:id="@+id/color_button"
+    <Spinner
+        android:id="@+id/spinnerColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/pause_button"
-        android:layout_marginBottom="24dp"
-        android:layout_centerInParent="true"
-        android:text="change" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="120dp"
+        android:layout_marginRight="120dp"
+        android:layout_marginBottom="456dp" />
+
+    <Button
+        android:id="@+id/set_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/pause_button"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="448dp"
+        android:text="set" />
 
     <Button
         android:id="@+id/pause_button"

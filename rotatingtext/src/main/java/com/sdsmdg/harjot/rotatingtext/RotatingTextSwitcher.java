@@ -6,12 +6,16 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -32,7 +36,7 @@ public class RotatingTextSwitcher extends TextView {
     private Rotatable rotatable;
 
     private Paint paint;
-
+    List<Integer> list =  new ArrayList<>();
     private float density;
 
     private boolean isRotatableSet = false;
@@ -66,7 +70,7 @@ public class RotatingTextSwitcher extends TextView {
         density = getContext().getResources().getDisplayMetrics().density;
         paint.setAntiAlias(true);
         paint.setTextSize(rotatable.getSize() * density);
-        paint.setColor(rotatable.getColor());
+       // paint.setColor(rotatable.getColor());
 
         if (rotatable.isCenter()) {
             //always false
@@ -146,13 +150,28 @@ public class RotatingTextSwitcher extends TextView {
                 updatePaint();
                 rotatable.setUpdated(false);
             }
+
             String text = currentText;
+            int number = rotatable.getCurrentWordNumber();
+            list = rotatable.getColor();
+
             if (rotatable.getPathIn() != null) {
                 canvas.drawTextOnPath(text, rotatable.getPathIn(), 0.0f, 0.0f, paint);
-            }
-            if (rotatable.getPathOut() != null) {
 
+                if(number < rotatable.colorSize() && number > 0) {
+                    paint.setColor(list.get(number - 1));
+                }
+                else {
+                    paint.setColor(list.get(rotatable.colorSize() - 1));
+                }
+
+            }
+
+            if (rotatable.getPathOut() != null) {
                 canvas.drawTextOnPath(oldText, rotatable.getPathOut(), 0.0f, 0.0f, paint);
+                if(number < rotatable.colorSize()) {
+                    paint.setColor(list.get(number));
+                }
             }
         }
     }
@@ -302,7 +321,7 @@ public class RotatingTextSwitcher extends TextView {
 
     private void updatePaint() {
         paint.setTextSize(rotatable.getSize() * density);
-        paint.setColor(rotatable.getColor());
+        //paint.setColor(rotatable.getColor());
 
         if (rotatable.isCenter()) {
             paint.setTextAlign(Paint.Align.CENTER);
