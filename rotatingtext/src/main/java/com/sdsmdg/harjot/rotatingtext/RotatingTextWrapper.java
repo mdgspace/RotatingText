@@ -1,24 +1,24 @@
 package com.sdsmdg.harjot.rotatingtext;
 
-        import android.content.Context;
-        import android.graphics.Color;
-        import android.graphics.Paint;
-        import android.graphics.Rect;
-        import android.graphics.Typeface;
-        import android.os.Build;
-        import android.text.TextUtils;
-        import android.util.AttributeSet;
-        import android.util.TypedValue;
-        import android.view.View;
-        import android.widget.RelativeLayout;
-        import android.widget.TextView;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.os.Build;
+import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-        import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
-        import com.sdsmdg.harjot.rotatingtext.utils.Utils;
+import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
+import com.sdsmdg.harjot.rotatingtext.utils.Utils;
 
-        import java.util.ArrayList;
-        import java.util.Collections;
-        import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Harjot on 01-May-17.
