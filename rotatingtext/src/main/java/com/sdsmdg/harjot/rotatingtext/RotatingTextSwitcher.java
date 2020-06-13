@@ -36,7 +36,7 @@ public class RotatingTextSwitcher extends TextView {
     private Rotatable rotatable;
 
     private Paint paint;
-    List<Integer> list =  new ArrayList<>();
+    Integer[] color_array;
     private float density;
 
     private boolean isRotatableSet = false;
@@ -153,24 +153,22 @@ public class RotatingTextSwitcher extends TextView {
 
             String text = currentText;
             int number = rotatable.getCurrentWordNumber();
-            list = rotatable.getColorList();
+            color_array = rotatable.getColor_array();
 
             if (rotatable.getPathIn() != null) {
                 canvas.drawTextOnPath(text, rotatable.getPathIn(), 0.0f, 0.0f, paint);
 
-                if(number < rotatable.colorSize() && number > 0) {
-                    paint.setColor(list.get(number - 1));
-                }
-                else {
-                    paint.setColor(list.get(rotatable.colorSize() - 1));
+                if (number < color_array.length && number > 0) {
+                    paint.setColor(color_array[number - 1]);
+                } else {
+                    paint.setColor(color_array[color_array.length - 1]);
                 }
 
-            }
-
-            if (rotatable.getPathOut() != null) {
-                canvas.drawTextOnPath(oldText, rotatable.getPathOut(), 0.0f, 0.0f, paint);
-                if(number < rotatable.colorSize()) {
-                    paint.setColor(list.get(number));
+                if (rotatable.getPathOut() != null) {
+                    canvas.drawTextOnPath(oldText, rotatable.getPathOut(), 0.0f, 0.0f, paint);
+                if(number < color_array.length) {
+                    paint.setColor(color_array[number]);
+                }
                 }
             }
         }

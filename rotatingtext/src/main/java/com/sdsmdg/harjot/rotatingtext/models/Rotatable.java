@@ -23,7 +23,8 @@ public class Rotatable {
     private int animationDuration = 1000;
     private int currentWordNumber;
 
-    private List<Integer> colorList= new ArrayList<>();
+    private Integer[] color_array;
+
     private float size = 24.0f;
     private int strokeWidth = -1;
 
@@ -39,7 +40,6 @@ public class Rotatable {
 
     private int FPS = 60;
 
-    private int index = 0;
 
     public Rotatable(int updateDuration, String... text) {
         this.updateDuration = updateDuration;
@@ -48,8 +48,15 @@ public class Rotatable {
     }
 
     public Rotatable(int color, int updateDuration, String... text) {
-        colorList.add(color);
+        this.color_array = new Integer[]{color};
         this.color = color;
+        this.updateDuration = updateDuration;
+        this.text = text;
+        currentWordNumber = -1;
+    }
+
+    public Rotatable(Integer[] color_array, int updateDuration, String... text) {
+        this.color_array = color_array;
         this.updateDuration = updateDuration;
         this.text = text;
         currentWordNumber = -1;
@@ -59,39 +66,14 @@ public class Rotatable {
         return color;
     }
 
-    public List<Integer> getColorList() {
-            return colorList;
-    }
-
     public void setColor(int color) {
         this.color = color;
+        color_array[0] = color;
         setUpdated(true);
     }
 
-    public void setColorList(List<Integer> colorList) {
-        this.colorList = colorList;
-        setUpdated(true);
-    }
-
-    public int colorSize() {
-        return colorList.size();
-    }
-
-    public void colorUpdate(List<Integer> colorList, Integer color) {
-
-        if (colorList.size() != text.length) {
-            colorList.add(color);
-        }
-        else {
-            if(index < text.length) {
-                colorList.set(index, color);
-                index++;
-            }
-            else {
-                index = 0;
-            }
-        }
-        this.colorList = colorList;
+    public Integer[] getColor_array() {
+        return color_array;
     }
 
     public String[] getText() {

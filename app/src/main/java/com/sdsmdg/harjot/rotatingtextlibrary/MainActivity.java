@@ -26,12 +26,10 @@ public class MainActivity extends AppCompatActivity {
 
     RotatingTextWrapper rotatingTextWrapper;
     Rotatable rotatable, rotatable2;
-    Spinner s1,colorSpinner;
+    Spinner s1;
     EditText e1;
     Button button;
-    List<Integer> colorList = new ArrayList<>();
-    String[] items = new String[]{"BLUE","YELLOW","BLACK","RED","GREEN","MAGENTA","DARK GRAY"};
-    Integer[] color = new Integer[]{Color.BLUE,Color.YELLOW,Color.BLACK,Color.RED,Color.GREEN,Color.MAGENTA,Color.DKGRAY};
+    Integer[] color = new Integer[]{Color.BLUE,Color.MAGENTA,Color.RED};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         rotatingTextWrapper.setTypeface(typeface2);
 
 //        rotatable = new Rotatable(Color.parseColor("#FFA036"), 1000, "Word00", "Word01", "Word02");
-        rotatable = new Rotatable(Color.parseColor("#123456"),  1000 ,"rotating", "text", "library");
+        rotatable = new Rotatable(color,  1000 ,"rotating", "text", "library");
         rotatable.setSize(25);
         rotatable.setTypeface(typeface);
         rotatable.setInterpolator(new AccelerateInterpolator());
@@ -74,27 +72,11 @@ public class MainActivity extends AppCompatActivity {
 
         e1 = (EditText) findViewById(R.id.replaceWord);
 
-        colorSpinner = (Spinner) findViewById(R.id.colorSpinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        colorSpinner.setAdapter(adapter);
-
-        Button set_button = findViewById(R.id.set_button);
-        set_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                int colVal = colorSpinner.getSelectedItemPosition();
-
-                rotatable.colorUpdate(colorList,color[colVal]);
-                rotatable.setColorList(colorList);
-
-            }
-        });
-
         button = findViewById(R.id.pause_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (!rotatingTextWrapper.getSwitcherList().get(0).isPaused()) {
                     rotatingTextWrapper.pause(0);
                 } else {
