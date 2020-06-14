@@ -23,7 +23,8 @@ public class Rotatable {
     private int animationDuration = 1000;
     private int currentWordNumber;
 
-    private Integer[] color_array;
+    private Integer[] color_array={Color.BLACK};
+    private boolean useArray = false;
 
     private float size = 24.0f;
     private int strokeWidth = -1;
@@ -48,7 +49,6 @@ public class Rotatable {
     }
 
     public Rotatable(int color, int updateDuration, String... text) {
-        this.color_array = new Integer[]{color};
         this.color = color;
         this.updateDuration = updateDuration;
         this.text = text;
@@ -60,15 +60,19 @@ public class Rotatable {
         this.updateDuration = updateDuration;
         this.text = text;
         currentWordNumber = -1;
+        useArray = true;
     }
 
     public int getColor() {
         return color;
     }
 
+    public boolean useArray() {
+        return useArray;
+    }
+
     public void setColor(int color) {
         this.color = color;
-        color_array[0] = color;
         setUpdated(true);
     }
 
