@@ -7,10 +7,7 @@ import android.graphics.Typeface;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
-import java.net.PortUnreachableException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by Harjot on 01-May-17.
@@ -71,13 +68,17 @@ public class Rotatable {
         return useArray;
     }
 
+    public int getColorFromArray(int pos) {
+        return color_array[pos];
+    }
+
+    public int colorArraySize() {
+        return color_array.length;
+    }
+
     public void setColor(int color) {
         this.color = color;
         setUpdated(true);
-    }
-
-    public Integer[] getColor_array() {
-        return color_array;
     }
 
     public String[] getText() {

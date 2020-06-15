@@ -6,16 +6,12 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -36,7 +32,6 @@ public class RotatingTextSwitcher extends TextView {
     private Rotatable rotatable;
 
     private Paint paint;
-    Integer[] color_array;
     private float density;
 
     private boolean isRotatableSet = false;
@@ -70,7 +65,7 @@ public class RotatingTextSwitcher extends TextView {
         density = getContext().getResources().getDisplayMetrics().density;
         paint.setAntiAlias(true);
         paint.setTextSize(rotatable.getSize() * density);
-       // paint.setColor(rotatable.getColor());
+        paint.setColor(rotatable.getColor());
 
         if (rotatable.isCenter()) {
             //always false
@@ -153,23 +148,23 @@ public class RotatingTextSwitcher extends TextView {
 
             String text = currentText;
             int number = rotatable.getCurrentWordNumber();
-            color_array = rotatable.getColor_array();
+            int arrayLength = rotatable.colorArraySize();
 
             if (rotatable.getPathIn() != null) {
                 canvas.drawTextOnPath(text, rotatable.getPathIn(), 0.0f, 0.0f, paint);
 
                 if(rotatable.useArray()) {
-                    if (number < color_array.length && number > 0) {
-                        paint.setColor(color_array[number - 1]);
+                    if (number < arrayLength && number > 0) {
+                        paint.setColor(rotatable.getColorFromArray(number-1));
                     } else {
-                        paint.setColor(color_array[color_array.length - 1]);
+                        paint.setColor(rotatable.getColorFromArray(arrayLength-1));
                     }
                 }
 
                 if (rotatable.getPathOut() != null) {
                     canvas.drawTextOnPath(oldText, rotatable.getPathOut(), 0.0f, 0.0f, paint);
-                if(number < color_array.length && rotatable.useArray()) {
-                    paint.setColor(color_array[number]);
+                if(number < arrayLength && rotatable.useArray()) {
+                    paint.setColor(rotatable.getColorFromArray(number));
                 }
                 }
             }
