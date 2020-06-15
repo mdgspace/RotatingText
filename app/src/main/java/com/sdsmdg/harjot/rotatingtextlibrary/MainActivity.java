@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     int nCycles;
     EditText enterCycles;
     EditText e1;
+
     Button button;
 
     @Override

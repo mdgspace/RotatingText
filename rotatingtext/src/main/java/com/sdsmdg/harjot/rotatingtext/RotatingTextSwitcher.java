@@ -97,6 +97,7 @@ public class RotatingTextSwitcher extends TextView {
 
                 rotatable.setPathOut(pathOut);
 
+
             }
         });
 
@@ -122,7 +123,7 @@ public class RotatingTextSwitcher extends TextView {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(isPaused) {
+                        if (isPaused) {
                             pauseRender();
                         }
                         else {
@@ -322,7 +323,7 @@ public class RotatingTextSwitcher extends TextView {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(isPaused ) {
+                        if (isPaused) {
                             pauseRender();
                         }
 
