@@ -32,6 +32,7 @@ public class RotatingTextSwitcher extends TextView {
     private Rotatable rotatable;
 
     private Paint paint;
+
     private float density;
 
     private boolean isRotatableSet = false;
