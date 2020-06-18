@@ -147,13 +147,28 @@ public class RotatingTextSwitcher extends TextView {
                 updatePaint();
                 rotatable.setUpdated(false);
             }
+
             String text = currentText;
+            int number = rotatable.getCurrentWordNumber();
+            int arrayLength = rotatable.colorArraySize();
+
             if (rotatable.getPathIn() != null) {
                 canvas.drawTextOnPath(text, rotatable.getPathIn(), 0.0f, 0.0f, paint);
-            }
-            if (rotatable.getPathOut() != null) {
 
-                canvas.drawTextOnPath(oldText, rotatable.getPathOut(), 0.0f, 0.0f, paint);
+                if(rotatable.useArray()) {
+                    if (number < arrayLength && number > 0) {
+                        paint.setColor(rotatable.getColorFromArray(number-1));
+                    } else {
+                        paint.setColor(rotatable.getColorFromArray(arrayLength-1));
+                    }
+                }
+
+                if (rotatable.getPathOut() != null) {
+                    canvas.drawTextOnPath(oldText, rotatable.getPathOut(), 0.0f, 0.0f, paint);
+                if(number < arrayLength && rotatable.useArray()) {
+                    paint.setColor(rotatable.getColorFromArray(number));
+                }
+                }
             }
         }
     }

@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     EditText e1;
 
     Button button;
+    Integer[] color = new Integer[]{Color.BLUE,Color.MAGENTA,Color.RED};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,18 +49,18 @@ public class MainActivity extends AppCompatActivity {
         rotatingTextWrapper.setTypeface(typeface2);
 
 //        rotatable = new Rotatable(Color.parseColor("#FFA036"), 1000, "Word00", "Word01", "Word02");
+        rotatable = new Rotatable(color , 1000, "rotating", "text", "library");
+        rotatable.setSize(25);
+        rotatable.setTypeface(typeface);
+        rotatable.setInterpolator(new AccelerateInterpolator());
+        rotatable.setAnimationDuration(500);
+
         rotatable2 = new Rotatable(Color.parseColor("#123456"), 1000, "word", "word01", "word02");
         rotatable2.setSize(25);
         rotatable2.setTypeface(typeface);
         rotatable2.setInterpolator(new DecelerateInterpolator());
         rotatable2.setAnimationDuration(500);
 
-
-        rotatable = new Rotatable(Color.parseColor("#FFA036"), 1000, "rotating", "text", "library");
-        rotatable.setSize(25);
-        rotatable.setTypeface(typeface);
-        rotatable.setInterpolator(new AccelerateInterpolator());
-        rotatable.setAnimationDuration(500);
 
         word = rotatable.getTextAt(0);
 
