@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.sdsmdg.harjot.rotatingtext.RotatingTextSwitcher;
 import com.sdsmdg.harjot.rotatingtext.RotatingTextWrapper;
 import com.sdsmdg.harjot.rotatingtext.models.Rotatable;
 
@@ -22,8 +24,12 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     RotatingTextWrapper rotatingTextWrapper;
+    RotatingTextSwitcher rotatingTextSwitcher;
     Rotatable rotatable, rotatable2;
     Spinner s1;
+    String word;
+    int nCycles;
+    EditText enterCycles;
     EditText e1;
 
     Button button;
@@ -34,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        rotatingTextSwitcher = new RotatingTextSwitcher(this);
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Raleway-Light.ttf");
         Typeface typeface2 = Typeface.createFromAsset(getAssets(), "fonts/Reckoner_Bold.ttf");
 
@@ -42,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         rotatingTextWrapper.setTypeface(typeface2);
 
 //        rotatable = new Rotatable(Color.parseColor("#FFA036"), 1000, "Word00", "Word01", "Word02");
-        rotatable = new Rotatable(color,  1000 ,"rotating", "text", "library");
+        rotatable = new Rotatable(color , 1000, "rotating", "text", "library");
         rotatable.setSize(25);
         rotatable.setTypeface(typeface);
         rotatable.setInterpolator(new AccelerateInterpolator());
@@ -54,14 +61,21 @@ public class MainActivity extends AppCompatActivity {
         rotatable2.setInterpolator(new DecelerateInterpolator());
         rotatable2.setAnimationDuration(500);
 
+
+        word = rotatable.getTextAt(0);
+
         rotatingTextWrapper.setContent("?abc ? abc", rotatable, rotatable2);
 //        rotatingTextWrapper.setContent("? abc", rotatable);
 
         s1 = (Spinner) findViewById(R.id.spinner);
+
+
+
         List<Integer> list = new ArrayList<Integer>();
         list.add(1);
         list.add(2);
         list.add(3);
+
         ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<Integer>(this,
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -81,6 +95,26 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Button button2 = findViewById(R.id.set_button);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                enterCycles = (EditText) findViewById(R.id.enterCycles);
+
+
+                if(!enterCycles.getText().toString().equals("") && enterCycles.getText() != null) {
+                    nCycles = Integer.parseInt(enterCycles.getText().toString());
+                }
+
+                rotatable.setInitialWord(word);
+                rotatable.setCycles(nCycles);
+
+                if (rotatingTextWrapper.getSwitcherList().get(0).isPaused()) {
+                    rotatingTextWrapper.resume(0);
+                }
+            }
+        });
     }
 
     public void replaceWord(View view) {
@@ -91,5 +125,7 @@ public class MainActivity extends AppCompatActivity {
             rotatingTextWrapper.setAdaptable(true);
             rotatingTextWrapper.addWord(0, (int) s1.getSelectedItem() - 1, newWord);
         }
+
     }
 }
+

@@ -38,6 +38,8 @@ public class Rotatable {
 
     private int FPS = 60;
 
+    private int nCycles = 0, countCycles = 0;
+    private String initialWord = "";
 
     public Rotatable(int updateDuration, String... text) {
         this.updateDuration = updateDuration;
@@ -79,6 +81,30 @@ public class Rotatable {
     public void setColor(int color) {
         this.color = color;
         setUpdated(true);
+    }
+
+    public int countCycles(boolean bool) {
+        if(bool) {
+            countCycles = countCycles + 1;
+        }
+        return countCycles;
+    }
+
+    public void setCycles(int val) {
+        this.nCycles = val;
+        countCycles = 0;
+    }
+
+    public int getCycles() {
+        return nCycles;
+    }
+
+    public void setInitialWord(String initialWord) {
+        this.initialWord = initialWord;
+    }
+
+    public String getInitialWord() {
+        return initialWord;
     }
 
     public String[] getText() {
