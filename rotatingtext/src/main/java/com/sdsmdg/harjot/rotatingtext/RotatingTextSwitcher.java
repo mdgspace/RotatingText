@@ -125,7 +125,8 @@ public class RotatingTextSwitcher extends TextView {
                     public void run() {
                         if (isPaused) {
                             pauseRender();
-                        } else {
+                        }
+                        else {
                             animationInterface.setAnimationRunning(true);
                             resumeRender();
                             animateInHorizontal();
@@ -324,14 +325,28 @@ public class RotatingTextSwitcher extends TextView {
                     public void run() {
                         if (isPaused) {
                             pauseRender();
-                        } else {
-                            oldText = currentText;
-                            currentText = rotatable.getNextWord();
-                            animationInterface.setAnimationRunning(true);
-                            resumeRender();
-                            animateInHorizontal();
-                            animateOutHorizontal();
+                        }
 
+                        else {
+
+                            if (currentText.equals(rotatable.getInitialWord()) && rotatable.getCycles() != 0) {
+                                rotatable.countCycles(true);
+                            }
+
+                            if (rotatable.countCycles(false) >= rotatable.getCycles()+1 && rotatable.getCycles() != 0) {
+                                rotatable.setCycles(0);
+                                isPaused = true;
+                                pauseRender();
+                            }
+
+                            else {
+                                oldText = currentText;
+                                currentText = rotatable.getNextWord();
+                                animationInterface.setAnimationRunning(true);
+                                resumeRender();
+                                animateInHorizontal();
+                                animateOutHorizontal();
+                            }
                         }
                     }
                 });
