@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 ## Unreleased 
 
 ### Added
-- Option for changing color of rotating texts by [@Anu-123-gif](https://github.com/Anu-123-gif) and [@dev-ritik](https://github.com/dev-ritik) [9d8a330](https://github.com/mdg-iitr/RotatingText/commit/9d8a330fee558856c564db7318579038c8ca1c40)
+- Option for changing color of rotating texts by [@Anu-123-gif](https://github.com/Anu-123-gif) and [@dev-ritik](https://github.com/dev-ritik) in [9d8a330](https://github.com/mdg-iitr/RotatingText/commit/9d8a330fee558856c564db7318579038c8ca1c40)
 - Stop rotation after one cycle by [@Anu-123-gif](https://github.com/Anu-123-gif) and [@dev-ritik](https://github.com/dev-ritik) in [8ed21ea](https://github.com/mdg-iitr/RotatingText/commit/8ed21ea7825f4f3a87af523e1a0693a78eaf646e)
 - Method to add words to rotating texts added by [@dev-ritik](https://github.com/dev-ritik) in [118ab03](https://github.com/mdg-iitr/RotatingText/commit/118ab03d598cdb19e8ee2b8cff6586e7e23a19e4)
 - onMeasure method added by [@dev-ritik](https://github.com/dev-ritik) in [dea14a2](https://github.com/mdg-iitr/RotatingText/commit/dea14a2099f27ba730b62be30b786c94cb56c01a)
