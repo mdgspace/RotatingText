@@ -34,6 +34,8 @@ public class Rotatable {
 
     private int FPS = 60;
 
+    private boolean applyHorizontal = false;
+
     public Rotatable(int updateDuration, String... text) {
         this.updateDuration = updateDuration;
         this.text = text;
@@ -55,6 +57,16 @@ public class Rotatable {
         this.color = color;
         setUpdated(true);
     }
+
+
+    public void setApplyHorizontal(Boolean bool) {
+        applyHorizontal = bool;
+    }
+
+    public boolean getApplyHorizontal() {
+        return applyHorizontal;
+    }
+
 
     public String[] getText() {
         return text;

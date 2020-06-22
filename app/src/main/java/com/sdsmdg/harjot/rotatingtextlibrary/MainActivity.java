@@ -80,6 +80,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+        Button buttonChange = findViewById(R.id.change);
+        buttonChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean apply = rotatable.getApplyHorizontal();
+                rotatable.setApplyHorizontal(!apply);
+                rotatable2.setApplyHorizontal(!apply);
+            }
+        });
     }
 
     public void replaceWord(View view) {

@@ -34,9 +34,11 @@
             android:padding="5dp">
 
         </Spinner>
+
     </LinearLayout>
 
     <Button
+        android:id="@+id/replace_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/replaceLayout"
@@ -44,12 +46,55 @@
         android:onClick="replaceWord"
         android:text="replace" />
 
-    <Button
-        android:id="@+id/pause_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Pause/Resume" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/pause_button"
+            android:layout_marginBottom="24dp"
+            android:text="Change" />
+
+        <Button
+            android:id="@+id/pause_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="pause/resume" />
+
+
+        <EditText
+            android:id="@+id/enterCycles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textSize="15sp"
+            android:layout_marginRight="10dp"
+
+
+            android:layout_alignParentBottom="true"
+
+            android:hint="No. of cycles"
+            android:ems="10"
+            android:layout_toRightOf="@id/pause_button"
+            android:layout_toLeftOf="@id/set_button"
+            android:inputType="number"
+            android:layout_toEndOf="@id/pause_button"
+            android:layout_toStartOf="@id/set_button" />
+
+        <Button
+            android:id="@+id/set_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
+
 
 </RelativeLayout>

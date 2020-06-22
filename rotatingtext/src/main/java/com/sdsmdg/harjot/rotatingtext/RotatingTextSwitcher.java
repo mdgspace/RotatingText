@@ -163,8 +163,15 @@ public class RotatingTextSwitcher extends TextView {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 pathIn = new Path();
-                pathIn.moveTo(0.0f, (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
-                pathIn.lineTo(getWidth(), (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
+
+                if(!rotatable.getApplyHorizontal()) {
+                    pathIn.moveTo(0.0f, (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
+                    pathIn.lineTo(getWidth(), (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
+                }
+                else {
+                    pathIn.moveTo((Float) valueAnimator.getAnimatedValue(), 50.0f);
+                    pathIn.lineTo((Float) valueAnimator.getAnimatedValue() +90000.0F, getWidth());
+                }
                 rotatable.setPathIn(pathIn);
             }
         });
@@ -179,6 +186,7 @@ public class RotatingTextSwitcher extends TextView {
         animator.setInterpolator(rotatable.getInterpolator());
         animator.setDuration(rotatable.getAnimationDuration());
         animator.start();
+
     }
 
     private void animateOutHorizontal() {
@@ -187,8 +195,14 @@ public class RotatingTextSwitcher extends TextView {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 pathOut = new Path();
-                pathOut.moveTo(0.0f, (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
-                pathOut.lineTo(getWidth(), (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
+                if(!rotatable.getApplyHorizontal()) {
+                    pathOut.moveTo(0.0f, (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
+                    pathOut.lineTo(getWidth(), (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
+                }
+                else {
+                    pathIn.moveTo((Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom, 50.0f);
+                    pathIn.lineTo((Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom + 90000.0F, getWidth());
+                }
                 rotatable.setPathOut(pathOut);
             }
         });
