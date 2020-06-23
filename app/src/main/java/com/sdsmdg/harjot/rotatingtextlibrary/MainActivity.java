@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
     Spinner s1;
     String word;
     int nCycles;
-    EditText enterCycles;
-    EditText e1;
+    EditText enterCycles,e1;
+
 
     Button button;
     Integer[] color = new Integer[]{Color.BLUE,Color.MAGENTA,Color.RED};
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         rotatingTextWrapper.setContent("?abc ? abc", rotatable, rotatable2);
 //        rotatingTextWrapper.setContent("? abc", rotatable);
 
-        s1 = (Spinner) findViewById(R.id.spinner);
+        s1 = findViewById(R.id.spinner);
 
 
 
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         s1.setAdapter(dataAdapter);
         s1.setSelection(0);
 
-        e1 = (EditText) findViewById(R.id.replaceWord);
+        e1 = findViewById(R.id.addWord);
 
         button = findViewById(R.id.pause_button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -96,28 +96,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button button2 = findViewById(R.id.set_button);
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                enterCycles = (EditText) findViewById(R.id.enterCycles);
 
-
-                if(!enterCycles.getText().toString().equals("") && enterCycles.getText() != null) {
-                    nCycles = Integer.parseInt(enterCycles.getText().toString());
-                }
-
-                rotatable.setInitialWord(word);
-                rotatable.setCycles(nCycles);
-
-                if (rotatingTextWrapper.getSwitcherList().get(0).isPaused()) {
-                    rotatingTextWrapper.resume(0);
-                }
-            }
-        });
     }
 
-    public void replaceWord(View view) {
+    public void addNewWord(View view) {
         String newWord = e1.getText().toString();
         if (TextUtils.isEmpty(newWord)) e1.setText("can't be left empty");
         else if (newWord.contains("\n")) e1.setText("one line only");
@@ -125,7 +107,19 @@ public class MainActivity extends AppCompatActivity {
             rotatingTextWrapper.setAdaptable(true);
             rotatingTextWrapper.addWord(0, (int) s1.getSelectedItem() - 1, newWord);
         }
+    }
 
+    public void stopRotation(View view){
+        enterCycles = findViewById(R.id.enterCycles);
+        if(!enterCycles.getText().toString().equals("") && enterCycles.getText() != null) {
+            nCycles = Integer.parseInt(enterCycles.getText().toString());
+        }
+        rotatable.setInitialWord(word);
+        rotatable.setCycles(nCycles);
+
+        if (rotatingTextWrapper.getSwitcherList().get(0).isPaused()) {
+            rotatingTextWrapper.resume(0);
+        }
     }
 }
 
