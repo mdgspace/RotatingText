@@ -194,7 +194,7 @@ public class RotatingTextSwitcher extends TextView {
                 public void onAnimationUpdate(ValueAnimator valueAnimator) {
                     pathIn = new Path();
                     pathIn.moveTo((Float) valueAnimator.getAnimatedValue(), 2*getHeight()/3.0f);
-                    pathIn.lineTo((Float) valueAnimator.getAnimatedValue() +90000.0F, 2*getHeight()/3.0f);
+                    pathIn.lineTo((Float) valueAnimator.getAnimatedValue() + getWidth(), 2*getHeight()/3.0f);
                     rotatable.setPathIn(pathIn);
                 }
             });
@@ -233,7 +233,7 @@ public class RotatingTextSwitcher extends TextView {
                 public void onAnimationUpdate(ValueAnimator valueAnimator) {
                     pathOut = new Path();
                     pathOut.moveTo((Float) valueAnimator.getAnimatedValue(), 2*getHeight()/3.0f);
-                    pathOut.lineTo((Float) valueAnimator.getAnimatedValue() + 90000.0F, 2*getHeight()/3.0f);
+                    pathOut.lineTo((Float) valueAnimator.getAnimatedValue() + getWidth(), 2*getHeight()/3.0f);
                     rotatable.setPathOut(pathOut);
                 }
             });
