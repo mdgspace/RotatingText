@@ -41,6 +41,8 @@ public class Rotatable {
     private int nCycles = 0, countCycles = 0;
     private String initialWord = "";
 
+    private boolean applyHorizontal = false;
+
     public Rotatable(int updateDuration, String... text) {
         this.updateDuration = updateDuration;
         this.text = text;
@@ -105,6 +107,14 @@ public class Rotatable {
 
     public String getInitialWord() {
         return initialWord;
+    }
+
+    public void setApplyHorizontal(Boolean bool) {
+        applyHorizontal = bool;
+    }
+
+    public boolean getApplyHorizontal() {
+        return applyHorizontal;
     }
 
     public String[] getText() {
