@@ -112,6 +112,71 @@ rotatingTextWrapper.setContent("This is ? and ?", rotatable, rotatable2);
 #### Result
 <img src="/screens/gif_example_3.gif"/>
 
+## Example Usage 4 (Changing Colors)
+#### XML
+
+```
+<com.sdsmdg.harjot.rotatingtext.RotatingTextWrapper
+        android:id="@+id/custom_switcher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+```
+
+#### Java
+
+```
+        Integer[] color = new Integer[]{Color.parseColor("#ecc19c"),Color.parseColor("#1e847f"),Color.parseColor("#000000")};
+
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Raleway-Light.ttf");
+        Typeface typeface2 = Typeface.createFromAsset(getAssets(), "fonts/Reckoner_Bold.ttf");
+
+        RotatingTextWrapper rotatingTextWrapper = (RotatingTextWrapper) findViewById(R.id.custom_switcher);
+        rotatingTextWrapper.setSize(35);
+        rotatingTextWrapper.setTypeface(typeface2);
+
+        Rotatable rotatable = new Rotatable(color , 1000, "Rotating", "Text", "Library");
+        rotatable.setSize(30);
+        rotatable.setTypeface(typeface);
+        rotatable.setInterpolator(new AccelerateInterpolator());
+        rotatable.setAnimationDuration(500);
+
+        rotatingTextWrapper.setContent("This is ?", rotatable);
+```
+#### Result
+<img src="/screens/gif_example_4.gif"/>
+
+## Example Usage 5 (Stop rotations after given number of cycles)
+#### XML
+
+```
+<com.sdsmdg.harjot.rotatingtext.RotatingTextWrapper
+        android:id="@+id/custom_switcher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+```
+
+#### Java
+
+```
+        String word;
+        int nCycles;
+
+        RotatingTextWrapper rotatingTextWrapper = (RotatingTextWrapper) findViewById(R.id.custom_switcher);
+        rotatingTextWrapper.setSize(35);
+
+        Rotatable rotatable = new Rotatable(Color.parseColor("#FFA036"), 1000, "Word", "Word01", "Word02");
+        rotatable.setSize(35);
+        rotatable.setAnimationDuration(500);
+
+        rotatingTextWrapper.setContent("This is ?", rotatable);
+        word = rotatable.getTextAt(0);  //Set the index of the word on which you want the rotation to stop
+        nCycles = 2;
+        rotatable.setCycles(nCycles);
+        rotatable.setInitialWord(word);       
+```
+#### Result
+<img src="/screens/gif_example_5.gif"/>
+
 # Documentation
 
 Rotating text is made of two parts : `RotatingTextWrapper` and `Rotatable`. <br>
@@ -138,8 +203,10 @@ For eg : `rotatingTextWrapper.setContent("This is ?", rotatble);`. Here the `?` 
 |Interpolator          | setInterpolator(...)               | Set the animation interpolator used while switching text              |
 |Update Duration       | setUpdateDuration(...)             | Set the interval between switching the words                          |
 |Animation Duration    | setAnimationDuration(...)          | Set the duration of the switching animation                           |
-|Center Align          | setCenter(...)                     |Align the rotating text to center of the textview if set to **true**   |
-
+|Center Align          | setCenter(...)                     | Align the rotating text to center of the textview if set to **true**  |
+|Text                  | getTextAt(...)                     | Get the rotating text at a particular index                           |
+|Initial Word          | setInitialWord(...)                | Set the word on which the rotation has to stop                        |
+|Cycles                | setCycles(...)                     | Set the number of cyles of rotations needed before stopping           |
 
 # License
 RotatingText is licensed under `MIT license`. View [license](LICENSE.md).
