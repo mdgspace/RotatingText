@@ -174,16 +174,31 @@ public class RotatingTextSwitcher extends TextView {
     }
 
     private void animateInHorizontal() {
-        ValueAnimator animator = ValueAnimator.ofFloat(0.0f, getHeight());
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                pathIn = new Path();
-                pathIn.moveTo(0.0f, (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
-                pathIn.lineTo(getWidth(), (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
-                rotatable.setPathIn(pathIn);
-            }
-        });
+        ValueAnimator animator;
+        if(!rotatable.getApplyHorizontal()) {
+            animator = ValueAnimator.ofFloat(0.0f, getHeight());
+            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    pathIn = new Path();
+                    pathIn.moveTo(0.0f, (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
+                    pathIn.lineTo(getWidth(), (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
+                    rotatable.setPathIn(pathIn);
+                }
+            });
+        }
+        else {
+            animator = ValueAnimator.ofFloat(-getWidth(),0.0f );
+            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    pathIn = new Path();
+                    pathIn.moveTo((Float) valueAnimator.getAnimatedValue(), 4.8f*getHeight()/6);
+                    pathIn.lineTo((Float) valueAnimator.getAnimatedValue() + getWidth(), 4.8f*getHeight()/6);
+                    rotatable.setPathIn(pathIn);
+                }
+            });
+        }
         animator.addListener(new AnimatorListenerAdapter()
         {
             @Override
@@ -198,16 +213,31 @@ public class RotatingTextSwitcher extends TextView {
     }
 
     private void animateOutHorizontal() {
-        ValueAnimator animator = ValueAnimator.ofFloat(getHeight(), getHeight() * 2.0f);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                pathOut = new Path();
-                pathOut.moveTo(0.0f, (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
-                pathOut.lineTo(getWidth(), (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
-                rotatable.setPathOut(pathOut);
-            }
-        });
+        ValueAnimator animator;
+        if(!rotatable.getApplyHorizontal()) {
+            animator = ValueAnimator.ofFloat(getHeight(), getHeight() * 2.0f);
+            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    pathOut = new Path();
+                    pathOut.moveTo(0.0f, (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
+                    pathOut.lineTo(getWidth(), (Float) valueAnimator.getAnimatedValue() - paint.getFontMetrics().bottom);
+                    rotatable.setPathOut(pathOut);
+                }
+            });
+        }
+        else {
+            animator = ValueAnimator.ofFloat(0.0f,getWidth()+10.0f);
+            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    pathOut = new Path();
+                    pathOut.moveTo((Float) valueAnimator.getAnimatedValue(), 4.8f*getHeight()/6);
+                    pathOut.lineTo((Float) valueAnimator.getAnimatedValue() + getWidth(), 4.8f*getHeight()/6);
+                    rotatable.setPathOut(pathOut);
+                }
+            });
+        }
         animator.setInterpolator(rotatable.getInterpolator());
         animator.setDuration(rotatable.getAnimationDuration());
         animator.start();

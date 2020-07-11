@@ -1,10 +1,10 @@
 apply plugin: 'com.android.library'
 
 ext {
-    bintrayRepo = 'RotatingText'
-    bintrayName = 'rotatingtext'
+    bintrayRepo = 'rotating-text'   //Repo name in bintray dashboard
+    bintrayName = 'com.sdsmdg.harjot.rotatingtextlibrary' // package name of the bintray repo
 
-    publishedGroupId = 'com.sdsmdg.harjot'
+    publishedGroupId = 'in.ac.iitr.mdg'
     libraryName = 'RotatingText'
     artifact = 'rotatingtext'
 
@@ -13,11 +13,11 @@ ext {
     siteUrl = 'https://github.com/sdsmdg/RotatingText'
     gitUrl = 'https://github.com/sdsmdg/RotatingText.git'
 
-    libraryVersion = '1.0.2'
+    libraryVersion = '1.1.0-alpha'
 
-    developerId = 'harjot-oberai'
-    developerName = 'Harjot Singh Oberai'
-    developerEmail = 'harjot.oberai@gmail.com'
+    developerId = 'naman'       // This is the bintray username under which the library has been published
+    developerName = 'Harjot Singh Oberai'   // Developer's name
+    developerEmail = 'namanmishra1900@gmail.com'
 
     licenseName = 'The MIT License'
     licenseUrl = 'https://opensource.org/licenses/MIT'
@@ -54,6 +54,6 @@ dependencies {
 
 }
 
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+apply from: 'bintray.gradle'
+apply from: 'install.gradle'
 
