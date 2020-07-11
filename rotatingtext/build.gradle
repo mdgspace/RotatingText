@@ -15,7 +15,7 @@ ext {
 
     libraryVersion = '1.1.0-alpha'
 
-    developerId = 'naman'       // This is the bintray username under which the library has been published
+    developerId = 'mdg-iitr'       // This is the bintray username under which the library has been published
     developerName = 'Harjot Singh Oberai'   // Developer's name
     developerEmail = 'mdg.iitr@gmail.com'
 
