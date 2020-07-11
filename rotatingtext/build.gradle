@@ -17,7 +17,7 @@ ext {
 
     developerId = 'naman'       // This is the bintray username under which the library has been published
     developerName = 'Harjot Singh Oberai'   // Developer's name
-    developerEmail = 'namanmishra1900@gmail.com'
+    developerEmail = 'mdg.iitr@gmail.com'
 
     licenseName = 'The MIT License'
     licenseUrl = 'https://opensource.org/licenses/MIT'
