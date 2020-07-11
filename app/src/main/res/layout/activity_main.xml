@@ -19,7 +19,7 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/replaceWord"
+            android:id="@+id/addWord"
             android:layout_width="0dp"
             android:layout_weight="5"
             android:layout_height="wrap_content"
@@ -38,13 +38,13 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/replace_button"
+        android:id="@+id/add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/replaceLayout"
         android:layout_centerHorizontal="true"
-        android:onClick="replaceWord"
-        android:text="replace" />
+        android:onClick="addNewWord"
+        android:text="Add" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -90,6 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Set"
+            android:onClick="stopRotation"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             />
